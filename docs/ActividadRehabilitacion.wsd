@@ -1,0 +1,24 @@
+@startuml **Concepto de Rehabilitacion**
+start
+note left: Se hace a los 90 dias de que se ha generado una **incapacidad**
+note left: La finalidad es notificar a todas las partes EPS ... (quien mas?)
+note left: Es realizado por **un medico**
+note left: Estados: Emitidos y por emitir
+note right: 4 secciones para generar un concepto.
+note right: 4 tabs, 1 solo es editable.
+:Mostrar Dashboard con historico del ultimo mes;
+:Mostrar Grilla de conceptos (numero, identificacion fecha asignacion, nombre, Asignacion, Estado);
+note left: El sistema muestra los conceptos que deben ser valorados
+note left: Un **administrador** _ **asigna los conceptos a los medicos**
+note right: Filtrado estado, numero identifiacacion, nombre
+:Mostrar informacion sobre el paciente;
+note right: Informacion sobre la **incapacidad** (Dias acumulados, Concpetos emitidos, PCL Calificados)
+note left: Los **PCL** por **paciente** son generados por el **fondo de pensiones**
+:Mostrar informacion editable sobre los diagnosticos (Diagnostico, Fecha, Etiologia);
+note right: El medico **Ajustar Diagnosticos** relacionados
+:Motrar informacion sobre el historial de incapacidades (Id, fecha, Previsualizacion(Todas las 4 secciones), CIE10, descripcion);
+:Mostrar descripcion de *secuelas* (Tipo de secuelas, Descripcion, Pronostico);
+:Mostrar Terapeutica posible (Finalidad del tratamiento,Farmacologico, Terapia Ocupaciona, otro?);
+:Mostrar Prognostico del paciente;
+:Mostrar grilla PCL (Id, Fecha, CIE10, Descripcion, Porcentaje);
+@enduml
