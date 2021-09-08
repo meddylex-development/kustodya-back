@@ -12,6 +12,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'WebApi' " />
   <ItemGroup>
     <Compile Remove="Areas\**" />
     <Compile Remove="temppdf\**" />
@@ -21,6 +22,8 @@
     <EmbeddedResource Remove="temppdf\**" />
     <None Remove="Areas\**" />
     <None Remove="temppdf\**" />
+    <None Remove="Controllers\Rethus\" />
+    <None Remove="Models\Rethus\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +93,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Administrativo\Clientes\Modelos\" />
+    <Folder Include="Controllers\Rethus\" />
+    <Folder Include="Models\Rethus\" />
   </ItemGroup>
 
 </Project>

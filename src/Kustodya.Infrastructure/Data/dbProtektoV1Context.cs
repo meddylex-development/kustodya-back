@@ -4,6 +4,7 @@ using Kustodya.ApplicationCore.Entities.Concepto;
 using Kustodya.ApplicationCore.Entities.CalificacionOrigen;
 //using Kustodya.ApplicationCore.Entities.Contabilidades;
 using Microsoft.EntityFrameworkCore;
+using Kustodya.ApplicationCore.Entities.Rethus;
 
 namespace Kustodya.Infrastructure
 {
@@ -245,7 +246,11 @@ namespace Kustodya.Infrastructure
         public virtual DbSet<Correo> Correos { get; set; }
         public virtual DbSet<TextoReconocidoCarta> TextoReconocidoCartas { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
-
+        public virtual DbSet<tblRethusIdentificationTypes> RethusIdentificationTypes { get; set; }
+        public virtual DbSet<tblRethusData_Main> RethusData_Main { get; set; }
+        public virtual DbSet<tblRethusData_Academic> RethusData_Academic { get; set; }
+        public virtual DbSet<tblRethusData_Sanctions> RethusData_Sanctions { get; set; }
+        public virtual DbSet<tblRethusData_SSO> RethusData_SSO { get; set; }
 
         // Unable to generate entity type for table 'Incapacidades.tblCIE10España'. Please see the warning messages.
         // Unable to generate entity type for table 'negocio.tblCargos_BKP'. Please see the warning messages.
@@ -401,6 +406,55 @@ namespace Kustodya.Infrastructure
             //{
             //    entity.ToTable("Afiliado", "Incapacidades");
             //});
+
+            modelBuilder.Entity<tblRethusTasks>(entity =>
+            {
+                entity.HasKey(e => e.iIDTask);
+                entity.ToTable("tblRethusTasks", "Rethus");
+                entity.Property(e => e.iIDTask).HasColumnName("iIDTask");
+            });
+
+            modelBuilder.Entity<tblRethusQuerys>(entity =>
+            {
+                entity.HasKey(e => e.iIDRethusQuerys);
+                entity.ToTable("tblRethusQuerys", "Rethus");
+                entity.Property(e => e.iIDRethusQuerys).HasColumnName("iIDRethusQuerys");
+            });
+
+            modelBuilder.Entity<tblRethusIdentificationTypes>(entity =>
+            {
+                entity.HasKey(e => e.iIDIdentificationType);
+                entity.ToTable("tblRethusIdentificationTypes", "Rethus");
+                entity.Property(e => e.iIDIdentificationType).HasColumnName("iIDIdentificationType");
+            });
+
+            modelBuilder.Entity<tblRethusData_Main>(entity =>
+            {
+                entity.HasKey(e => e.iIDMainData);
+                entity.ToTable("tblRethusData_Main", "Rethus");
+                entity.Property(e => e.iIDMainData).HasColumnName("iIDMainData");
+            });
+
+            modelBuilder.Entity<tblRethusData_Academic>(entity =>
+            {
+                entity.HasKey(e => e.iIDAcademicData);
+                entity.ToTable("tblRethusData_Academic", "Rethus");
+                entity.Property(e => e.iIDAcademicData).HasColumnName("iIDAcademicData");
+            });
+
+            modelBuilder.Entity<tblRethusData_Sanctions>(entity =>
+            {
+                entity.HasKey(e => e.iIDSanctionData);
+                entity.ToTable("tblRethusData_Sanctions", "Rethus");
+                entity.Property(e => e.iIDSanctionData).HasColumnName("iIDSanctionData");
+            });
+
+            modelBuilder.Entity<tblRethusData_SSO>(entity =>
+            {
+                entity.HasKey(e => e.iIDSSOData);
+                entity.ToTable("tblRethusData_SSO", "Rethus");
+                entity.Property(e => e.iIDSSOData).HasColumnName("iIDSSOData");
+            });
 
             modelBuilder.Entity<TblAccidentesTrabajo>(entity =>
             {

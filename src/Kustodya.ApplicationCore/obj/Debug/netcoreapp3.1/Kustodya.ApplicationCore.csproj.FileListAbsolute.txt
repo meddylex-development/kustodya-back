@@ -1,0 +1,12 @@
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/bin/Debug/netcoreapp3.1/Kustodya.ApplicationCore.deps.json
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/bin/Debug/netcoreapp3.1/Kustodya.ApplicationCore.dll
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/bin/Debug/netcoreapp3.1/Kustodya.ApplicationCore.pdb
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/bin/Debug/netcoreapp3.1/Kustodya.ApplicationCore.xml
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.csproj.AssemblyReference.cache
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.GeneratedMSBuildEditorConfig.editorconfig
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.AssemblyInfoInputs.cache
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.AssemblyInfo.cs
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.csproj.CoreCompileInputs.cache
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.dll
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.xml
+/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.pdb

@@ -69,6 +69,7 @@ using Kustodya.ApplicationCore.Interfaces.Rehabilitacion;
 using Kustodya.ApplicationCore.Services.ConceptoRehabilitacion;
 using Kustodya.ApplicationCore.Interfaces.CalificacionOrigen;
 using Kustodya.ApplicationCore.Services.CalificacionOrigen;
+using Kustodya.WebApi.Services.Rethus;
 
 namespace WebApi
 {
@@ -253,6 +254,7 @@ namespace WebApi
             services.AddScoped<IAuditoriaService, AuditoriaService>();
             services.AddScoped<IConceptoRehabilitacionService, ConceptoRehabilitacionService>();
             services.AddScoped<ICalificacionOrigenService, CalificacionOrigenService>();
+            services.AddScoped<IRethusModelService, RethusModelService>();
             services.AddScoped(typeof(
             IDomainService<Movimiento, MovimientoInputModel>), typeof(MovimientoDomainService));
             services.Configure<ConfiguracionPowerBiModel>(Configuration.GetSection("EmbedSettings"));
