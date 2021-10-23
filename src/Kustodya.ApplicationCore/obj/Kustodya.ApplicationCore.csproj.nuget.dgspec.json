@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj": {}
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj": {}
   },
   "projects": {
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj": {
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj",
+        "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj",
         "projectName": "Kustodya.ApplicationCore",
-        "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj",
-        "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-        "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/",
+        "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj",
+        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -24,7 +28,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -36,11 +39,10 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.1.1, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
@@ -70,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

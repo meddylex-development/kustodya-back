@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Kustodya.ApplicationCore.Constants;
+using Kustodya.ApplicationCore.DTOs.Rethus;
+using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.WebApi.Models.Rethus;
 using Kustodya.WebApi.Services.Rethus;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +20,12 @@ namespace Kustodya.WebApi.Controllers.Rethus
     public class RethusController : BaseController
     {
         private IRethusModelService _rethusModelService;
+        private IExcelService _ExcelService;
 
-        public RethusController(IRethusModelService rethusModelService)
+        public RethusController(IRethusModelService rethusModelService, IExcelService ExcelService)
         {
             _rethusModelService = rethusModelService;
+            _ExcelService = ExcelService;
         }
 
         [HttpGet]
@@ -174,6 +180,41 @@ namespace Kustodya.WebApi.Controllers.Rethus
 
                 return Ok(respuesta);
             }
+        }
+
+        [HttpPut]
+        [Route("CargueMasivo")]
+        public async Task<IActionResult> CargueMasivo([FromForm] Kustodya.WebApi.Models.ArchivoModel model)
+        {
+            GetEntidadId(out int entidadId);
+            var stream = new MemoryStream();    
+            await model.File.CopyToAsync(stream);
+            stream.Position = 0;
+            DataTable dt = _ExcelService.csvtoDataTable(stream);
+            IReadOnlyList<CargueInputModel> pucsInput;
+            //Validar Archivo
+            try
+            {
+                pucsInput = await _rethusModelService.GetInputModel(dt);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+
+            //Crear tarea para el robot
+            await _rethusModelService.CrearTareaRobot(pucsInput, entidadId);
+            return Ok();
+        }
+        [HttpGet]
+        [Route("ConsultarCargue")]
+        public async Task<IActionResult> GetCargues()
+        {
+            GetEntidadId(out int entidadId);
+            var cargues = await _rethusModelService.GetCargues(entidadId);
+            return Ok();
+
+
         }
     }
 }

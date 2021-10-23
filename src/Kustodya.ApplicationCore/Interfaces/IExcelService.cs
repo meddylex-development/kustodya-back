@@ -17,5 +17,6 @@ namespace Kustodya.ApplicationCore.Interfaces
         byte[] PlantillaTerceros();
         Task<byte[]> CentrostoExcel(IEnumerable<CentroCosto> centros, int entidadId);
         Task<byte[]> PlantillaCentroCostos(int entidadId);
+        public DataTable csvtoDataTable(MemoryStream archivo);
     }
 }

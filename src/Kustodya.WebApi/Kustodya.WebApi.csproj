@@ -10,6 +10,7 @@
     <StartupObject>WebApi.Program</StartupObject>
     <LangVersion>latest</LangVersion>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'WebApi' " />
@@ -31,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="BouncyCastle.NetCore" Version="1.8.5" />
     <PackageReference Include="ComponentSpace.Saml2" Version="2.8.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.44.1" />
@@ -96,5 +97,21 @@
     <Folder Include="Controllers\Rethus\" />
     <Folder Include="Models\Rethus\" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 
 </Project>

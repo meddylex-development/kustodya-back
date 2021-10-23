@@ -1,6 +1,8 @@
-﻿using Kustodya.ApplicationCore.Entities.Rethus;
+﻿using Kustodya.ApplicationCore.DTOs.Rethus;
+using Kustodya.ApplicationCore.Entities.Rethus;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,5 +16,8 @@ namespace Kustodya.WebApi.Services.Rethus
         Task<IEnumerable<tblRethusData_Sanctions>> GetSanciones(int iIDRethusQuery);
         Task<IEnumerable<tblRethusData_SSO>> GetSso(int iIDRethusQuery);
         Task AddTask(string typeId, string numberId);
+        Task<IReadOnlyList<CargueInputModel>> GetInputModel(DataTable dt);
+        Task CrearTareaRobot(IReadOnlyList<CargueInputModel> cargueInputModels, int entidadId);
+        Task<IReadOnlyList<CargueOutputModel>> GetCargues(int entidadId);
     }
 }

@@ -10,3 +10,12 @@
 /Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.dll
 /Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.xml
 /Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/Debug/netcoreapp3.1/Kustodya.ApplicationCore.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Debug\netcoreapp3.1\Kustodya.ApplicationCore.deps.json
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Debug\netcoreapp3.1\Kustodya.ApplicationCore.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Debug\netcoreapp3.1\Kustodya.ApplicationCore.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Debug\netcoreapp3.1\Kustodya.ApplicationCore.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.AssemblyInfoInputs.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.AssemblyInfo.cs
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.pdb

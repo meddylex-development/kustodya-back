@@ -6580,19 +6580,24 @@
     ]
   },
   "packageFolders": {
-    "/Users/germanpinilla/.nuget/packages/": {}
+    "C:\\Users\\fabia\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/tests/Kustodya.IntegrationTests/Kustodya.IntegrationTests.csproj",
+      "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\tests\\Kustodya.IntegrationTests\\Kustodya.IntegrationTests.csproj",
       "projectName": "Kustodya.IntegrationTests",
-      "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/tests/Kustodya.IntegrationTests/Kustodya.IntegrationTests.csproj",
-      "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-      "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/tests/Kustodya.IntegrationTests/obj/",
+      "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\tests\\Kustodya.IntegrationTests\\Kustodya.IntegrationTests.csproj",
+      "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\tests\\Kustodya.IntegrationTests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+        "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -6602,7 +6607,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -6614,7 +6618,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
@@ -6648,7 +6651,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

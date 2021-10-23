@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj": {}
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj": {}
   },
   "projects": {
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj": {
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj",
+        "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj",
         "projectName": "LecturaCorreos",
-        "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj",
-        "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-        "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/obj/",
+        "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj",
+        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -24,10 +28,9 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj": {
-                "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj"
+              "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj": {
+                "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj"
               }
             }
           }
@@ -40,7 +43,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "MailKit": {
               "target": "Package",
@@ -62,21 +64,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/Kustodya.Medicos.Data.csproj": {
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\Kustodya.Medicos.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/Kustodya.Medicos.Data.csproj",
+        "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\Kustodya.Medicos.Data.csproj",
         "projectName": "Kustodya.Medicos.Data",
-        "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/Kustodya.Medicos.Data.csproj",
-        "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-        "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/obj/",
+        "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\Kustodya.Medicos.Data.csproj",
+        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -86,10 +92,9 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj": {
-                "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj"
+              "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj": {
+                "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj"
               }
             }
           }
@@ -102,7 +107,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -146,21 +150,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj": {
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj",
+        "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj",
         "projectName": "Kustodya.Medicos",
-        "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj",
-        "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-        "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/obj/",
+        "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj",
+        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -170,13 +178,12 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/Kustodya.Medicos.Data.csproj": {
-                "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/Kustodya.Medicos.Data.csproj"
+              "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\Kustodya.Medicos.Data.csproj": {
+                "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos.Data\\Kustodya.Medicos.Data.csproj"
               },
-              "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj": {
-                "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj"
+              "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj": {
+                "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj"
               }
             }
           }
@@ -189,7 +196,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
@@ -299,21 +305,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj": {
+    "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj",
+        "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj",
         "projectName": "Kustodya.ApplicationCore",
-        "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/Kustodya.ApplicationCore.csproj",
-        "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-        "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Kustodya.ApplicationCore/obj/",
+        "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\Kustodya.ApplicationCore.csproj",
+        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Kustodya.ApplicationCore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -323,7 +333,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -335,11 +344,10 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.1.1, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
@@ -369,7 +377,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
