@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Kustodya.ApplicationCore.Constants;
+using Kustodya.ApplicationCore.Dtos;
 using Kustodya.ApplicationCore.DTOs.Rethus;
 using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.WebApi.Models.Rethus;
@@ -208,13 +209,19 @@ namespace Kustodya.WebApi.Controllers.Rethus
         }
         [HttpGet]
         [Route("ConsultarCargue")]
-        public async Task<IActionResult> GetCargues()
+        public async Task<IActionResult> GetCargues([FromQuery] int pagina = 1)
         {
             GetEntidadId(out int entidadId);
-            var cargues = await _rethusModelService.GetCargues(entidadId);
-            return Ok(cargues);
-
-
+            int cantidad = 10;
+            int total = await _rethusModelService.TotalCargues(entidadId);
+            var cargues = await _rethusModelService.GetCargues(entidadId, (pagina - 1) * cantidad, cantidad);
+            
+            CarguesOutputModel cargueOutputModel = new CarguesOutputModel
+            {
+                cargueOutputModels = cargues,
+                paginacion = new PaginacionModel(total, pagina, cantidad)
+            };
+            return Ok(cargueOutputModel);
         }
 
         [HttpGet]

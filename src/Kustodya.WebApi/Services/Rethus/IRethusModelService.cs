@@ -18,7 +18,8 @@ namespace Kustodya.WebApi.Services.Rethus
         Task AddTask(string typeId, string numberId);
         IReadOnlyList<CargueInputModel> GetInputModel(DataTable dt);
         Task CrearTareaRobot(IReadOnlyList<CargueInputModel> cargueInputModels, int entidadId);
-        Task<List<CargueOutputModel>> GetCargues(int entidadId);
+        Task<List<CargueOutputModel>> GetCargues(int entidadId, int? skip = 0, int? take = 10);
         Task<byte[]> ExportarCargue(int taskId);
+        Task<int> TotalCargues(int entidadId);
     }
 }
