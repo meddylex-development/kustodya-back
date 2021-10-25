@@ -95,6 +95,7 @@
   <ItemGroup>
     <Folder Include="Controllers\Administrativo\Clientes\Modelos\" />
     <Folder Include="Controllers\Rethus\" />
+    <Folder Include="Models\Rethus\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

@@ -161,8 +161,8 @@ namespace Kustodya.WebApi.Services.Rethus
                 });
             }
         }
-        public async Task<List<CargueOutputModel>> GetCargues(int entidadId, int? skip = 10, int? take = 10) {
-            var spec = new TareasporCargue(skip, take);
+        public async Task<List<CargueOutputModel>> GetCargues(int entidadId) {
+            var spec = new TareasporCargue();
             var tareas = await _rethusTasks.ListAsync(spec);
             var specqueries = new QueriesporTask(1);
 
@@ -260,12 +260,6 @@ namespace Kustodya.WebApi.Services.Rethus
                     return stream.ToArray();
                 }
             }
-        }
-        public async Task<int> TotalCargues(int entidadId)
-        {
-            var spec = new TareasporCargue(0, int.MaxValue);
-            var total = await _rethusTasks.CountAsync(spec);
-            return total;
         }
     }
 }
