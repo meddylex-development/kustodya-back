@@ -45,18 +45,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-/.vs
-/DatosEmpresas/obj
-/LecturaCorreos/obj
-/src/Funciones/Kustodya.Homologación.Famisanar/obj/Debug/netcoreapp3.1
-/src/Funciones/Kustodya.Homologación.Famisanar/obj/Release/netcoreapp3.1
-/src/Funciones/Kustodya.Homologación.Famisanar/obj/Kustodya.Homologación.Famisanar.csproj.nuget.cache
-/src/Funciones/Kustodya.Incapacidades.Data/obj/Debug/netcoreapp3.1
-/src/Funciones/Kustodya.Incapacidades.Data/obj/Release/netcoreapp3.1
-/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/obj/Debug/netcoreapp3.1
-/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Data/obj/Release/netcoreapp3.1
-/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Nucleo/obj/Debug/netcoreapp3.1
-/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Tests/obj/Debug/netcoreapp3.1
-/src/Funciones/Kustodya.Medicos/Kustodya.Medicos.Tests/obj/Release/netcoreapp3.1
-/src
-/tests
