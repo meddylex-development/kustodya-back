@@ -16,9 +16,8 @@ namespace Kustodya.WebApi.Services.Rethus
         Task<IEnumerable<tblRethusData_Sanctions>> GetSanciones(int iIDRethusQuery);
         Task<IEnumerable<tblRethusData_SSO>> GetSso(int iIDRethusQuery);
         Task AddTask(string typeId, string numberId);
-        IReadOnlyList<CargueInputModel> GetInputModel(DataTable dt);
+        Task<IReadOnlyList<CargueInputModel>> GetInputModel(DataTable dt);
         Task CrearTareaRobot(IReadOnlyList<CargueInputModel> cargueInputModels, int entidadId);
-        Task<List<CargueOutputModel>> GetCargues(int entidadId);
-        Task<byte[]> ExportarCargue(int taskId);
+        Task<IReadOnlyList<CargueOutputModel>> GetCargues(int entidadId);
     }
 }

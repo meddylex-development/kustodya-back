@@ -19,4 +19,3 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.pdb
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Debug\netcoreapp3.1\Kustodya.ApplicationCore.csprojAssemblyReference.cache

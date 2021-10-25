@@ -195,7 +195,7 @@ namespace Kustodya.WebApi.Controllers.Rethus
             //Validar Archivo
             try
             {
-                pucsInput = _rethusModelService.GetInputModel(dt);
+                pucsInput = await _rethusModelService.GetInputModel(dt);
             }
             catch (Exception ex)
             {
@@ -212,20 +212,9 @@ namespace Kustodya.WebApi.Controllers.Rethus
         {
             GetEntidadId(out int entidadId);
             var cargues = await _rethusModelService.GetCargues(entidadId);
-            return Ok(cargues);
+            return Ok();
 
 
-        }
-
-        [HttpGet]
-        [Route("ExportarCargue/{taskId}")]
-        public async Task<IActionResult> ExportarCargue(int taskId)
-        {
-            //GetEntidadId(out int entidadId);
-            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            string fileName = "CargueRethusMedicos.xlsx";
-            byte[] archivoExcel = await _rethusModelService.ExportarCargue(taskId);
-            return File(archivoExcel, contentType, fileName);
         }
     }
 }

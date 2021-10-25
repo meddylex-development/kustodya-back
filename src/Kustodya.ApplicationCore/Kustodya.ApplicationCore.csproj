@@ -24,5 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\Rethus\" />
+    <Folder Include="Specifications\Rethus\" />
   </ItemGroup>
 </Project>
