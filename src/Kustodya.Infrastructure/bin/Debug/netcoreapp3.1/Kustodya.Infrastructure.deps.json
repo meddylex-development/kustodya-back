@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v3.1": {
       "Kustodya.Infrastructure/1.0.0": {
         "dependencies": {
-          "AutoMapper": "10.1.1",
+          "AutoMapper": "9.0.0",
           "ClosedXML": "0.95.3",
           "Google.Cloud.Vision.V1": "1.7.0",
           "Kustodya.ApplicationCore": "1.0.0",
@@ -42,15 +42,15 @@
           "Kustodya.Infrastructure.dll": {}
         }
       },
-      "AutoMapper/10.1.1": {
+      "AutoMapper/9.0.0": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
-          "System.Reflection.Emit": "4.7.0"
+          "System.Reflection.Emit": "4.3.0"
         },
         "runtime": {
           "lib/netstandard2.0/AutoMapper.dll": {
-            "assemblyVersion": "10.0.0.0",
-            "fileVersion": "10.1.1.0"
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.0.0"
           }
         }
       },
@@ -1944,7 +1944,7 @@
           "System.Linq": "4.3.0",
           "System.ObjectModel": "4.3.0",
           "System.Reflection": "4.3.0",
-          "System.Reflection.Emit": "4.7.0",
+          "System.Reflection.Emit": "4.3.0",
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Emit.Lightweight": "4.3.0",
           "System.Reflection.Extensions": "4.3.0",
@@ -2126,7 +2126,15 @@
         }
       },
       "System.Reflection.DispatchProxy/4.5.0": {},
-      "System.Reflection.Emit/4.7.0": {},
+      "System.Reflection.Emit/4.3.0": {
+        "dependencies": {
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Emit.ILGeneration": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
       "System.Reflection.Emit.ILGeneration/4.3.0": {
         "dependencies": {
           "System.Reflection": "4.3.0",
@@ -2611,7 +2619,7 @@
           "System.IO": "4.3.0",
           "System.Linq": "4.3.0",
           "System.Reflection": "4.3.0",
-          "System.Reflection.Emit": "4.7.0",
+          "System.Reflection.Emit": "4.3.0",
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Extensions": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -2660,7 +2668,7 @@
       },
       "Tesseract/4.1.0-beta1": {
         "dependencies": {
-          "System.Reflection.Emit": "4.7.0"
+          "System.Reflection.Emit": "4.3.0"
         },
         "runtime": {
           "lib/netstandard2.0/Tesseract.dll": {
@@ -2700,7 +2708,7 @@
       },
       "Kustodya.ApplicationCore/1.0.0": {
         "dependencies": {
-          "AutoMapper": "10.1.1",
+          "AutoMapper": "9.0.0",
           "DocumentFormat.OpenXml": "2.11.3",
           "FreeSpire.Office": "4.3.1",
           "Microsoft.Extensions.Options": "3.1.6"
@@ -2717,12 +2725,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AutoMapper/10.1.1": {
+    "AutoMapper/9.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-uMgbqOdu9ZG5cIOty0C85hzzayBH2i9BthnS5FlMqKtMSHDv4ts81a2jS1VFaDBVhlBeIqJ/kQKjQY95BZde9w==",
-      "path": "automapper/10.1.1",
-      "hashPath": "automapper.10.1.1.nupkg.sha512"
+      "sha512": "sha512-xCqvoxT4HIrNY/xlXG9W+BA/awdrhWvMTKTK/igkGSRbhOhpl3Q8O8Gxlhzjc9JsYqE7sS6AxgyuUUvZ6R5/Bw==",
+      "path": "automapper/9.0.0",
+      "hashPath": "automapper.9.0.0.nupkg.sha512"
     },
     "BouncyCastle/1.8.6.1": {
       "type": "package",
@@ -3735,7 +3743,7 @@
     "System.Diagnostics.Process/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BhYGo8u9NkcQc25v514+QW6kPet3tPhqLjp98AR6RnSKlqjhVq+Zs7N7F1+7GxK+7ODd3eXmJVZCzPn5mc2ZRA==",
+      "sha512": "sha512-J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
       "path": "system.diagnostics.process/4.3.0",
       "hashPath": "system.diagnostics.process.4.3.0.nupkg.sha512"
     },
@@ -3928,12 +3936,12 @@
       "path": "system.reflection.dispatchproxy/4.5.0",
       "hashPath": "system.reflection.dispatchproxy.4.5.0.nupkg.sha512"
     },
-    "System.Reflection.Emit/4.7.0": {
+    "System.Reflection.Emit/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
-      "path": "system.reflection.emit/4.7.0",
-      "hashPath": "system.reflection.emit.4.7.0.nupkg.sha512"
+      "sha512": "sha512-228FG0jLcIwTVJyz8CLFKueVqQK36ANazUManGaJHkO0icjiIypKW7YLWLIWahyIkdh5M7mV2dJepllLyA1SKg==",
+      "path": "system.reflection.emit/4.3.0",
+      "hashPath": "system.reflection.emit.4.3.0.nupkg.sha512"
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
       "type": "package",
