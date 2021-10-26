@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Kustodya.ApplicationCore.Constants;
+using Kustodya.ApplicationCore.Dtos;
+using Kustodya.ApplicationCore.DTOs.Rethus;
+using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.WebApi.Models.Rethus;
 using Kustodya.WebApi.Services.Rethus;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +21,12 @@ namespace Kustodya.WebApi.Controllers.Rethus
     public class RethusController : BaseController
     {
         private IRethusModelService _rethusModelService;
+        private IExcelService _ExcelService;
 
-        public RethusController(IRethusModelService rethusModelService)
+        public RethusController(IRethusModelService rethusModelService, IExcelService ExcelService)
         {
             _rethusModelService = rethusModelService;
+            _ExcelService = ExcelService;
         }
 
         [HttpGet]
@@ -174,6 +181,56 @@ namespace Kustodya.WebApi.Controllers.Rethus
 
                 return Ok(respuesta);
             }
+        }
+        [HttpPut]
+        [Route("CargueMasivo")]
+        public async Task<IActionResult> CargueMasivo([FromForm] Kustodya.WebApi.Models.ArchivoModel model)
+        {
+            GetEntidadId(out int entidadId);
+            var stream = new MemoryStream();
+            await model.File.CopyToAsync(stream);
+            stream.Position = 0;
+            DataTable dt = _ExcelService.csvtoDataTable(stream);
+            IReadOnlyList<CargueInputModel> pucsInput;
+            //Validar Archivo
+            try
+            {
+                pucsInput = _rethusModelService.GetInputModel(dt);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+
+            //Crear tarea para el robot
+            await _rethusModelService.CrearTareaRobot(pucsInput, entidadId);
+            return Ok();
+        }
+        [HttpGet]
+        [Route("ConsultarCargue")]
+        public async Task<IActionResult> GetCargues([FromQuery] int pagina = 1)
+        {
+            GetEntidadId(out int entidadId);
+            int cantidad = 10;
+            int total = await _rethusModelService.TotalCargues(entidadId);
+            var cargues = await _rethusModelService.GetCargues(entidadId, (pagina - 1) * cantidad, cantidad);
+
+            CarguesOutputModel cargueOutputModel = new CarguesOutputModel
+            {
+                cargueOutputModels = cargues,
+                paginacion = new PaginacionModel(total, pagina, cantidad)
+            };
+            return Ok(cargueOutputModel);
+        }
+        [HttpGet]
+        [Route("ExportarCargue/{taskId}")]
+        public async Task<IActionResult> ExportarCargue(int taskId)
+        {
+            //GetEntidadId(out int entidadId);
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "CargueRethusMedicos.xlsx";
+            byte[] archivoExcel = await _rethusModelService.ExportarCargue(taskId);
+            return File(archivoExcel, contentType, fileName);
         }
     }
 }

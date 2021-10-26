@@ -383,5 +383,30 @@ namespace Kustodya.Infrastructure.Services
             }
 
         }
+        public DataTable csvtoDataTable(MemoryStream archivo)
+        {
+            DataTable dt = new DataTable();
+            using (StreamReader sr = new StreamReader(archivo))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string[] rows = sr.ReadLine().Split(';');
+                    if (dt.Rows.Count == 0)
+                    {
+                        foreach (string header in rows)
+                        {
+                            dt.Columns.Add(header);
+                        }
+                    }
+                    DataRow dr = dt.NewRow();
+                    for (int i = 0; i < rows.Length; i++)
+                    {
+                        dr[i] = rows[i];
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            return dt;
+        }
     }
 }
