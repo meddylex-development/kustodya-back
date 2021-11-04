@@ -26,6 +26,7 @@ using Kustodya.ApplicationCore.Interfaces.Configuracion.Email;
 using Kustodya.ApplicationCore.Interfaces.Configuracion.Notificaciones;
 using Kustodya.ApplicationCore.Interfaces.Configuracion.Parametros;
 using Kustodya.ApplicationCore.Interfaces.Configuracion.CodigoQR;
+using Kustodya.ApplicationCore.Entities.Incapacidad;
 
 namespace Kustodya.Infrastructure.Services.Incapacidades
 {
@@ -49,7 +50,7 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
         private readonly IConfiguration _configuration;
         private readonly IEmpresaService _empresaService;
         private readonly IValidacionIncapacidadesService _validacionService;
-
+        private readonly IAsyncRepository<tblLateralidad> _lateralidadRepo;
 
         public DiagnosticoIncapacidadService(IAsyncRepository<TblDiagnosticosIncapacidades> diagnosticosIncapacidades,
             IAsyncRepository<TblCie10DiagnosticoIncapacidad> cie10DiagnosticoIncapacidad,
@@ -64,7 +65,8 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
             IConverter converter,
             IConfiguration configuration,
             IEmpresaService empresaService,
-            IValidacionIncapacidadesService validacionService)
+            IValidacionIncapacidadesService validacionService,
+            IAsyncRepository<tblLateralidad> lateralidadRepo)
         {
             _multivaloresServices = multivaloresService;
             _incapacidadesRepo = diagnosticosIncapacidades;
@@ -83,6 +85,7 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
             _configuration = configuration;
             _empresaService = empresaService;
             _validacionService = validacionService;
+            _lateralidadRepo = lateralidadRepo;
         }
         #endregion
 
@@ -548,6 +551,10 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
             {
                 return null;
             }
+        }
+        public async Task<IReadOnlyList<tblLateralidad>> GetLateralidades()
+        {
+            return await _lateralidadRepo.ListAllAsync().ConfigureAwait(false);
         }
     }
 }

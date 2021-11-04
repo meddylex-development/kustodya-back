@@ -37,6 +37,7 @@ namespace Kustodya.ApplicationCore.Entities
         public bool? BEsTranscripcion { get; set; }
         public DateTime? DtFechaEmisionIncapacidad { get; set; }
         public string NumeroIncapacidadIpstranscripcion { get; set; }
+        public int? iIDLateralidad { get; set; }
 
         public virtual TblAfp IIdafpNavigation { get; set; }
         public virtual TblArls IIdarlNavigation { get; set; }

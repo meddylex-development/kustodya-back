@@ -203,7 +203,7 @@ namespace Kustodya.WebApi.Controllers.Rethus
             }
 
             //Crear tarea para el robot
-            await _rethusModelService.CrearTareaRobot(pucsInput, entidadId);
+            await _rethusModelService.CrearTareaRobot(pucsInput, entidadId, model.File.FileName);
             return Ok();
         }
         [HttpGet]

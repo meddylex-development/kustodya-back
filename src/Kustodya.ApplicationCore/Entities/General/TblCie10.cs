@@ -23,7 +23,8 @@ namespace Kustodya.ApplicationCore.Entities
         public int IDiasMaxAcumulados { get; set; }
         public int? IIdtipoCie { get; set; }
         public long? IIdsexo { get; set; }
- 
+        public bool? AplicaLateralidad { get; set; }
+
         public virtual TblMultivalores IIdsexoNavigation { get; set; }
         public virtual TblTipoCie IIdtipoCieNavigation { get; set; }
         public virtual ICollection<TblCie10DiagnosticoIncapacidad> TblCie10DiagnosticoIncapacidad { get; set; }

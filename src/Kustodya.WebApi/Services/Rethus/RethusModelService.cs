@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Kustodya.ApplicationCore.DTOs.Rethus;
+using Kustodya.ApplicationCore.Entities.Incapacidad;
 using Kustodya.ApplicationCore.Entities.Rethus;
 using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.ApplicationCore.Specifications.Rethus;
@@ -23,13 +24,15 @@ namespace Kustodya.WebApi.Services.Rethus
         private readonly IAsyncRepository<tblRethusData_SSO> _rethusData_SSO;
         private readonly IAsyncRepository<tblRethusTasks> _rethusTasks;
         private readonly IAsyncRepository<tblRethusQuerys> _rethusQuerys;
+        private readonly IAsyncRepository<tblRethusCargues> _rethusCargues;
         public RethusModelService(IAsyncRepository<tblRethusIdentificationTypes> rethusIdentificationRepo,
             IAsyncRepository<tblRethusData_Main> rethusDataMain,
             IAsyncRepository<tblRethusData_Academic> rethusDataAcademic,
             IAsyncRepository<tblRethusData_Sanctions> rethusDataSantions,
             IAsyncRepository<tblRethusData_SSO> rethusDataSso,
             IAsyncRepository<tblRethusTasks> rethusTasks,
-            IAsyncRepository<tblRethusQuerys> rethusQuerys) {
+            IAsyncRepository<tblRethusQuerys> rethusQuerys,
+            IAsyncRepository<tblRethusCargues> rethusCargues) {
             _rethusIdentificationRepo = rethusIdentificationRepo;
             _rethusData_Main = rethusDataMain;
             _rethusData_Academic = rethusDataAcademic;
@@ -37,6 +40,7 @@ namespace Kustodya.WebApi.Services.Rethus
             _rethusData_SSO = rethusDataSso;
             _rethusTasks = rethusTasks;
             _rethusQuerys = rethusQuerys;
+            _rethusCargues = rethusCargues;
         }
         public async Task<IEnumerable<tblRethusIdentificationTypes>> GetIdentificaciones() {
             return await _rethusIdentificationRepo.ListAllAsync();
@@ -136,7 +140,7 @@ namespace Kustodya.WebApi.Services.Rethus
             }
             return cargueRethus;
         }
-        public async Task CrearTareaRobot(IReadOnlyList<CargueInputModel> cargueInputModels, int entidadId)
+        public async Task CrearTareaRobot(IReadOnlyList<CargueInputModel> cargueInputModels, int entidadId, string fileName)
         {
             //Crear registro en la tabla de tarea de rethus
             if (cargueInputModels.Count == 0)
@@ -151,6 +155,7 @@ namespace Kustodya.WebApi.Services.Rethus
             };
             await _rethusTasks.AddAsync(tarea);
 
+            //Crear queries para consulta del robot
             foreach (var item in cargueInputModels)
             {
                 await _rethusQuerys.AddAsync(new tblRethusQuerys
@@ -163,22 +168,32 @@ namespace Kustodya.WebApi.Services.Rethus
                     iIDEntidad = entidadId
                 });
             }
+
+            //Crear registro de tarea y nombre de archivo
+            await _rethusCargues.AddAsync(new tblRethusCargues
+            {
+                iIDTask = tarea.iIDTask,
+                tNombreArchivo = fileName,
+                dtFechaCreacion = DateTime.Now
+            });
         }
         public async Task<List<CargueOutputModel>> GetCargues(int entidadId, int? skip = 10, int? take = 10)
         {
             var spec = new TareasporCargue(skip, take);
-            var tareas = await _rethusTasks.ListAsync(spec);
-            var specqueries = new QueriesporTask(1);
+            var cargues = await _rethusCargues.ListAsync(spec);
+            //var specqueries = new QueriesporTask(1);
 
             List<CargueOutputModel> cargueOutputModels = new List<CargueOutputModel>();
-            foreach (var item in tareas)
+            foreach (var cargue in cargues)
             {
+                var tarea = await _rethusTasks.GetByIdAsync(cargue.iIDTask);
                 var cargueOutput = new CargueOutputModel
                 {
-                    taskId = item.iIDTask,
-                    fecha = item.dtAllocatedDate
+                    taskId = tarea.iIDTask,
+                    fecha = tarea.dtAllocatedDate,
+                    nombreArchivo = cargue.tNombreArchivo
                 };
-                switch (item.iIDTaskState)
+                switch (tarea.iIDTaskState)
                 {
                     case 1:
                         cargueOutput.estado = "To Do";
@@ -214,6 +229,8 @@ namespace Kustodya.WebApi.Services.Rethus
                 worksheet.Cell(1, 4).Value = "Segundo nombre";
                 worksheet.Cell(1, 5).Value = "Primer apellido";
                 worksheet.Cell(1, 6).Value = "Segundo apellido";
+                worksheet.Cell(1, 7).Value = "Estado identificación";
+                worksheet.Cell(1, 8).Value = "Tipo programa";
 
                 int index = 2;
                 var spec = new QueriesporTask(taskId);
@@ -225,8 +242,10 @@ namespace Kustodya.WebApi.Services.Rethus
                     var tipo = "";
                     if (item.iIDRethusIdentificationType == 1)
                         tipo = "CC";
-                    var specMain = new RethusMainporTipoidyNumId(tipo, item.tIdentificationNumber);
+                    var specMain = new RethusMainbyQuery(item.iIDRethusQuerys);
                     var medico = (await _rethusData_Main.ListAsync(specMain)).FirstOrDefault();
+                    var specAcademic = new ConsultarAcademicosporId(item.iIDRethusQuerys);
+                    var academic = (await _rethusData_Academic.ListAsync(specAcademic)).FirstOrDefault();
                     if (medico != null)
                     {
                         medicoOutputModels.Add(new MedicoOutputModel
@@ -236,7 +255,9 @@ namespace Kustodya.WebApi.Services.Rethus
                             PrimerNombre = medico.tPrimerNombre,
                             SegundoNombre = medico.tSegundoNombre,
                             PrimerApellido = medico.tPrimerApellido,
-                            SegundoApellido = medico.tSegundoApellido
+                            SegundoApellido = medico.tSegundoApellido,
+                            EstadoIdentificacion = medico.tEstadoIdentificacion,
+                            TipoPrograma = academic != null ? academic.tTipoPrograma : ""
                         });
                     }
                     else
@@ -245,7 +266,21 @@ namespace Kustodya.WebApi.Services.Rethus
                         {
                             TipoIdentificacion = item.iIDRethusIdentificationType.ToString(),
                             NumeroIdentificacion = item.tIdentificationNumber
-                        }); ;
+                        });
+                    }
+                    foreach (var registro in medicoOutputModels)
+                    {
+                        switch (registro.TipoIdentificacion)
+                        {
+                            case "1":
+                                registro.TipoIdentificacion = "CC";
+                                break;
+                            case "2":
+                                registro.TipoIdentificacion = "CE";
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
 
@@ -257,6 +292,8 @@ namespace Kustodya.WebApi.Services.Rethus
                     worksheet.Cell(index, 4).Value = item.SegundoNombre;
                     worksheet.Cell(index, 5).Value = item.PrimerApellido;
                     worksheet.Cell(index, 6).Value = item.SegundoApellido;
+                    worksheet.Cell(index, 7).Value = item.EstadoIdentificacion;
+                    worksheet.Cell(index, 8).Value = item.TipoPrograma;
                     index++;
                 }
 
@@ -270,7 +307,7 @@ namespace Kustodya.WebApi.Services.Rethus
         public async Task<int> TotalCargues(int entidadId)
         {
             var spec = new TareasporCargue(0, int.MaxValue);
-            var total = await _rethusTasks.CountAsync(spec);
+            var total = await _rethusCargues.CountAsync(spec);
             return total;
         }
     }

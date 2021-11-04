@@ -41,6 +41,7 @@ namespace Kustodya.ApplicationCore.Dtos.Incapacidades
         public string TModo { get; set; }
         public string TTiempo { get; set; }
         public Guid? UiCodigoDiagnostico { get; set; }
+        public int? iIDLateralidad { get; set; }
         public virtual EpsModel Eps { get; set; }
         public virtual IPSModel Ips { get; set; }
     }

@@ -9,5 +9,6 @@
         public string TCie10 { get; set; }
         public string TDescripcion { get; set; }
         public string TFullDescripcion { get; set; }
+        public bool? AplicaLateralidad { get; set; }
     }
 }

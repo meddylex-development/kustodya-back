@@ -229,6 +229,13 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
 
             return builder.ToString();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLateralidades()
+        {
+            var result = await _diagnosticoIncapacidadService.GetLateralidades();
+            return Ok(result);
+        }
         #endregion
     }
 }

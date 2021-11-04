@@ -10,6 +10,7 @@ namespace Kustodya.ApplicationCore.Specifications.Rethus
         public RethusMainporTipoidyNumId(string tipoId, string numId ) :
            base(t => t.tTipoIdentificacion == tipoId && t.tNrodentificacion == numId)
         {
+            ApplyOrderByDescending(c => c.iIDMainData);
         }
     }
 }

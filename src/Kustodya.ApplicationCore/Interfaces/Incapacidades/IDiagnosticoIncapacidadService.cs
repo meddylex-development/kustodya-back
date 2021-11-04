@@ -3,6 +3,7 @@ using Kustodya.ApplicationCore.Dtos.Incapacidades;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Kustodya.ApplicationCore.Entities.Incapacidad;
 
 namespace Kustodya.ApplicationCore.Interfaces.Incapacidades
 {
@@ -21,5 +22,6 @@ namespace Kustodya.ApplicationCore.Interfaces.Incapacidades
         Task<DiagnosticoIncapacidadModel> GuardarIncapacidad(DiagnosticoIncapacidadModel idDiagnosticoIncapacidad);
 
         Task<TblDiagnosticosIncapacidades> CrearDiagnosticosIncapacidad(TblDiagnosticosIncapacidades DiagnosticosIncapacidad, TblPacientes paciente, long IIdusuarioCreador, TranscripcionAIModel transcripcionAIModel = null, TblTranscripciones transcripcion = null);
+        Task<IReadOnlyList<tblLateralidad>> GetLateralidades();
     }
 }

@@ -10,5 +10,6 @@ namespace Kustodya.ApplicationCore.DTOs.Rethus
         public string estado { get; set; }
         public DateTime fecha { get; set; }
         public int cantidadregistros { get; set; }
-}
+        public string nombreArchivo { get; set; }
+    }   
 }

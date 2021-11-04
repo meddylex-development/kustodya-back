@@ -2,6 +2,7 @@
 using Kustodya.ApplicationCore.Entities.Administracion;
 using Kustodya.ApplicationCore.Entities.Concepto;
 using Kustodya.ApplicationCore.Entities.CalificacionOrigen;
+using Kustodya.ApplicationCore.Entities.Incapacidad;
 //using Kustodya.ApplicationCore.Entities.Contabilidades;
 using Microsoft.EntityFrameworkCore;
 using Kustodya.ApplicationCore.Entities.Rethus;
@@ -251,6 +252,8 @@ namespace Kustodya.Infrastructure
         public virtual DbSet<tblRethusData_Academic> RethusData_Academic { get; set; }
         public virtual DbSet<tblRethusData_Sanctions> RethusData_Sanctions { get; set; }
         public virtual DbSet<tblRethusData_SSO> RethusData_SSO { get; set; }
+        public virtual DbSet<tblRethusCargues> RethusCargues { get; set; }
+        public virtual DbSet<tblLateralidad> Lateralidad { get; set; }
 
         // Unable to generate entity type for table 'Incapacidades.tblCIE10España'. Please see the warning messages.
         // Unable to generate entity type for table 'negocio.tblCargos_BKP'. Please see the warning messages.
@@ -454,6 +457,12 @@ namespace Kustodya.Infrastructure
                 entity.HasKey(e => e.iIDSSOData);
                 entity.ToTable("tblRethusData_SSO", "Rethus");
                 entity.Property(e => e.iIDSSOData).HasColumnName("iIDSSOData");
+            });
+            modelBuilder.Entity<tblRethusCargues>(entity =>
+            {
+                entity.HasKey(e => e.iIDCargue);
+                entity.ToTable("tblRethusCargues", "Rethus");
+                entity.Property(e => e.iIDCargue).HasColumnName("iIDCargue");
             });
 
             modelBuilder.Entity<TblAccidentesTrabajo>(entity =>
@@ -10809,6 +10818,12 @@ namespace Kustodya.Infrastructure
                 entity.HasKey(e => e.Id);
                 entity.ToTable("Carta", "CalificacionOrigen");
                 entity.Property(e => e.Id).HasColumnName("Id");
+            });
+            modelBuilder.Entity<tblLateralidad>(entity =>
+            {
+                entity.HasKey(e => e.iIDLateralidad);
+                entity.ToTable("tblLateralidad", "Incapacidades");
+                entity.Property(e => e.iIDLateralidad).HasColumnName("iIDLateralidad");
             });
 
             modelBuilder.Entity<TblVendedor>(entity =>
