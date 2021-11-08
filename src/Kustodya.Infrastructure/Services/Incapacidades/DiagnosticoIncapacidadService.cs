@@ -216,7 +216,7 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
 
             IReadOnlyList<TblMultivalores> origenIncapacidad = await _multivaloresServices.GetDatosSubtabla(Subtabla.OrigenIncapacidad).ConfigureAwait(false);
 
-            if (diagnosticosIncapacidad.IIdpresuntoOrigenIncapacidadNavigation == null ||
+            if (/*diagnosticosIncapacidad.IIdpresuntoOrigenIncapacidadNavigation == null ||*/diagnosticosIncapacidad.IIdpresuntoOrigenIncapacidad == null ||
                 diagnosticosIncapacidad.IIdpresuntoOrigenIncapacidad == 0)
             {
                 TblMultivalores presuntoorigen = origenIncapacidad.First(x => (long.Parse(x.TValor, CultureInfo.InvariantCulture) == (long)OrigenIncapacidad.Enfermedad_general));
