@@ -52,9 +52,17 @@
               "target": "Package",
               "version": "[4.3.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.10.0, )"
+            },
             "Microsoft.Extensions.Options": {
               "target": "Package",
               "version": "[3.1.4, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2020.0.1, )"
             }
           },
           "imports": [
@@ -72,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.119\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -248,7 +256,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.119\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -411,7 +419,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.119\\RuntimeIdentifierGraph.json"
         }
       }
     }

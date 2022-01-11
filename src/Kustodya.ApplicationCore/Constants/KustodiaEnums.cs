@@ -40,9 +40,9 @@
 
     public enum OrigenIncapacidad : long
     {
-        Accidente_trabajo = 1,
-        Enfermedad_general = 2,
-        Enfermedad_laboral = 3
+        Accidente_trabajo = 3549,
+        Enfermedad_general = 3550,
+        Enfermedad_laboral = 3551
     }
 
     public enum Etiologias : byte

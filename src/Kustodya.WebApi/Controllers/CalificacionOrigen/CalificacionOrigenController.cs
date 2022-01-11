@@ -14,6 +14,7 @@ using Kustodya.ApplicationCore.Interfaces.AI;
 using Kustodya.ApplicationCore.Interfaces.CalificacionOrigen;
 using Kustodya.BussinessLogic.Interfaces.General;
 using Kustodya.WebApi.Controllers.CalificacionOrigen.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -71,7 +72,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
             };
             return Ok(correosOutputModel);
         }
-
         [HttpGet]
         [Route("AdjuntoId/{guid}")]
         public async Task<IActionResult> GetAdjunto(string guid)
@@ -121,7 +121,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
                     return File(stream.ToArray(), "appliation/octet-stream", archivo);
             }*/
         }
-
         [HttpGet("{correoId:int}")]
         public async Task<IActionResult> GetCorreo(int correoId) {
             var correo = await _repoCalificacionOrigenService.ObtenerCorreo(correoId);
@@ -721,7 +720,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
 
             return Ok(correoDetalleOutputModel);
         }
-
         [HttpPut("{correoId:int}")]
         public async Task<IActionResult> PutCorreoDiligenciado(CorreoInputModel correoInputModel, int correoId) {
             var carta = await _repoCalificacionOrigenService.ObtenerModeloCarta();
@@ -738,7 +736,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
 
             return Ok();
         }
-
         [HttpPost("Documento")]
         public async Task<IActionResult> ObtenerDocumento(CorreoInputModel correoInputModel)
         {
@@ -772,7 +769,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
             var documento = await _repoCalificacionOrigenService.ObtenerDocumento(stream, variables, firma);
             return File(documento.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Carta Transcripcion.docx");
         }
-
         [HttpPut("DatosTemporales/{correoId:int}")]
         public async Task<IActionResult> PutDatosTemporalesCorreo(CorreoInputModel correoInputModel, int correoId)
         {
@@ -798,7 +794,13 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
             await _repoCalificacionOrigenService.ActualizarCorreo(correo);
             return Ok();
         }
-
+        [HttpGet("ProcesarCorreosCalificacionOrigen")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProcesarCorreosCalificacionOrigen()
+        {
+            await _repoCalificacionOrigenService.ProcesarCorreosCalificacionOrigen();
+            return Ok();
+        }
         static string UppercaseFirst(string s)
         {
             // Check for empty string.
@@ -812,7 +814,6 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
         static string QuitarTildes(string s) {
             return s.Replace("á", "a").Replace("í", "i").Replace("ó", "o").Replace("ú", "u").Replace("é", "e");
         }
-
         static string CortarTexto(string texto) {
             if (texto == null)
                 return "";

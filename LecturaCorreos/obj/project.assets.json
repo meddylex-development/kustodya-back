@@ -3992,6 +3992,7 @@
           "AutoMapper": "9.0.0",
           "DocumentFormat.OpenXml": "2.11.3",
           "FreeSpire.Office": "4.3.1",
+          "MailKit": "2.10.0",
           "Microsoft.Extensions.Options": "3.1.4"
         },
         "compile": {
@@ -7409,12 +7410,11 @@
       ]
     },
     "System.Diagnostics.Process/4.3.0": {
-      "sha512": "J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
+      "sha512": "BhYGo8u9NkcQc25v514+QW6kPet3tPhqLjp98AR6RnSKlqjhVq+Zs7N7F1+7GxK+7ODd3eXmJVZCzPn5mc2ZRA==",
       "type": "package",
       "path": "system.diagnostics.process/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12019,19 +12019,24 @@
     ]
   },
   "packageFolders": {
-    "/Users/germanpinilla/.nuget/packages/": {}
+    "C:\\Users\\fabia\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj",
+      "projectUniqueName": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj",
       "projectName": "LecturaCorreos",
-      "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/LecturaCorreos.csproj",
-      "packagesPath": "/Users/germanpinilla/.nuget/packages/",
-      "outputPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/LecturaCorreos/obj/",
+      "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\LecturaCorreos.csproj",
+      "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\LecturaCorreos\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/Users/germanpinilla/.config/NuGet/NuGet.Config"
+        "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -12041,10 +12046,9 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj": {
-              "projectPath": "/Users/germanpinilla/Documents/GitHub/BaseParkway/Meddylex/Kustodya/kustodya-back/src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Kustodya.Medicos.csproj"
+            "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj": {
+              "projectPath": "C:\\Users\\fabia\\Desktop\\Proyectos\\Kustodia\\Back\\src\\Funciones\\Kustodya.Medicos\\Kustodya.Medicos\\Kustodya.Medicos.csproj"
             }
           }
         }
@@ -12057,7 +12061,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "MailKit": {
             "target": "Package",
@@ -12079,7 +12082,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.119\\RuntimeIdentifierGraph.json"
       }
     }
   },

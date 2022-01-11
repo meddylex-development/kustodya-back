@@ -20,5 +20,6 @@ namespace Kustodya.ApplicationCore.Interfaces.CalificacionOrigen
         Task<byte[]> ObtenerDocumento(MemoryStream stream, Dictionary<string, string> variables, MemoryStream firmaStream);
         Task ActualizarCorreo(Correo correo);
         Task<Dictionary<string, string>> ObtenerEmpresaDatos(string nombreEmpresa);
+        Task ProcesarCorreosCalificacionOrigen();
     }
 }
