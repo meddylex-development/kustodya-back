@@ -90,7 +90,6 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\MailKit.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\EntidadesTareas.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\MimeKit.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\MimeKit.xml
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\BouncyCastle.Crypto.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\System.Buffers.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\obj\Release\TaskSchedule.csprojAssemblyReference.cache
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\obj\Release\TaskSchedule.csproj.CopyComplete
@@ -115,3 +114,13 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\Renci.SshNet.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\Unity.Abstractions.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\Unity.Container.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\x86\leptonica-1.80.0.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\x86\tesseract41.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\x64\leptonica-1.80.0.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\x64\tesseract41.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\Tesseract.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\itextsharp.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\SautinSoft.Document.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\LogicaTareas.dll.config
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\itextsharp.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\TaskSchedule\bin\SautinSoft.Document.xml

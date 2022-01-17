@@ -6,7 +6,6 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\MailKit.
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\MimeKit.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\System.Buffers.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\EntidadesTareas.pdb
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\BouncyCastle.Crypto.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\MailKit.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\MailKit.xml
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\MimeKit.pdb
@@ -50,3 +49,13 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\EntityFr
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\Unity.Abstractions.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\Unity.Container.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\x86\leptonica-1.80.0.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\x86\tesseract41.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\x64\leptonica-1.80.0.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\x64\tesseract41.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\LogicaTareas.dll.config
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\itextsharp.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\SautinSoft.Document.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\Tesseract.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\itextsharp.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LogicaTareas\bin\Release\SautinSoft.Document.xml

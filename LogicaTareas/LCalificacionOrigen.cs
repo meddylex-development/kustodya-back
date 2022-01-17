@@ -32,17 +32,15 @@ namespace LogicaTareas
             var client = new ImapClient();
             client.CheckCertificateRevocation = false;
             var credentials = new NetworkCredential("calificacionorigen@hotmail.com", "v6dNV9gC2YVgqWHk");
-            //var uri = new Uri("imaps://imap.gmail.com");
             var uri = new Uri("imaps://imap-mail.outlook.com");
             var cancel = new CancellationTokenSource();
-            //client.Connect("pop3.live.com", 995);
             client.Connect(uri, cancel.Token);
-            //client.ServerCertificateValidationCallback = (s, c, h, e1) => true;
+            client.ServerCertificateValidationCallback = (s, c, h, e1) => true;
             client.Authenticate(credentials, cancel.Token);
             var personal = client.GetFolder(client.PersonalNamespaces[0]);
             var sent = client.GetFolder("inbox");
             sent.Open(FolderAccess.ReadOnly, cancel.Token);
-            var query = SearchQuery.DeliveredAfter(DateTime.Now.Date.AddDays(-5));
+            var query = SearchQuery.DeliveredAfter(DateTime.Now.Date.AddDays(-2));
             List<LectorCorreosModel> correos = new List<LectorCorreosModel>();
             foreach (var uid in sent.Search(query, cancel.Token))
             {
@@ -105,7 +103,7 @@ namespace LogicaTareas
                 }
                 correos.Add(lectorCorreosModel);
             }
-            //await GuardarCorreosConsoleApp(correos);
+            GuardarCorreos(correos);
         }
         public void kustodyaco() {
             var client = new ImapClient();
@@ -213,7 +211,7 @@ namespace LogicaTareas
         {
             IUnitOfWork unitOfWork = FabricaIoC.Contenedor.Resolver<UnitOfWork>();
             PasswordConnectionInfo connectionInfo = new PasswordConnectionInfo("win5135.site4now.net", 21, "calificacionorigen", "Meddylex123");
-            var fechaDesde = DateTime.Now.AddDays(-10);
+            var fechaDesde = DateTime.Now.AddDays(-5);
             var correos = unitOfWork.CorreosRepository.All().Where(c => c.Fecha > fechaDesde).Select(c => c.MessageId).ToList();
             foreach (LectorCorreosModel item in correosModel.ToList())
             {
