@@ -477,9 +477,9 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\net
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\netcoreapp3.1\Kustodya.Infrastructure.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.RazorTargetAssemblyInfo.cache
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.csproj.CopyComplete
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\netcoreapp3.1\MailKit.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\netcoreapp3.1\MimeKit.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\netcoreapp3.1\Renci.SshNet.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\bin\Debug\netcoreapp3.1\SshNet.Security.Cryptography.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp3.1\Kustodya.WebApi.MvcApplicationPartsAssemblyInfo.cache

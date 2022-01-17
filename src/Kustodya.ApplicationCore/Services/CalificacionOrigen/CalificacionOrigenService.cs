@@ -372,5 +372,16 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
                 throw;
             }
         }
+        public byte[] ObtenerContenidoArchivo(string nombreArchivo)
+        {
+            string ftphost = "ftp://win5135.site4now.net/";
+            string ftpfullpath = ftphost + nombreArchivo;
+
+            using (WebClient request = new WebClient())
+            {
+                request.Credentials = new NetworkCredential("calificacionorigen", "Meddylex123");
+                return request.DownloadData(ftpfullpath);
+            }
+        }
     }
 }

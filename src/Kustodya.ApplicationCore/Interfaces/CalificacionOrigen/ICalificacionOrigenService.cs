@@ -21,5 +21,6 @@ namespace Kustodya.ApplicationCore.Interfaces.CalificacionOrigen
         Task ActualizarCorreo(Correo correo);
         Task<Dictionary<string, string>> ObtenerEmpresaDatos(string nombreEmpresa);
         Task ProcesarCorreosCalificacionOrigen();
+        byte[] ObtenerContenidoArchivo(string nombreArchivo);
     }
 }

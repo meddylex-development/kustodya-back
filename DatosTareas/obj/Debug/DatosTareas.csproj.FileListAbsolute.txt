@@ -1,0 +1,15 @@
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\DatosTareas.dll.config
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\DatosTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\DatosTareas.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntidadesTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntityFramework.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\NucleoTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntidadesTareas.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\NucleoTareas.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntityFramework.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\obj\Debug\DatosTareas.csprojAssemblyReference.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\obj\Debug\DatosTareas.csproj.CopyComplete
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\obj\Debug\DatosTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\DatosTareas\obj\Debug\DatosTareas.pdb

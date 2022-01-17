@@ -1,0 +1,5 @@
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\bin\Debug\EntidadesTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\bin\Debug\EntidadesTareas.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Debug\EntidadesTareas.csprojAssemblyReference.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Debug\EntidadesTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Debug\EntidadesTareas.pdb

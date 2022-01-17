@@ -350,16 +350,16 @@
           "lib/itextsharp.dll": {}
         }
       },
-      "MailKit/2.10.0": {
+      "MailKit/3.0.0": {
         "type": "package",
         "dependencies": {
-          "MimeKit": "2.10.0"
+          "MimeKit": "3.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/MailKit.dll": {}
+          "lib/netstandard2.1/MailKit.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MailKit.dll": {}
+          "lib/netstandard2.1/MailKit.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -2197,21 +2197,20 @@
           }
         }
       },
-      "MimeKit/2.10.0": {
+      "MimeKit/3.0.0": {
         "type": "package",
         "dependencies": {
-          "Portable.BouncyCastle": "1.8.8",
+          "Portable.BouncyCastle": "1.9.0",
           "System.Buffers": "4.5.1",
-          "System.Data.DataSetExtensions": "4.5.0",
           "System.Reflection.TypeExtensions": "4.4.0",
           "System.Security.Cryptography.Pkcs": "4.7.0",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
-          "lib/netstandard2.0/MimeKit.dll": {}
+          "lib/netstandard2.1/MimeKit.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MimeKit.dll": {}
+          "lib/netstandard2.1/MimeKit.dll": {}
         }
       },
       "NETStandard.Library/2.0.1": {
@@ -2262,7 +2261,7 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
-      "Portable.BouncyCastle/1.8.8": {
+      "Portable.BouncyCastle/1.9.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
@@ -2928,15 +2927,6 @@
         },
         "runtime": {
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {}
-        }
-      },
-      "System.Data.DataSetExtensions/4.5.0": {
-        "type": "package",
-        "compile": {
-          "ref/netstandard2.0/System.Data.DataSetExtensions.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -4481,7 +4471,7 @@
           "AutoMapper": "9.0.0",
           "DocumentFormat.OpenXml": "2.11.3",
           "FreeSpire.Office": "4.3.1",
-          "MailKit": "2.10.0",
+          "MailKit": "3.0.0",
           "Microsoft.Extensions.Options": "3.1.4",
           "SSH.NET": "2020.0.1"
         },
@@ -5059,17 +5049,17 @@
         "notice.txt"
       ]
     },
-    "MailKit/2.10.0": {
-      "sha512": "+MuVBWstHANt4iescbL0zzOZX+OllALJQf+uDdIPsCx+mE3LsNthpJv/8em93VzGoFev1WGLMJfLjCBreg8STg==",
+    "MailKit/3.0.0": {
+      "sha512": "/az267eMAng48hSeIliTZeCJM3YTuG1MtSDuZ2JpidMhG+PME0oEKBBxRx1fykpyOAAsw23UyUvHgHXoOlU7wA==",
       "type": "package",
-      "path": "mailkit/2.10.0",
+      "path": "mailkit/3.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icons/mailkit-50.png",
-        "lib/net45/MailKit.dll",
-        "lib/net45/MailKit.pdb",
-        "lib/net45/MailKit.xml",
+        "lib/net452/MailKit.dll",
+        "lib/net452/MailKit.pdb",
+        "lib/net452/MailKit.xml",
         "lib/net46/MailKit.dll",
         "lib/net46/MailKit.pdb",
         "lib/net46/MailKit.xml",
@@ -5079,10 +5069,16 @@
         "lib/net48/MailKit.dll",
         "lib/net48/MailKit.pdb",
         "lib/net48/MailKit.xml",
+        "lib/net5.0/MailKit.dll",
+        "lib/net5.0/MailKit.pdb",
+        "lib/net5.0/MailKit.xml",
         "lib/netstandard2.0/MailKit.dll",
         "lib/netstandard2.0/MailKit.pdb",
         "lib/netstandard2.0/MailKit.xml",
-        "mailkit.2.10.0.nupkg.sha512",
+        "lib/netstandard2.1/MailKit.dll",
+        "lib/netstandard2.1/MailKit.pdb",
+        "lib/netstandard2.1/MailKit.xml",
+        "mailkit.3.0.0.nupkg.sha512",
         "mailkit.nuspec"
       ]
     },
@@ -7545,17 +7541,17 @@
         "version.txt"
       ]
     },
-    "MimeKit/2.10.0": {
-      "sha512": "AHbCxNo6Ue98q/r81TKdCisRJSOv5EF0PWctUqhtzjDJx3xeTxguxZHyZy3ATbHfHFDRVR7TeZgmsfRP7dXs6g==",
+    "MimeKit/3.0.0": {
+      "sha512": "k7FxYFU/G45Cd/VEVIUBW45pahJ9DGU1KbQqeQhT1wfmPAFlfHm3HLf6/sioRvzAdSC9kco6XeZAq7Ghtob6Cw==",
       "type": "package",
-      "path": "mimekit/2.10.0",
+      "path": "mimekit/3.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icons/mimekit-50.png",
-        "lib/net45/MimeKit.dll",
-        "lib/net45/MimeKit.pdb",
-        "lib/net45/MimeKit.xml",
+        "lib/net452/MimeKit.dll",
+        "lib/net452/MimeKit.pdb",
+        "lib/net452/MimeKit.xml",
         "lib/net46/MimeKit.dll",
         "lib/net46/MimeKit.pdb",
         "lib/net46/MimeKit.xml",
@@ -7565,10 +7561,16 @@
         "lib/net48/MimeKit.dll",
         "lib/net48/MimeKit.pdb",
         "lib/net48/MimeKit.xml",
+        "lib/net5.0/MimeKit.dll",
+        "lib/net5.0/MimeKit.pdb",
+        "lib/net5.0/MimeKit.xml",
         "lib/netstandard2.0/MimeKit.dll",
         "lib/netstandard2.0/MimeKit.pdb",
         "lib/netstandard2.0/MimeKit.xml",
-        "mimekit.2.10.0.nupkg.sha512",
+        "lib/netstandard2.1/MimeKit.dll",
+        "lib/netstandard2.1/MimeKit.pdb",
+        "lib/netstandard2.1/MimeKit.xml",
+        "mimekit.3.0.0.nupkg.sha512",
         "mimekit.nuspec"
       ]
     },
@@ -7771,10 +7773,10 @@
         "nuget.frameworks.nuspec"
       ]
     },
-    "Portable.BouncyCastle/1.8.8": {
-      "sha512": "1rxdf8NfyAxLlqIEciCl/yNhmz1YiLkmp6rrF8p3/NVmyHHzPWLx8djtDvSAwhPLg64BXvsRcM3+5bP1HAUdYg==",
+    "Portable.BouncyCastle/1.9.0": {
+      "sha512": "eZZBCABzVOek+id9Xy04HhmgykF0wZg9wpByzrWN7q8qEI0Qen9b7tfd7w8VA3dOeesumMG7C5ZPy0jk7PSRHw==",
       "type": "package",
-      "path": "portable.bouncycastle/1.8.8",
+      "path": "portable.bouncycastle/1.9.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7782,7 +7784,7 @@
         "lib/net40/BouncyCastle.Crypto.xml",
         "lib/netstandard2.0/BouncyCastle.Crypto.dll",
         "lib/netstandard2.0/BouncyCastle.Crypto.xml",
-        "portable.bouncycastle.1.8.8.nupkg.sha512",
+        "portable.bouncycastle.1.9.0.nupkg.sha512",
         "portable.bouncycastle.nuspec"
       ]
     },
@@ -9010,25 +9012,6 @@
         "ref/netstandard2.0/System.Configuration.ConfigurationManager.xml",
         "system.configuration.configurationmanager.4.5.0.nupkg.sha512",
         "system.configuration.configurationmanager.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
-      ]
-    },
-    "System.Data.DataSetExtensions/4.5.0": {
-      "sha512": "221clPs1445HkTBZPL+K9sDBdJRB8UN8rgjO3ztB0CQ26z//fmJXtlsr6whGatscsKGBrhJl5bwJuKSA8mwFOw==",
-      "type": "package",
-      "path": "system.data.datasetextensions/4.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net45/_._",
-        "lib/netstandard2.0/System.Data.DataSetExtensions.dll",
-        "ref/net45/_._",
-        "ref/netstandard2.0/System.Data.DataSetExtensions.dll",
-        "system.data.datasetextensions.4.5.0.nupkg.sha512",
-        "system.data.datasetextensions.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]

@@ -76,50 +76,45 @@ namespace Kustodya.WebApi.Controllers.CalificacionOrigen
         [Route("AdjuntoId/{guid}")]
         public async Task<IActionResult> GetAdjunto(string guid)
         {
-            //var archivo = await _repoCalificacionOrigenService.ObtenerNombreArchivo(guid);
-            //var stream = await _blobService.GetBlobFileByGuidAsync(guid, "calificacionorigencorreos");
-            var url = _blobService.GetBlobSasUri(guid, "calificacionorigencorreos");
-            return Ok(new UrlOutputModel { url= url });
-            /*if (stream == null) return NotFound("No se encontró el archivo");
-            stream.Position = 0;
-
+            var archivo = await _repoCalificacionOrigenService.ObtenerNombreArchivo(guid);
+            byte[] contenido = _repoCalificacionOrigenService.ObtenerContenidoArchivo(guid);
             switch (archivo.Split('.')[archivo.Split('.').Length -1].ToLower())
             {
                 case "pdf":
-                    return File(stream.ToArray(), "application/pdf", archivo);
+                    return File(contenido.ToArray(), "application/pdf", archivo); ;
                 case "doc":
-                    return File(stream.ToArray(), "application/msword", archivo);
+                    return File(contenido.ToArray(), "application/msword", archivo); ;
                 case "bmp":
-                    return File(stream.ToArray(), "image/bmp", archivo);
+                    return File(contenido.ToArray(), "image/bmp", archivo); ;
                 case "csv":
-                    return File(stream.ToArray(), "text/csv", archivo);
+                    return File(contenido.ToArray(), "text/csv", archivo); ;
                 case "docx":
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", archivo);
+                    return File(contenido.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", archivo); ;
                 case "gif":
-                    return File(stream.ToArray(), "image/gif", archivo);
+                    return File(contenido.ToArray(), "image/gif", archivo);
                 case "htm":
-                    return File(stream.ToArray(), "text/html", archivo);
+                    return File(contenido.ToArray(), "text/html", archivo);
                 case "html":
-                    return File(stream.ToArray(), "text/html", archivo);
+                    return File(contenido.ToArray(), "text/html", archivo);
                 case "jpeg":
-                    return File(stream.ToArray(), "image/jpeg", archivo);
+                    return File(contenido.ToArray(), "image/jpeg", archivo);
                 case "jpg":
-                    return File(stream.ToArray(), "image/jpeg", archivo);
+                    return File(contenido.ToArray(), "image/jpeg", archivo);
                 case "png":
-                    return File(stream.ToArray(), "image/png", archivo);
+                    return File(contenido.ToArray(), "image/png", archivo);
                 case "ppt":
-                    return File(stream.ToArray(), "application/vnd.ms-powerpoint", archivo);
+                    return File(contenido.ToArray(), "application/vnd.ms-powerpoint", archivo);
                 case "pptx":
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.presentationml.presentation", archivo);
+                    return File(contenido.ToArray(), "application/vnd.openxmlformats-officedocument.presentationml.presentation", archivo);
                 case "xls":
-                    return File(stream.ToArray(), "application/vnd.ms-excel", archivo);
+                    return File(contenido.ToArray(), "application/vnd.ms-excel", archivo);
                 case "xlsx":
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", archivo);
+                    return File(contenido.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", archivo);
                 case "xml":
-                    return File(stream.ToArray(), "application/xml", archivo);
+                    return File(contenido.ToArray(), "application/xml", archivo);
                 default:
-                    return File(stream.ToArray(), "appliation/octet-stream", archivo);
-            }*/
+                    return File(contenido.ToArray(), "appliation/octet-stream", archivo);
+            }
         }
         [HttpGet("{correoId:int}")]
         public async Task<IActionResult> GetCorreo(int correoId) {
