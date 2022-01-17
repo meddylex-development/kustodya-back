@@ -47,3 +47,7 @@ C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\obj\Debug\LecturaC
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\obj\Debug\LecturaCorreos.pdb
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\bin\Debug\LecturaCorreos.exe.manifest
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\bin\Debug\LecturaCorreos.application
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\obj\Debug\LecturaCorreos.exe.manifest
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\LecturaCorreos\obj\Debug\LecturaCorreos.application
