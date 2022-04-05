@@ -1,0 +1,38 @@
+@startuml Reportes
+class Reporte {
+  Guid WorkspaceId
+  string Nombre
+
+  Task<Solicitud> Solicitar()
+}
+
+class Solicitud {
+  DateTime Fecha
+  Guid UsuarioId
+  Guid EntidadId
+  Reporte Reporte
+  bool Aprobada
+  Embed Embed
+
+  Task<Solicitud> Solicitar()
+}
+
+class Embed {
+  Uri Url
+  DateTime FechaExpiracion
+}
+
+class BaseEntity {
+    Guid Id
+}
+
+interface AggregateRoot {
+
+}
+
+class Reporte implements BaseEntity
+class Solicitud implements BaseEntity
+class Reporte extends AggregateRoot
+Reporte "0" *-- "muchos" Solicitud : tiene
+Reporte "0" *-- "1" Embed : tiene
+@enduml

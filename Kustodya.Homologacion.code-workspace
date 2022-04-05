@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "src\\Funciones\\Kustodya.Homologación.Famisanar"
+		},
+		{
+			"path": "src\\Kustodya.ApplicationCore"
+		},
+		{
+			"path": "..\\famisanar\\servicebus-client"
+		},
+		{
+			"path": "tests\\Kustodya.Tests.Homologacion.Famisanar"
+		},
+		{
+			"path": "tests\\Kustodya.Tests.ApplicationCore"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	},
+	"extensions": {
+		"recommendations": []
+	}
+}
