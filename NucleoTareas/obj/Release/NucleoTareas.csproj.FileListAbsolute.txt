@@ -1,8 +1,0 @@
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\bin\Release\NucleoTareas.dll
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\bin\Release\NucleoTareas.pdb
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\bin\Release\EntidadesTareas.dll
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\bin\Release\EntidadesTareas.pdb
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\obj\Release\NucleoTareas.csprojAssemblyReference.cache
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\obj\Release\NucleoTareas.csproj.CopyComplete
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\obj\Release\NucleoTareas.dll
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\NucleoTareas\obj\Release\NucleoTareas.pdb

@@ -1,3 +1,0 @@
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp2.2\Kustodya.WebApi.csprojAssemblyReference.cache
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp2.2\Kustodya.WebApi.AssemblyInfoInputs.cache
-C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.WebApi\obj\Debug\netcoreapp2.2\Kustodya.WebApi.AssemblyInfo.cs
