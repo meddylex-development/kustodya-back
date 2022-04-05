@@ -1,1 +1,0 @@
-﻿dotnet-ef migrations remove --context ReportesContext --project '../../Kustodya.Infrastructure.Reportes/Kustodya.Infrastructure.Reportes.csproj' --startup-project '../../Kustodya.Reportes.Migrations/Kustodya.Reportes.Migrations.csproj'

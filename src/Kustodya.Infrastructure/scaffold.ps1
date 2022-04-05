@@ -1,1 +1,0 @@
-﻿dotnet ef dbcontext scaffold "Data Source=tcp:serverbrazil2.database.windows.net;Initial Catalog=dbProtektoV1;User ID=braziladminabernal; Password=RoojoS3rv3r1;" Microsoft.EntityFrameworkCore.SqlServer -o '../../2. Business Logic/Kustodya.BusinessLogic/Entities/' -c dbProtektoV1Context --context-dir Data -f
