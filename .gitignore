@@ -36,4 +36,8 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
+<<<<<<< HEAD
 
+=======
+#Test
+>>>>>>> juan.mendez
