@@ -1,3 +1,0 @@
-﻿dotnet-ef migrations add Plantillas --context ContabilidadContext --project '../../Kustodya.Infrastructure/Kustodya.Infrastructure.csproj' --output-dir Data/Migrations/Contabilidades  -v --startup-project '../Kustodya.WebApi.csproj'
-
-# dotnet-ef migrations add CentrosCosto --context dbProtektoV1Context --project '../../Kustodya.Infrastructure/Kustodya.Infrastructure.csproj' --output-dir Data/Migrations/Contabilidad  -v --startup-project '../Kustodya.WebApi.csproj'
