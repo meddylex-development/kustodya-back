@@ -1,0 +1,56 @@
+﻿<Properties StartupConfiguration="{F8289979-8027-49F2-8B15-3101C7D0ED91}|Default">
+  <MonoDevelop.Ide.ItemProperties.src.Kustodya.WebApi PreferredExecutionTarget="/Applications/Google Chrome Dev.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Kustodya.WebApi/Services/Rethus/RethusModelService.cs">
+    <Files>
+      <File FileName="src/Kustodya.WebApi/appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="src/Kustodya.WebApi/Controllers/Rethus/RethusController.cs" Line="29" Column="71" />
+      <File FileName="src/Kustodya.WebApi/appsettings.json" Line="12" Column="33" />
+      <File FileName="src/Kustodya.WebApi/Services/Rethus/IRethusModelService.cs" Line="11" Column="76" />
+      <File FileName="src/Kustodya.Infrastructure/Data/dbProtektoV1Context.cs" Line="421" Column="90" />
+      <File FileName="src/Kustodya.WebApi/Startup.cs" Line="257" Column="13" />
+      <File FileName="src/Kustodya.ApplicationCore/Entities/Rethus/tblRethusData_Academic.cs" Line="7" Column="40" />
+      <File FileName="src/Kustodya.ApplicationCore/Specifications/Rethus/ConsultarAcademicosporId.cs" Line="11" Column="44" />
+      <File FileName="src/Kustodya.ApplicationCore/Specifications/Rethus/ConsultaRethus.cs" Line="8" Column="62" />
+      <File FileName="src/Kustodya.WebApi/Services/Rethus/RethusModelService.cs" Line="42" Column="58" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Kustodya" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="Kustodya.ApplicationCore" expanded="True">
+                <Node name="Entities" expanded="True">
+                  <Node name="Rethus" expanded="True" />
+                </Node>
+                <Node name="Specifications" expanded="True">
+                  <Node name="Rethus" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Kustodya.WebApi" expanded="True">
+                <Node name="Services" expanded="True">
+                  <Node name="Rethus" expanded="True">
+                    <Node name="RethusModelService.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Kustodya" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

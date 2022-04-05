@@ -1,0 +1,10 @@
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Release\netcoreapp3.1\Kustodya.ApplicationCore.deps.json
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Release\netcoreapp3.1\Kustodya.ApplicationCore.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Release\netcoreapp3.1\Kustodya.ApplicationCore.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\bin\Release\netcoreapp3.1\Kustodya.ApplicationCore.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.csprojAssemblyReference.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.AssemblyInfoInputs.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.AssemblyInfo.cs
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.xml
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\src\Kustodya.ApplicationCore\obj\Release\netcoreapp3.1\Kustodya.ApplicationCore.pdb

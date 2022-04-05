@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="kustodyaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Carta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TextoTranscripcion" Type="nvarchar(max)" />
+    <Property Name="FormatoWebArl" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CorreoAdjuntos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CorreoId" Type="int" Nullable="false" />
+    <Property Name="NombreArchivo" Type="nvarchar" MaxLength="200" />
+    <Property Name="Contenido" Type="nvarchar(max)" />
+    <Property Name="TextoReconocido" Type="text" />
+    <Property Name="tEstado" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Correos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MessageId" Type="nvarchar(max)" />
+    <Property Name="Para" Type="nvarchar(max)" />
+    <Property Name="CC" Type="nvarchar(max)" />
+    <Property Name="Asunto" Type="nvarchar(max)" />
+    <Property Name="Cuerpo" Type="nvarchar(max)" />
+    <Property Name="Fecha" Type="datetime" />
+    <Property Name="Estado" Type="int" />
+    <Property Name="FechaTranscripcion" Type="datetime" />
+    <Property Name="De" Type="nvarchar(max)" />
+    <Property Name="CartaTranscripcion" Type="nvarchar(max)" />
+    <Property Name="FormatoWebArl" Type="nvarchar(max)" />
+    <Property Name="FechaCovid" Type="nvarchar(max)" />
+    <Property Name="NombresYApellidos" Type="nvarchar(max)" />
+    <Property Name="NumeroDocumento" Type="nvarchar(max)" />
+    <Property Name="NumeroTelefonico" Type="nvarchar(max)" />
+    <Property Name="Edad" Type="nvarchar(max)" />
+    <Property Name="Ciudad" Type="nvarchar(max)" />
+    <Property Name="CodigoEL" Type="nvarchar(max)" />
+    <Property Name="CodigoCTO" Type="nvarchar(max)" />
+    <Property Name="EPS" Type="nvarchar(max)" />
+    <Property Name="Empresa" Type="nvarchar(max)" />
+    <Property Name="CorreoEmpresa" Type="nvarchar(max)" />
+    <Property Name="AFP" Type="nvarchar(max)" />
+    <Property Name="Cargo" Type="nvarchar(max)" />
+    <Property Name="CorreoPaciente" Type="nvarchar(max)" />
+    <Property Name="TipoPrueba" Type="nvarchar(max)" />
+    <Property Name="CargoNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="CargoGuid" Type="nvarchar(max)" />
+    <Property Name="EdadNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="EdadGuid" Type="nvarchar(max)" />
+    <Property Name="EmpresaNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="EmpresaGuid" Type="nvarchar(max)" />
+    <Property Name="CorreoEmpresaNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="CorreoEmpresaGuid" Type="nvarchar(max)" />
+    <Property Name="EPSNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="EPSGuid" Type="nvarchar(max)" />
+    <Property Name="NumeroDocumentoNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="NumeroDocumentoGuid" Type="nvarchar(max)" />
+    <Property Name="NombresYApellidosNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="NumeroTelefonicoNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="NombresYApellidosGuid" Type="nvarchar(max)" />
+    <Property Name="NumeroTelefonicoGuid" Type="nvarchar(max)" />
+    <Property Name="AFPNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="AFPGuid" Type="nvarchar(max)" />
+    <Property Name="FechaCovidNombreArchivo" Type="nvarchar(max)" />
+    <Property Name="FechaCovidGuid" Type="nvarchar(max)" />
+    <Property Name="FechaHistoriaClinica" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Empresas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Correo" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TextoReconocidoCartas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreArchivo" Type="nvarchar(max)" />
+    <Property Name="Cedula" Type="nvarchar(max)" />
+    <Property Name="Nombre" Type="nvarchar(max)" />
+    <Property Name="Contrato" Type="nvarchar(max)" />
+    <Property Name="Empresa" Type="nvarchar(max)" />
+    <Property Name="EmpresaCorreo" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityContainer Name="kustodyaModelStoreContainer">
+    <EntitySet Name="Carta" EntityType="Self.Carta" Schema="CalificacionOrigen" store:Type="Tables" />
+    <EntitySet Name="CorreoAdjuntos" EntityType="Self.CorreoAdjuntos" Schema="CalificacionOrigen" store:Type="Tables" />
+    <EntitySet Name="Correos" EntityType="Self.Correos" Schema="CalificacionOrigen" store:Type="Tables" />
+    <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="CalificacionOrigen" store:Type="Tables" />
+    <EntitySet Name="TextoReconocidoCartas" EntityType="Self.TextoReconocidoCartas" Schema="CalificacionOrigen" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

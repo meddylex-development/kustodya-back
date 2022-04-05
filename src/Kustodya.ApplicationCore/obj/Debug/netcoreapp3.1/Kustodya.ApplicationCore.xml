@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kustodya.ApplicationCore</name>
+    </assembly>
+    <members>
+        <member name="P:Kustodya.ApplicationCore.DTOs.MenuInputModel.MenuId">
+            <example>Consutor</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.PerfilInputModel.Nombre">
+            <example>Consultor</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.PerfilInputModel.EntidadId">
+            <example>1</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.PerfilInputModel.Activo">
+            <example>true</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.Descripcion">
+            <summary>
+            Texto que describe la contabilidad
+            </summary>
+            <example>Caja menor de Roojo Colombia</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.Codigo">
+            <summary>
+            Codigo propio de la contabilidad para cada entidad
+            </summary>
+            <example>1289564</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.EsContabilidadPorDefecto">
+            <summary>
+            Si es verdadero, el valor de contabilidad por defecto de la entidad se actualizara a esta contabilidad
+            </summary>
+            <example>false</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.CodigoPucDebitoMovimientoPorDefecto">
+            <summary>
+            Codigo PUC debito por defecto para los movimientos de esta contabilidad
+            </summary>
+            <example>410505</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.CodigoPucCreditoMovimientoPorDefecto">
+            <summary>
+            Codigo PUC credito por defecto para los movimientos de esta contabilidad
+            </summary>
+            <example>410505</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.ReferenciaMovimientoPorDefecto">
+            <summary>
+            Texto de referencia por defecto para los movimientos de esta contabilidad
+            </summary>
+            <example>A7896</example>
+        </member>
+        <member name="P:Kustodya.ApplicationCore.DTOs.Contabilidades.ContabilidadInputModel.DescripcionMovimientoPorDefecto">
+            <summary>
+            Texto de descripion por defecto para los movimientos de esta contabilidad
+            </summary>
+            <example>Deudas por pagar</example>
+        </member>
+        <member name="M:Kustodya.ApplicationCore.Entities.Contabilidades.Tercero.#ctor(System.Int32,System.String,Kustodya.ApplicationCore.Constants.TipoIdentificacion,System.String,System.String)">
+            <sumary>
+            Crear persona natural
+            </sumary>
+        </member>
+        <member name="T:Kustodya.ApplicationCore.Interfaces.ILoggerService`1">
+            <summary>
+            This type eliminates the need to depend directly on the ASP.NET Core logging types.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Kustodya.ApplicationCore.Specifications.Incapacidades.IncapacidadInmediatamenteCorrelacionada.#ctor(System.String,System.DateTime)">
+            <summary>
+            Retorna una especificacion para las incapacidades relacionadas e inmedieatamento correladionadas
+            </summary>
+            <param name="CodigoCie10">Codigo CIE10 del diagnostico de una incapacidad</param>
+            <param name="inicio">Fecha de inicio de la incapacidad</param>
+        </member>
+        <member name="M:Kustodya.ApplicationCore.Specifications.Incapacidades.IncapacidadInmediatamenteCorrelacionada.#ctor(Kustodya.ApplicationCore.Entities.MallaValidadora.Incapacidad)">
+            <summary>
+            Retorna una especificacion para las incapacidades relacionadas e inmedieatamento correladionadas
+            </summary>
+            <param name="incapacidad">
+            Incapacidad de la que se quiere encontrar las incapacidades inmediatamente correlacionadas
+            </param>
+        </member>
+    </members>
+</doc>

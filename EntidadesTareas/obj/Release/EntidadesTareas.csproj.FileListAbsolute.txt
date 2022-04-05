@@ -1,0 +1,5 @@
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\bin\Release\EntidadesTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\bin\Release\EntidadesTareas.pdb
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Release\EntidadesTareas.csprojAssemblyReference.cache
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Release\EntidadesTareas.dll
+C:\Users\fabia\Desktop\Proyectos\Kustodia\Back\EntidadesTareas\obj\Release\EntidadesTareas.pdb
