@@ -1,0 +1,1 @@
+dotnet-ef dbcontext scaffold "Data Source=tcp:serverbrazil2.database.windows.net;Initial Catalog=dbProtektoV1;User ID=braziladminabernal;Password=RoojoS3rv3r1;" Microsoft.EntityFrameworkCore.SqlServer -c "RethusContext" --schema "rethus" -o Rethus/Roojo -v

@@ -1,0 +1,3 @@
+﻿dotnet-ef migrations add Primera --context ReportesContext --project '../../Kustodya.Infrastructure.Reportes/Kustodya.Infrastructure.Reportes.csproj' --output-dir Data/Migrations/ -v --startup-project '../Kustodya.Web.Reportes.csproj'
+
+# dotnet-ef migrations add CentrosCosto --context dbProtektoV1Context --project '../../Kustodya.Infrastructure/Kustodya.Infrastructure.csproj' --output-dir Data/Migrations/Contabilidad  -v --startup-project '../Kustodya.WebApi.csproj'

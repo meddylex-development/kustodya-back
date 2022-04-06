@@ -1,0 +1,31 @@
+@startuml Aprobacion_de_Depuraciones
+left to right direction
+actor "Gerente Kustodya" as gerente
+actor "Interventor" as interventor
+actor "Coordinador" as coordinador
+actor "Elaborador" as elaborador
+actor "Aprobador Famisanar" as famisanar
+
+usecase "Enviar Correos" as UC_EC
+
+package PreAprobacion {
+    usecase "Preaprobacion unanime" as UC_PA
+}
+
+package Aprobacion{
+    usecase "Aprobar" as aprobar
+}
+
+UC_PA ->  UC_EC
+UC_EC ->  elaborador
+UC_EC ->  gerente
+UC_EC ->  interventor
+UC_EC ->  coordinador
+
+gerente --> UC_PA : Aprobar
+interventor --> UC_PA : Aprobar
+coordinador --> UC_PA : Aprobar
+
+PreAprobacion --> famisanar
+famisanar --> aprobar
+@enduml

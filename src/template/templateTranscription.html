@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        /* cyrillic-ext */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu72xKOzY.woff2) format("woff2");
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu5mxKOzY.woff2) format("woff2");
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek-ext */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7mxKOzY.woff2) format("woff2");
+            unicode-range: U+1F00-1FFF;
+        }
+
+        /* greek */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4WxKOzY.woff2) format("woff2");
+            unicode-range: U+0370-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7WxKOzY.woff2) format("woff2");
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format("woff2");
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxK.woff2) format("woff2");
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        * {
+            font-family: "Roboto", sans-serif;
+
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        th {
+            font-weight: normal;
+            color: #666666;
+            /* opacity: 0.75; */
+        }
+
+        tr {
+            font-weight: bold;
+        }
+
+        .headerPDF {
+            font-weight: normal
+        }
+
+        .infoEPS label {
+            font-weight: normal;
+        }
+
+        .headerPDF h6 {
+            display: inline;
+            /* font-weight: bold; */
+        }
+
+        .headerPDF h3 {
+            display: inline;
+        }
+
+        .solicitud {
+            margin-top: 30px;
+        }
+
+        .solicitud th {
+            font-weight: normal;
+        }
+
+        .solicitud tr {
+            font-weight: bold;
+        }
+
+        fieldset {
+            color: black;
+            border: 1px #e0e2e4 solid;
+        }
+
+        .divPaciente legend,
+        .divEmpleador legend,
+        .divIPS legend,
+        .divMedico legend,
+        .divIncapacidad legend,
+        .divQR legend {
+            width: auto;
+            margin: 0;
+            padding: 0 10px !important;
+            border: 0px !important;
+            font-weight: bold;
+        }
+
+        .divPaciente,
+        .divEmpleador,
+        .divIPS,
+        .divMedico,
+        .divIncapacidad {
+            padding: 0.5rem 0.75rem 0 0.75rem;
+            font-size: 12pt;
+        }
+
+        .divQR {
+            padding: 0.3rem 0.75rem 0 0.75rem;
+            font-size: 12pt;
+        }
+
+        .image_title td {
+            width: 50%;
+            text-align: left;
+        }
+
+        .image_title td img {
+            width: 60%;
+        }
+
+        .image_title td.titleTranscripcion {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .firma {
+            bottom: 59px;
+            left: 73px;
+            position: fixed;
+            width: 50%;
+        }
+
+        .divQR td {
+            width: 70%;
+        }
+
+        .codigoQR,
+        .textCodigoQR {
+            text-align: center;
+            width: 30% !important;
+        }
+
+        .codigoQR img{
+            padding: 0 !important;
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body class="font_family_roboto">
+    <div class="headerPDF" style="background-color: #e0e2e4; padding: 10px; text-align: left;">
+        <table>
+            <tr class="image_title">
+                <td><img src="{0}" /></td>
+                <td class="titleTranscripcion">
+                    <h3>Certificado Médico de Incapacidad Laboral<h3>
+                </td>
+            </tr>
+            <tr class="infoEPS">
+                <td colspan="2">
+                    <h6>Nit:<h6><label>{{##EPS_IDENTIFICACION##}}</label>
+                </td>
+            </tr>
+            <tr class="infoEPS">
+                <td colspan="2">
+                    <h6>Codigo de Habilitación:<h6><label>{{##EPS_CODIGO_HABILITACION##}}</label>
+                </td>
+            </tr>
+            <tr class="infoEPS">
+                <td colspan="2">
+                    <h6>E-mail:<h6><label>{{##EPS_EMAIL##}}</label>
+                </td>
+            </tr>
+        </table>
+        <table class="solicitud">
+            <tr>
+                <th width="40%" align="left">No de Solicitud</th>
+                <th width="35%" align="left">NUIM</th>
+                <th width="25%" align="left">Fecha Expedición</th>
+            </tr>
+            <tr>
+                <td width="50%">{{##INCAPACIDAD_No_SOLICITUD##}}</td>
+                <td width="25%">{{##INCAPACIDAD_NUIM##}}</td>
+                <td width="25%">{{##INCAPACIDAD_FECHA_EXPEDICION##}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="containerPDF">
+        <div class="divPaciente">
+            <fieldset>
+                <legend>Paciente</legend>
+                <table>
+                    <tr>
+                        <th width="28%" align="left">Tipo de Identificación</th>
+                        <th width="28%" align="left">No. Identificación</th>
+                        <th width="29%" align="left">Sexo</th>
+                        <th width="27%" align="left">Edad</th>
+                    </tr>
+                    <tr>
+                        <td width="28%">{{##PACIENTE_TIPO_IDENTIFICACION##}}</td>
+                        <td width="28%">{{##PACIENTE_No_IDENTIFICACION##}}</td>
+                        <td width="29%">{{##PACIENTE_SEXO##}}</td>
+                        <td width="27%">{{##PACIENTE_EDAD##}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" width="56%" align="left">Nombre</th>
+                        <th width="29%" align="left">Fecha de Nacimieto</th>
+                        <th width="27%" align="left"></th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="56%">{{##PACIENTE_NOMBRE##}}</td>
+                        <td width="29%">{{##PACIENTE_FECHA_NACIMIENTO##}}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="divEmpleador">
+            <fieldset>
+                <legend>Empleador</legend>
+                <table>
+                    <tr>
+                        <th width="33%" align="left">Tipo de Identificación</th>
+                        <th width="33%" align="left">No. Identificación</th>
+                        <th width="33%" align="left">Razón Social</th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##EMPLEADOR_TIPO_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##EMPLEADOR_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##EMPLEADOR_RAZON_SOCIAL##}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" width="33%" align="left">Actividad Económica</th>
+                        <th width="33%" align="left">CIIU</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="33%">{{##EMPLEADOR_ACTIVIDAD_ECONOMICA##}}</td>
+                        <td width="33%">{{##EMPLEADOR_CIU##}}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="divIPS">
+            <fieldset>
+                <legend>IPS</legend>
+                <table>
+                    <tr>
+                        <th width="33%" align="left">Tipo de Identificación</th>
+                        <th width="33%" align="left">No. Identificación</th>
+                        <th width="33%" align="left">Razón Social</th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##IPS_TIPO_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##IPS_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##IPS_RAZON_SOCIAL##}}</td>
+                    </tr>
+                    <tr>
+                        <th width="33%" align="left">Código de Habilitacion</th>
+                        <th width="33%" align="left"></th>
+                        <th width="33%" align="left"></th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##IPS_CODIGO_HABILITACION##}}</td>
+                        <td width="33%"></td>
+                        <td width="33%"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="divMedico">
+            <fieldset>
+                <legend>Médico</legend>
+                <table>
+                    <tr>
+                        <th width="33%" align="left">Tipo de Identificación</th>
+                        <th width="33%" align="left">No Identificación</th>
+                        <th width="33%" align="left">Nombre Médico</th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##MEDICO_TIPO_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##MEDICO_IDENTIFICACION##}}</td>
+                        <td width="33%">{{##MEDICO_NOMBRE##}}</td>
+                    </tr>
+                    <tr>
+                        <th width="33%" align="left">Código Registro Médico</th>
+                        <th width="33%" align="left">Especialidad</th>
+                        <th width="33%" align="left"></th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##MEDICO_CODIGO_REGISTRO_MEDICO##}}</td>
+                        <td width="33%">{{##MEDICO_ESPECIALIDAD##}}</td>
+                        <td width="33%"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="divIncapacidad">
+            <fieldset>
+                <legend>Incapacidad</legend>
+                <table>
+                    <tr>
+                        <th width="33%" align="left">Tipo de Emisión</th>
+                        <th width="33%" align="left">No. Incapacidad Transcrita</th>
+                        <th width="33%" align="left">Fecha de la Incapacidad Transcrita</th>
+                    </tr>
+                    <tr>
+                        <td width="33%">{{##INCAPACIDAD_TIPO_EMISION##}}</td>
+                        <td width="33%">{{##INCAPACIDAD_No_INCAPACIDAD_TRANSCRITA##}}</td>
+                        <td width="33%">{{##INCAPACIDAD_FECHA_INCAPACIDAD_TRANSCRITA##}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" align="left">Diágnostico</th>
+                        <th align="left">Origen: Presunto</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{##INCAPACIDAD_DIAGNOSTICO##}}</td>
+                        <td>{{##INCAPACIDAD_TIPO_ORIGEN##}}</td>
+                    </tr>
+                    <tr>
+                        <th align="left">Días de Incapacidad</th>
+                        <th align="left">Fecha Inicio</th>
+                        <th align="left">Fecha Final</th>
+                    </tr>
+                    <tr>
+                        <td>{{##INCAPACIDAD_DIAS_INCAPACIDAD##}}</td>
+                        <td>{{##INCAPACIDAD_FECHA_INICIO##}}</td>
+                        <td>{{##INCAPACIDAD_FECHA_FINAL##}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" align="left">Recomendación</th>
+                        <th align="left">Valor</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{##INCAPACIDAD_DESCRIPCION##}}</td>
+                        <td>{{##INCAPACIDAD_VALOR##}}</td>
+                    </tr>
+                    <tr>
+                        <th align="left">Prorroga</th>
+                        <th align="left">Traslape</th>
+                    </tr>
+                    <tr>
+                        <td>{{##INCAPACIDAD_PRORROGA##}}</td>
+                        <td>{{##INCAPACIDAD_TRASLAPE##}}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="divQR">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="codigoQR"><img src="{1}" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="textCodigoQR">Código de Autenticación de Incapacidades Medicas</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
