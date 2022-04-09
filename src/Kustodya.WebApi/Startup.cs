@@ -70,6 +70,7 @@ using Kustodya.ApplicationCore.Services.ConceptoRehabilitacion;
 using Kustodya.ApplicationCore.Interfaces.CalificacionOrigen;
 using Kustodya.ApplicationCore.Services.CalificacionOrigen;
 using Kustodya.WebApi.Services.Rethus;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApi
 {
@@ -274,6 +275,14 @@ namespace WebApi
                             .AllowCredentials();
                 });
             });
+
+            //JSON Serializer
+            //services.AddControllersWithViews()
+            //    .AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+            //    .Json.ReferenceLoopHandling.Ignore)
+            //    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+            //    = new DefaultContractResolver());
 
             #region Incapacidades
             services.AddSingleton<IServiceBusPersisterConnection>(sp =>

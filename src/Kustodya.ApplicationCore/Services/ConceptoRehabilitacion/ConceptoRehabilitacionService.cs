@@ -58,7 +58,7 @@ namespace Kustodya.ApplicationCore.Services.ConceptoRehabilitacion
 
             var pacientePorEmitir = await _repoPacientesPorEmitir.GetByIdAsync(concepto.PacienteporEmitirId);
             pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Emitido;
-            pacientePorEmitir.FechaEmision = DateTime.Now;
+            //pacientePorEmitir.FechaEmision = DateTime.Now; cambio base de datos
 
             await _repoPacientesPorEmitir.UpdateAsync(pacientePorEmitir);
             await _repoConceptoRehabilitacion.AddAsync(concepto);

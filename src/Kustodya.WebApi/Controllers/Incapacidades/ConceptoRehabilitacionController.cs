@@ -56,7 +56,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                 tipoDocumento = pacientePorEmitir.Paciente.IIdtipoDocNavigation.TDescripcion,
                 numeroDocumento = pacientePorEmitir.Paciente.TNumeroDocumento,
                 fechaNacimiento = pacientePorEmitir.Paciente.DtFechaNacimiento?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
-                fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
+                //fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds, cambio base de datos
                 edad = pacientePorEmitir.Paciente.IEdad,
                 ARL = pacientePorEmitir.Paciente.IIdarlNavigation.TNombre,
                 AFP = pacientePorEmitir.Paciente.IIdafpNavigation.TNombre,
