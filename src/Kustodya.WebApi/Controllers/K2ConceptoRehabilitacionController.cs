@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Kustodya.WebApi.Controllers
 {
-    //[ApiController]
     public class K2ConceptoRehabilitacionController : BaseController
     {
         private readonly IConfiguration _configuration;
@@ -121,7 +120,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@CausalAnulacion ", t.CausalAnulacion);
+                    myCommand.Parameters.AddWithValue("@CausalAnulacion", t.CausalAnulacion);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -131,12 +130,12 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Anulacion de tarea exitosa");
         }
 
-        //Emitir Concepto de rehabilitacion
+        //Actualizar Concepto de rehabilitacion
         [HttpPut]
         //[AllowAnonymous]
-        public JsonResult EmitirConcepto(Emitir c)
+        public JsonResult ActualizarConcepto(Actualizar c)
         {
-            string SProcedure = @"Conceptos.SPEmitir";
+            string SProcedure = @"Conceptos.SPGestionar";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -146,7 +145,226 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", c.SP);
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myCommand.Parameters.AddWithValue("@ResumenHistoriaClinica", (c.ResumenHistoriaClinica != null)? c.ResumenHistoriaClinica:"");
+                    myCommand.Parameters.AddWithValue("@FinalidadTratamientos", c.FinalidadTratamientos);
+                    myCommand.Parameters.AddWithValue("@EsFarmacologico", c.EsFarmacologico);
+                    myCommand.Parameters.AddWithValue("@EsTerapiaOcupacional", c.EsTerapiaOcupacional);
+                    myCommand.Parameters.AddWithValue("@EsFonoaudiologia", c.EsFonoaudiologia);
+                    myCommand.Parameters.AddWithValue("@EsQuirurgico", c.EsQuirurgico);
+                    myCommand.Parameters.AddWithValue("@EsTerapiaFisica", c.EsTerapiaFisica);
+                    myCommand.Parameters.AddWithValue("@EsOtrosTratamientos", c.EsOtrosTratamientos);
+                    myCommand.Parameters.AddWithValue("@DescripcionOtrosTratamientos", (c.DescripcionOtrosTratamientos != null) ? c.DescripcionOtrosTratamientos : "");
+                    myCommand.Parameters.AddWithValue("@PlazoCorto", c.PlazoCorto);
+                    myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
+                    myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
+                    myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", (c.RemisionAdministradoraFondoPension != null) ? c.RemisionAdministradoraFondoPension : "");
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Concepto actualizado exitosamente");
+        }
+
+        //Agregar diagnostico al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarDiagnosticoConcepto(AgregarDiagnostico c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarDiagnostico";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", c.ConceptoRehabilitacionId);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.Cie10Id);
+                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : "");
+                    myCommand.Parameters.AddWithValue("@Etiologia", (c.Etiologia != null) ? c.Etiologia : "");
+                    myCommand.Parameters.AddWithValue("@Id", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Diagnostico agregado exitosamente");
+        }
+
+        //Editar diagnostico al Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EditarDiagnosticoConcepto(EditarDiagnostico c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarDiagnostico";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 2);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", 0);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.Cie10Id);
+                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : "");
+                    myCommand.Parameters.AddWithValue("@Etiologia", (c.Etiologia != null) ? c.Etiologia : "");
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Diagnostico editado exitosamente");
+        }
+
+        //Eliminar diagnostico del Concepto de rehabilitacion
+        [HttpDelete]
+        //[AllowAnonymous]
+        public JsonResult EliminarDiagnosticoConcepto(EliminarDiagnostico c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarDiagnostico";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 3);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", 0);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", 0);
+                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", 0);
+                    myCommand.Parameters.AddWithValue("@Etiologia", 0);
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Diagnostico eliminado exitosamente");
+        }
+
+        //Agregar secuela al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarSecuelaConcepto(AgregarSecuela c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarSecuela";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", c.ConceptoRehabilitacionId);
+                    myCommand.Parameters.AddWithValue("@Tipo", c.Tipo);
+                    myCommand.Parameters.AddWithValue("@Descripcion", (c.Descripcion != null) ? c.Descripcion : "");
+                    myCommand.Parameters.AddWithValue("@Pronostico", c.Pronostico);
+                    myCommand.Parameters.AddWithValue("@Id", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Secuela agregada exitosamente");
+        }
+
+        //Editar secuela al Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EditarSecuelaConcepto(EditarSecuela c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarSecuela";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 2);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", 0);
+                    myCommand.Parameters.AddWithValue("@Tipo", c.Tipo);
+                    myCommand.Parameters.AddWithValue("@Descripcion", (c.Descripcion != null) ? c.Descripcion : "");
+                    myCommand.Parameters.AddWithValue("@Pronostico", c.Pronostico);
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Secuela editada exitosamente");
+        }
+
+        //Eliminar secuela al Concepto de rehabilitacion
+        [HttpDelete]
+        //[AllowAnonymous]
+        public JsonResult EliminarSecuelaConcepto(EliminarSecuela c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarSecuela";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 3);
+                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", 0);
+                    myCommand.Parameters.AddWithValue("@Tipo", 0);
+                    myCommand.Parameters.AddWithValue("@Descripcion", "");
+                    myCommand.Parameters.AddWithValue("@Pronostico", 0);
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Secuela eliminada exitosamente");
+        }
+
+        //Emitir Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EmitirConcepto(Emitir c)
+        {
+            string SProcedure = @"Conceptos.SPGestionar";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 2);
                     myCommand.Parameters.AddWithValue("@Id", c.Id);
                     myCommand.Parameters.AddWithValue("@ResumenHistoriaClinica", c.ResumenHistoriaClinica);
                     myCommand.Parameters.AddWithValue("@FinalidadTratamientos", c.FinalidadTratamientos);
@@ -156,7 +374,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@EsQuirurgico", c.EsQuirurgico);
                     myCommand.Parameters.AddWithValue("@EsTerapiaFisica", c.EsTerapiaFisica);
                     myCommand.Parameters.AddWithValue("@EsOtrosTratamientos", c.EsOtrosTratamientos);
-                    myCommand.Parameters.AddWithValue("@DescripcionOtrosTratamientos", c.DescripcionOtrosTratamientos);
+                    myCommand.Parameters.AddWithValue("@DescripcionOtrosTratamientos", (c.DescripcionOtrosTratamientos != null) ? c.DescripcionOtrosTratamientos : "");
                     myCommand.Parameters.AddWithValue("@PlazoCorto", c.PlazoCorto);
                     myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
@@ -167,67 +385,7 @@ namespace Kustodya.WebApi.Controllers
                     myCon.Close();
                 }
             }
-            return new JsonResult("Concepto gestionado exitosamente");
-        }
-        
-        //Asignar diagnostico al Concepto de rehabilitacion
-        [HttpPost]
-        //[AllowAnonymous]
-        public JsonResult AsignarDiagnosticoConcepto(AsignarDiagnostico c)
-        {
-            string SProcedure = @"Conceptos.SPAsignarDiagnostico";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", c.SP);
-                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", c.ConceptoRehabilitacionId);
-                    myCommand.Parameters.AddWithValue("@Cie10Id", c.Cie10Id);
-                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", c.FechaIncapacidad);
-                    myCommand.Parameters.AddWithValue("@Etiologia", c.Etiologia);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Diagnostico gestionado exitosamente");
-        }
-
-        //Asignar secuela al Concepto de rehabilitacion
-        [HttpPost]
-        //[AllowAnonymous]
-        public JsonResult AsignarSecuelaConcepto(AsignarSecuela c)
-        {
-            string SProcedure = @"Conceptos.SPAsignarSecuela";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", c.SP);
-                    myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", c.ConceptoRehabilitacionId);
-                    myCommand.Parameters.AddWithValue("@Tipo", c.Tipo);
-                    myCommand.Parameters.AddWithValue("@Descripcion", c.Descripcion);
-                    myCommand.Parameters.AddWithValue("@Pronostico", c.Pronostico);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Secuela gestionada exitosamente");
+            return new JsonResult("Concepto emitido exitosamente");
         }
 
         //Notificar Concepto de rehabilitacion

@@ -276,13 +276,13 @@ namespace WebApi
                 });
             });
 
-            //JSON Serializer
-            //services.AddControllersWithViews()
-            //    .AddNewtonsoftJson(options =>
-            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
-            //    .Json.ReferenceLoopHandling.Ignore)
-            //    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-            //    = new DefaultContractResolver());
+            /*/JSON Serializer
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+                .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                = new DefaultContractResolver());*/
 
             #region Incapacidades
             services.AddSingleton<IServiceBusPersisterConnection>(sp =>

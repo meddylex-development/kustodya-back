@@ -30,11 +30,14 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
         public string CalcularCodigoCorto() {
             return Paciente.IIdepsNavigation.TCodigoExterno + "-" + GenerateRndString(4) + "-" + Paciente.TNumeroDocumento;
         }
-        public enum EstadoConcepto : int
+        public enum EstadoConcepto : int //se incorporan seis estados
         {
-            Por_Emitir = 1,
-            Emitido = 2,
-            Anulado = 3
+            Por_asignar = 1,
+            Asignado = 2,
+            En_proceso = 3,
+            Anulado = 4,
+            Emitido = 5,
+            Notificado = 6
         }
         private string GenerateRndString(int size)
         {

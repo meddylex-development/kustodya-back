@@ -183,7 +183,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             if (pacientePorEmitir.Estado == PacientesPorEmitir.EstadoConcepto.Anulado)
                 return Conflict("El concepto ya se encuentra anulado");
             
-            if (pacientePorEmitir.Estado == PacientesPorEmitir.EstadoConcepto.Por_Emitir)
+            if (pacientePorEmitir.Estado != PacientesPorEmitir.EstadoConcepto.Emitido || pacientePorEmitir.Estado != PacientesPorEmitir.EstadoConcepto.Notificado)//se modifica creterio para anular
                 return Conflict("Aún no hay un concepto emitido");
 
             pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Anulado;
@@ -195,7 +195,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
 
             //Crear nuevo pendiente por emitir
             pacientePorEmitir.Id = 0;
-            pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Por_Emitir;
+            pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Por_asignar;//se modifica el estado
             pacientePorEmitir.CausalAnulacion = null;
             await _conceptoRehabilitacionService.CrearPendientePorEmitir(pacientePorEmitir);
 
@@ -424,7 +424,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             dashoard.dashBoardGlobales = new DashBoardGlobales
             {
                 Hoy = totales.Where(c=>c.FechaAsignacion >= hoy).Count(),
-                TotalPendientes = totales.Where(c => c.Estado == PacientesPorEmitir.EstadoConcepto.Por_Emitir).Count(),
+                TotalPendientes = totales.Where(c => c.Estado != PacientesPorEmitir.EstadoConcepto.Emitido || c.Estado != PacientesPorEmitir.EstadoConcepto.Notificado).Count(),// se modifica criterio
                 UltimaSemana = totales.Where(c => c.FechaAsignacion >= fechaLunes && c.Estado != PacientesPorEmitir.EstadoConcepto.Anulado).Count(),
                 UltimoMes = totales.Where(c => c.FechaAsignacion >= inicioMes && c.Estado != PacientesPorEmitir.EstadoConcepto.Anulado).Count()
             };

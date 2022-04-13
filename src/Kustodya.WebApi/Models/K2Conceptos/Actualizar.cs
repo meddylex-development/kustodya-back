@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Kustodya.WebApi.Models.K2Conceptos
 {
-    public class Emitir
+    public class Actualizar
     {
         public int Id { get; set; }
         public string ResumenHistoriaClinica { get; set; }

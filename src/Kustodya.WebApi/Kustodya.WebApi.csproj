@@ -22,6 +22,7 @@
     <EmbeddedResource Remove="temppdf\**" />
     <None Remove="Areas\**" />
     <None Remove="temppdf\**" />
+    <None Remove="Controllers\K2PerfilesController.cs~RF1b4e2c.TMP" />
     <None Remove="Controllers\Rethus\" />
     <None Remove="Models\Rethus\" />
   </ItemGroup>
