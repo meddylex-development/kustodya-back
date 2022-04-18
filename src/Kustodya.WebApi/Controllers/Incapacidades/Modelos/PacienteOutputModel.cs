@@ -23,7 +23,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades.Modelos
         public DateTime? FechaAnulacion { get; set; } //se agrega nuevo
         public int? UsuarioAsignadoId { get; set; } //se agrega nuevo
         public DateTime? FechaModificacion { get; set; } //se agrega nuevo
-        public Decimal Progreso { get; set; } //se agrega nuevo
+        public int Progreso { get; set; } //se agrega nuevo
         public DateTime? FechaEmision { get; set; } 
         public DateTime? FechaNotificacion { get; set; } //se agrega nuevo
     }

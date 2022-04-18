@@ -21,5 +21,6 @@ namespace Kustodya.WebApi.Models.K2Conceptos
         public int PlazoMediano { get; set; }
         public int Concepto { get; set; }
         public string RemisionAdministradoraFondoPension { get; set; }
+        public int Progreso { get; set; }
     }
 }

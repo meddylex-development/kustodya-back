@@ -2,8 +2,11 @@
 using Kustodya.ApplicationCore.Dtos;
 using Kustodya.ApplicationCore.Entities.Concepto;
 using Kustodya.ApplicationCore.Interfaces.Incapacidades;
+using Kustodya.ApplicationCore.Interfaces.Rehabilitacion;
+using Kustodya.Infrastructure;
 using Kustodya.WebApi.Controllers.Incapacidades.Modelos;
 using Kustodya.WebApi.Models.K2Conceptos;
+using Kustodya.WebApi.Models.K2Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +22,8 @@ namespace Kustodya.WebApi.Controllers
 {
     public class K2ConceptoRehabilitacionController : BaseController
     {
+        private readonly IConceptoRehabilitacionService _conceptoRehabilitacionService;
+        private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
         private readonly IPacienteService _pacienteService;
         private readonly IMapper _mapper2;
@@ -27,8 +32,11 @@ namespace Kustodya.WebApi.Controllers
             cfg.CreateMap<PacientesPorEmitir, PacienteOutputModel>();
         });
 
-        public K2ConceptoRehabilitacionController(IConfiguration configuration, IPacienteService pacienteService, IMapper mapper)
+        public K2ConceptoRehabilitacionController(IConceptoRehabilitacionService conceptoRehabilitacionService, IConfiguration configuration,
+            IPacienteService pacienteService, IMapper mapper, ICie10Service cie10Service)
         {
+            _conceptoRehabilitacionService = conceptoRehabilitacionService;
+            _cie10Service = cie10Service;
             _configuration = configuration;
             _pacienteService = pacienteService;
             _mapper2 = _config.CreateMapper();
@@ -53,8 +61,8 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Crear tarea Concepto de rehabilitacion
-        [HttpPost]
-        //[AllowAnonymous]
+        //[HttpPost]
+        [AllowAnonymous]
         public JsonResult CrearTarea(CrearTarea t)
         {
             string SProcedure = @"Conceptos.SPCrearTarea";
@@ -78,8 +86,8 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Asignar tarea Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
+        //[HttpPut]
+        [AllowAnonymous]
         public JsonResult AsignarTarea(AsignarTarea t)
         {
             string SProcedure = @"Conceptos.SPAsignarTarea";
@@ -105,8 +113,8 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Anular tarea Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
+        //[HttpPut]
+        [AllowAnonymous]
         public JsonResult AnularTarea(AnularTarea t)
         {
             string SProcedure = @"Conceptos.SPAnularTarea";
@@ -128,6 +136,83 @@ namespace Kustodya.WebApi.Controllers
                 }
             }
             return new JsonResult("Anulacion de tarea exitosa");
+        }
+
+        [HttpGet("{pacienteporEmitirId:int}")]
+        //[AllowAnonymous]
+        public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)
+        {
+            var conceptoRehabilitacion = await _conceptoRehabilitacionService.DatosConcepto(pacienteporEmitirId);
+            if (conceptoRehabilitacion == null)
+                return NotFound();
+            var pacientePorEmitir = await _conceptoRehabilitacionService.PacientePorEmitir(pacienteporEmitirId);
+            var diasAcumulados = await _conceptoRehabilitacionService.DiasAcumulados(pacientePorEmitir.PacienteId);
+            var conceptosEmitidos = await _conceptoRehabilitacionService.ConceptosEmitidos(pacientePorEmitir.PacienteId, "", null, null);
+            var diagnosticos = await _cie10Service.GetCie10();
+            ConceptoRehabilitacionOutputModel crom = new ConceptoRehabilitacionOutputModel
+            {
+                diasAcumulados = diasAcumulados == null ? 0 : (int)diasAcumulados,
+                conceptosEmitidos = conceptosEmitidos.Count(),
+                PCLCalificados = 0, //Calculado: pendiente por crear formulario
+                apellidos = pacientePorEmitir.Paciente.TPrimerApellido + (pacientePorEmitir.Paciente.TSegundoApellido == null ? "" : " " + pacientePorEmitir.Paciente.TSegundoApellido),
+                nombres = pacientePorEmitir.Paciente.TPrimerNombre + (pacientePorEmitir.Paciente.TSegundoNombre == null ? "" : " " + pacientePorEmitir.Paciente.TSegundoNombre),
+                tipoDocumento = pacientePorEmitir.Paciente.IIdtipoDocNavigation.TDescripcion,
+                numeroDocumento = pacientePorEmitir.Paciente.TNumeroDocumento,
+                fechaNacimiento = pacientePorEmitir.Paciente.DtFechaNacimiento?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
+                //fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds, cambio base de datos
+                edad = pacientePorEmitir.Paciente.IEdad,
+                ARL = pacientePorEmitir.Paciente.IIdarlNavigation.TNombre,
+                AFP = pacientePorEmitir.Paciente.IIdafpNavigation.TNombre,
+                EPS = pacientePorEmitir.Paciente.IIdepsNavigation.TNombre,
+                codigoCorto = conceptoRehabilitacion.CodigoCorto,
+                historiaClinica = conceptoRehabilitacion.ResumenHistoriaClinica,
+                finalidadTratmamiento = Convert.ToInt32(conceptoRehabilitacion.FinalidadTratamientos),
+                Farmacologico = conceptoRehabilitacion.EsFarmacologico,
+                terapiaOcupacional = conceptoRehabilitacion.EsTerapiaOcupacional,
+                fonoAudiologia = conceptoRehabilitacion.EsFonoaudiologia,
+                quirurgico = conceptoRehabilitacion.EsQuirurgico,
+                terapiaFisica = conceptoRehabilitacion.EsTerapiaFisica,
+                otrosTramites = conceptoRehabilitacion.EsOtrosTratamientos,
+                otrosTratamientos = conceptoRehabilitacion.DescripcionOtrosTratamientos,
+                cortoPlazo = Convert.ToInt32(conceptoRehabilitacion.PlazoCorto),
+                medianoPlazo = Convert.ToInt32(conceptoRehabilitacion.PlazoMediano),
+                concepto = Convert.ToInt32(conceptoRehabilitacion.Concepto),
+                RemisionAdministradoraFondoPension = conceptoRehabilitacion.RemisionAdministradoraFondoPension
+            };
+
+            List<DiagnosticosOutputModel> doms = new List<DiagnosticosOutputModel>();
+            foreach (var item in conceptoRehabilitacion.Diagnosticos)
+            {
+                var diagnostico = diagnosticos.Where(c => c.IIdcie10 == item.Cie10Id).FirstOrDefault();
+                DiagnosticosOutputModel dom = new DiagnosticosOutputModel
+                {
+                    id = item.Id,
+                    CIE10Id = diagnostico.IIdcie10,
+                    nombreDiagnostico = diagnostico?.TCie10 + "-" + diagnostico?.TDescripcion,
+                    Etiologia = Convert.ToInt32(item.Etiologia),
+                    nombreEtiologia = item.Etiologia.ToString(),
+                    FechaIncapacidad = item.FechaIncapacidad.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds
+                };
+                doms.Add(dom);
+            }
+            crom.diagnosticos = doms;
+
+            List<SecuelasOutputModel> soms = new List<SecuelasOutputModel>();
+            foreach (var item in conceptoRehabilitacion.Secuelas)
+            {
+                SecuelasOutputModel som = new SecuelasOutputModel
+                {
+                    id = item.Id,
+                    descripcion = item.Descripcion,
+                    pronostico = Convert.ToInt32(item.Pronostico),
+                    nombrePronostico = item.Pronostico.ToString(),
+                    tipoSecuela = Convert.ToInt32(item.Tipo),
+                    nombreTipoSecuela = item.Tipo.ToString()
+                };
+                soms.Add(som);
+            }
+            crom.secuelas = soms;
+            return Ok(crom);
         }
 
         //Actualizar Concepto de rehabilitacion
@@ -160,6 +245,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
                     myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", (c.RemisionAdministradoraFondoPension != null) ? c.RemisionAdministradoraFondoPension : "");
+                    myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -379,6 +465,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
                     myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", c.RemisionAdministradoraFondoPension);
+                    myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

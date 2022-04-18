@@ -17,7 +17,7 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
         public DateTime FechaCreacion { get; set; } //se agrega nuevo
         public int Prioridad { get; set; } //se agrega nuevo
         public DateTime? FechaModificacion { get; set; } //se agrega nuevo
-        public Decimal Progreso { get; set; } //se agrega nuevo
+        public int Progreso { get; set; } //se agrega nuevo
         public DateTime? FechaNotificacion { get; set; } //se agrega nuevo
         public int? DiasIncapacidad { get; set; } //se agrega nuevo
         public int? GrupoIncapacidad { get; set; } //se agrega nuevo
