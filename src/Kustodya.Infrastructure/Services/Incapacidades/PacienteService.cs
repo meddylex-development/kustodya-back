@@ -55,8 +55,8 @@ namespace Kustodya.Infrastructure.Services.Incapacidades
             return pacientes;
         }
 
-        public async Task<IReadOnlyList<PacientesPorEmitir>> PacientesPorEmitir(PacientesPorEmitir.EstadoConcepto? estado, string busqueda, int? skip = null, int? take = null) {
-            var spec = new PacientesPorEmitirSpec(busqueda, skip, take, estado);
+        public async Task<IReadOnlyList<PacientesPorEmitir>> PacientesPorEmitir(PacientesPorEmitir.EstadoConcepto? estado, int usuario, string busqueda, int? skip = null, int? take = null) {//se filtra por usuario
+            var spec = new PacientesPorEmitirSpec(usuario, busqueda, skip, take, estado);
             return await _pacientesPorEmitirRepository.ListAsync(spec);
         }
 

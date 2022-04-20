@@ -11,6 +11,6 @@ namespace Kustodya.ApplicationCore.Interfaces.Incapacidades
 
         Task<TblPacientes> GetPacienteByNumeroDocumento(int IIdTipoIdentificacion, string tNumeroDocumento);
         Task<TblPacientes> ValidarPacientePorNumeroDocumento(int iIdTipoDocumento, string tNumeroDocumento);
-        Task<IReadOnlyList<PacientesPorEmitir>> PacientesPorEmitir(PacientesPorEmitir.EstadoConcepto? estado, string busqueda, int? skip = null, int? take = null);
+        Task<IReadOnlyList<PacientesPorEmitir>> PacientesPorEmitir(PacientesPorEmitir.EstadoConcepto? estado, int usuario, string busqueda, int? skip = null, int? take = null);// se incluye filtro de usuario
     }
 }

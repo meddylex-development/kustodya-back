@@ -27,7 +27,7 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
         public string RemisionAdministradoraFondoPension { get; set; }
         public int PacienteporEmitirId { get; set; }
         public PacientesPorEmitir PacienteporEmitir { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaEmision { get; set; }// cambio nombre del creacion a emision y no requerido
         public int UsuarioCreacionId { get; set; }
         public TblUsuarios UsuarioCreacion { get; set; }
         public ICollection<Diagnostico> Diagnosticos { get; set; }

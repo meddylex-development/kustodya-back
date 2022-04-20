@@ -276,7 +276,7 @@ namespace WebApi
                 });
             });
 
-            /*/JSON Serializer
+            /*//JSON Serializer
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft

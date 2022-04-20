@@ -239,7 +239,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             {
                 case "hoy":
                     var respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
@@ -269,12 +269,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                         .ToList();
 
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = "Semana " + ObtenerSemana(G.First().FechaAsignacion, weeks).ToString()
+                            Categoria = "Semana " + ObtenerSemana(G.First().FechaCreacion, weeks).ToString()
                         };
                     var agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G
@@ -298,12 +298,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 case "semana":
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.ToString("dddd", CultureInfo.CreateSpecificCulture("es")) //G.First().FechaAsignacion.DayOfWeek.ToString()
+                            Categoria = G.First().FechaCreacion.ToString("dddd", CultureInfo.CreateSpecificCulture("es")) //G.First().FechaAsignacion.DayOfWeek.ToString()
                         };
                     foreach (var item in respuesta)
                     {
@@ -319,12 +319,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 case "año":
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.ToString("MMMM", CultureInfo.CreateSpecificCulture("es"))
+                            Categoria = G.First().FechaCreacion.ToString("MMMM", CultureInfo.CreateSpecificCulture("es"))
                         };
                     agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G
@@ -348,12 +348,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 default:
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.Year.ToString()
+                            Categoria = G.First().FechaCreacion.Year.ToString()
                         };
                     agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G

@@ -8,9 +8,9 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
     {
         public int Id { get; set; }
         public int PacienteId { get; set; }
-        public DateTime FechaAsignacion { get; set; }
+        public DateTime? FechaAsignacion { get; set; } //se cambia para que pueda ser valor null
         public EstadoConcepto Estado { get; set; }
-        public int UsuarioAsignadoId { get; set; }
+        public int? UsuarioAsignadoId { get; set; } //se cambia para que pueda ser valor null
         public DateTime? FechaEmision { get; set; }
         public string CausalAnulacion { get; set; }
         public DateTime? FechaAnulacion { get; set; }

@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -44,12 +46,17 @@ namespace Kustodya.WebApi.Controllers
 
         //Select PacientesPorEmitir
         [HttpGet]
-        //[AllowAnonymous]
-        public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
+        [AllowAnonymous]
+        public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] int usuario, [FromQuery] int tipo, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
         {
             int cantidad = 10;
-            var listaPacientes = await _pacienteService.PacientesPorEmitir(estado, busqueda, (pagina - 1) * cantidad, cantidad);
-            var total = await _pacienteService.PacientesPorEmitir(estado, busqueda, null, null);
+            int user = 0;
+            if (tipo == 2)
+            {
+                user = usuario;
+            }
+            var listaPacientes = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, (pagina - 1) * cantidad, cantidad);
+            var total = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, null, null);
             var listaSalida = _mapper2.Map<List<PacienteOutputModel>>(listaPacientes);
 
             PacientesOutputModel pacientesOutputModel = new PacientesOutputModel()
@@ -60,8 +67,37 @@ namespace Kustodya.WebApi.Controllers
             return Ok(pacientesOutputModel);
         }
 
+        /*//Consultar tareas
+        [HttpGet]
+        [AllowAnonymous]
+        public object ConsultarTareas2(int usuario, int CantidadReg, int Pagina)
+        {
+            string SProcedure = @"Conceptos.SPTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@usuario", usuario);
+                    myCommand.Parameters.AddWithValue("@CantidadReg", CantidadReg);
+                    myCommand.Parameters.AddWithValue("@Pagina", Pagina);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            object JSONString = null;
+            JSONString = JsonConvert.SerializeObject(table);
+            return JSONString;
+        }*/
+
         //Crear tarea Concepto de rehabilitacion
-        //[HttpPost]
+        [HttpPost]
         [AllowAnonymous]
         public JsonResult CrearTarea(CrearTarea t)
         {
@@ -86,7 +122,7 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Asignar tarea Concepto de rehabilitacion
-        //[HttpPut]
+        [HttpPut]
         [AllowAnonymous]
         public JsonResult AsignarTarea(AsignarTarea t)
         {
@@ -113,7 +149,7 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Anular tarea Concepto de rehabilitacion
-        //[HttpPut]
+        [HttpPut]
         [AllowAnonymous]
         public JsonResult AnularTarea(AnularTarea t)
         {
@@ -139,7 +175,7 @@ namespace Kustodya.WebApi.Controllers
         }
 
         [HttpGet("{pacienteporEmitirId:int}")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)
         {
             var conceptoRehabilitacion = await _conceptoRehabilitacionService.DatosConcepto(pacienteporEmitirId);
@@ -217,7 +253,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Actualizar Concepto de rehabilitacion
         [HttpPut]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult ActualizarConcepto(Actualizar c)
         {
             string SProcedure = @"Conceptos.SPGestionar";
@@ -257,7 +293,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Agregar diagnostico al Concepto de rehabilitacion
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult AgregarDiagnosticoConcepto(AgregarDiagnostico c)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";
@@ -287,7 +323,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Editar diagnostico al Concepto de rehabilitacion
         [HttpPut]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult EditarDiagnosticoConcepto(EditarDiagnostico c)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";
@@ -317,7 +353,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Eliminar diagnostico del Concepto de rehabilitacion
         [HttpDelete]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult EliminarDiagnosticoConcepto(EliminarDiagnostico c)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";
@@ -347,7 +383,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Agregar secuela al Concepto de rehabilitacion
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult AgregarSecuelaConcepto(AgregarSecuela c)
         {
             string SProcedure = @"Conceptos.SPGestionarSecuela";
@@ -377,7 +413,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Editar secuela al Concepto de rehabilitacion
         [HttpPut]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult EditarSecuelaConcepto(EditarSecuela c)
         {
             string SProcedure = @"Conceptos.SPGestionarSecuela";
@@ -407,7 +443,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Eliminar secuela al Concepto de rehabilitacion
         [HttpDelete]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult EliminarSecuelaConcepto(EliminarSecuela c)
         {
             string SProcedure = @"Conceptos.SPGestionarSecuela";
@@ -437,7 +473,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Emitir Concepto de rehabilitacion
         [HttpPut]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult EmitirConcepto(Emitir c)
         {
             string SProcedure = @"Conceptos.SPGestionar";
@@ -477,7 +513,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Notificar Concepto de rehabilitacion
         [HttpPut]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult NotificarConcepto(Notificar c)
         {
             string SProcedure = @"Conceptos.SPNotificar";
