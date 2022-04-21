@@ -28,9 +28,9 @@ namespace Kustodya.WebApi.Controllers
         }
 
         // Consulta Usuarios por perfil
-        [HttpGet("{entidadId:int}, {perfil:int}")]
+        [HttpGet("entidad/{entidadId:int}")]
         //[AllowAnonymous]
-        public async Task<IActionResult> ConsultarUsuarios(int entidadId, int perfil, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
+        public async Task<IActionResult> ConsultarUsuarios(int entidadId, int? perfil, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
         {
             int cantidad = 10;
             int total = await _usuariosService.TotalUsuariosPerfil(entidadId, perfil, busqueda);

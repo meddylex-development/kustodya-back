@@ -51,7 +51,7 @@ namespace Kustodya.WebApi.Controllers
             _mapper2 = _config.CreateMapper();
         }
 
-        //Select PacientesPorEmitir
+        //Consultar tareas
         [HttpGet]
         //[AllowAnonymous]
         public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] int usuario, [FromQuery] int tipo, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
@@ -155,6 +155,33 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Asignacion de tarea exitosa");
         }
 
+        //Reasignar tarea Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult ReasignarTarea(AsignarTarea t)
+        {
+            string SProcedure = @"Conceptos.SPReasignarTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@Id", t.Id);
+                    myCommand.Parameters.AddWithValue("@UsuarioAsignadoId ", t.UsuarioAsignadoId);
+                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Reasignacion de tarea exitosa");
+        }
+
         //Anular tarea Concepto de rehabilitacion
         [HttpPut]
         //[AllowAnonymous]
@@ -181,6 +208,7 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Anulacion de tarea exitosa");
         }
 
+        //Consultar Concepto
         [HttpGet("{pacienteporEmitirId:int}")]
         //[AllowAnonymous]
         public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)

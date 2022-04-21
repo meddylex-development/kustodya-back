@@ -33,7 +33,7 @@ namespace Kustodya.ApplicationCore.Services
             var requests = await _usuariosRepo.ListAsync(spec);
             return  requests;
         }
-        public async Task<IReadOnlyList<TblUsuarios>> ObtenerUsuariosporFiltroperfil(int entidadId, int perfil, string busqueda, int? skip = null, int? take = null)// Filtra entidad y perfil
+        public async Task<IReadOnlyList<TblUsuarios>> ObtenerUsuariosporFiltroperfil(int entidadId, int? perfil, string busqueda, int? skip = null, int? take = null)// Filtra entidad y perfil
         {
             var spec = new UsuarioPorEntidadyPerfilSpec(entidadId, perfil, busqueda, skip, take);
             var requests = await _usuariosRepo.ListAsync(spec);
@@ -43,7 +43,7 @@ namespace Kustodya.ApplicationCore.Services
             var spec = new UsuarioPorEntidadyNombreSpec(entidadId, busqueda, 0, int.MaxValue);
             return await _usuariosRepo.CountAsync(spec);
         }
-        public async Task<int> TotalUsuariosPerfil(int entidadId, int perfil, string busqueda)// Filtra entidad y perfil
+        public async Task<int> TotalUsuariosPerfil(int entidadId, int? perfil, string busqueda)// Filtra entidad y perfil
         {
             var spec = new UsuarioPorEntidadyPerfilSpec(entidadId, perfil, busqueda, 0, int.MaxValue);
             return await _usuariosRepo.CountAsync(spec);
