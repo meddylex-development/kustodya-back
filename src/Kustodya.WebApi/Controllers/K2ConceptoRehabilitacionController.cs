@@ -36,7 +36,6 @@ namespace Kustodya.WebApi.Controllers
         });
 
         public K2ConceptoRehabilitacionController(
-            IUsuariosService usuariosService,
             IConceptoRehabilitacionService conceptoRehabilitacionService,
             IConfiguration configuration,
             IPacienteService pacienteService,
@@ -53,7 +52,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar tareas
         [HttpGet]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] int usuario, [FromQuery] int tipo, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
         {
             int cantidad = 10;
@@ -65,6 +64,7 @@ namespace Kustodya.WebApi.Controllers
             var listaPacientes = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, (pagina - 1) * cantidad, cantidad);
             var total = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, null, null);
             var listaSalida = _mapper2.Map<List<PacienteOutputModel>>(listaPacientes);
+
 
             PacientesOutputModel pacientesOutputModel = new PacientesOutputModel()
             {
@@ -210,7 +210,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar Concepto
         [HttpGet("{pacienteporEmitirId:int}")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)
         {
             var conceptoRehabilitacion = await _conceptoRehabilitacionService.DatosConcepto(pacienteporEmitirId);
@@ -222,6 +222,7 @@ namespace Kustodya.WebApi.Controllers
             var diagnosticos = await _cie10Service.GetCie10();
             ConceptoRehabilitacionOutputModel crom = new ConceptoRehabilitacionOutputModel
             {
+                ConceptoRehabilitacionId = conceptoRehabilitacion.Id,// se muestra el Id del concepto de rehabilitacion
                 diasAcumulados = diasAcumulados == null ? 0 : (int)diasAcumulados,
                 conceptosEmitidos = conceptosEmitidos.Count(),
                 PCLCalificados = 0, //Calculado: pendiente por crear formulario
@@ -328,7 +329,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Agregar diagnostico al Concepto de rehabilitacion
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult AgregarDiagnosticoConcepto(AgregarDiagnostico c)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";

@@ -30,9 +30,8 @@ namespace Kustodya.WebApi.Controllers
         // Consulta Usuarios por perfil
         [HttpGet("entidad/{entidadId:int}")]
         //[AllowAnonymous]
-        public async Task<IActionResult> ConsultarUsuarios(int entidadId, int? perfil, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
+        public async Task<IActionResult> ConsultarUsuarios(int entidadId, int? perfil, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1, [FromQuery] int cantidad = 10 )
         {
-            int cantidad = 10;
             int total = await _usuariosService.TotalUsuariosPerfil(entidadId, perfil, busqueda);
             IReadOnlyList<TblUsuarios> listaUsuarios = await _usuariosService.ObtenerUsuariosporFiltroperfil(entidadId, perfil, busqueda, (pagina - 1) * cantidad, cantidad);
             IReadOnlyList<UsuarioOutputModel> UsuarioOutputModel = _mapper.Map<IReadOnlyList<UsuarioOutputModel>>(listaUsuarios);
