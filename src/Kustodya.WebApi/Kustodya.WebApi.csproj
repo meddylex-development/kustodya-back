@@ -97,6 +97,7 @@
   <ItemGroup>
     <Folder Include="Controllers\Administrativo\Clientes\Modelos\" />
     <Folder Include="Controllers\Rethus\" />
+    <Folder Include="Files\Firmas\" />
     <Folder Include="Models\Rethus\" />
   </ItemGroup>
 
