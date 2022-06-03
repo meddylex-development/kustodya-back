@@ -74,7 +74,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar tareas
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarTareas(int usuario, int estado, int itemsPorPagina, int paginaActual, string busqueda)
         {
             string SProcedure = @"Conceptos.SPtareas";
@@ -144,6 +144,30 @@ namespace Kustodya.WebApi.Controllers
             return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
         }
 
+        //Consultar tareas medicos
+        [HttpGet]
+        //[AllowAnonymous]
+        public object ConsultarTareasMedicos()
+        {
+            string SProcedure = @"Conceptos.SPTareasMedicos";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString = JsonConvert.SerializeObject(table);
+            return "TareasMedicos" + JSONString;
+        }
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
         //[AllowAnonymous]
