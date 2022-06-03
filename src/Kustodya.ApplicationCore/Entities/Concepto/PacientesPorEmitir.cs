@@ -26,6 +26,7 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
 
         public ConceptoRehabilitacion concepto { get; set; }
         public TblPacientes Paciente { get; set; }
+        
 
         public string CalcularCodigoCorto() {
             return Paciente.IIdepsNavigation.TCodigoExterno + "-" + GenerateRndString(4) + "-" + Paciente.TNumeroDocumento;

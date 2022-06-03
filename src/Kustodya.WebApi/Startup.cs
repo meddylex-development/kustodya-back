@@ -342,8 +342,8 @@ namespace WebApi
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Firmas")),
-                RequestPath = "/Firmas"
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+                RequestPath = "/Files"
             });
         }
 
