@@ -9,4 +9,10 @@
     <ProjectReference Include="..\src\Kustodya.Infrastructure\Kustodya.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Tesseract" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Tesseract" Version="4.1.1" />
+  </ItemGroup>
 </Project>

@@ -9,11 +9,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.5" />
+    <PackageReference Include="Tesseract" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Kustodya.ApplicationCore\Kustodya.ApplicationCore.csproj" />
     <!-- <ProjectReference Include="..\..\Kustodya.Infrastructure\Kustodya.Infrastructure.csproj" /> -->
     <ProjectReference Include="..\Kustodya.Incapacidades.Data\Kustodya.Incapacidades.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Tesseract" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
