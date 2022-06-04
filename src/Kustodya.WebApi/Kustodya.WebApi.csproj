@@ -99,8 +99,8 @@
   <ItemGroup>
     <Folder Include="Controllers\Administrativo\Clientes\Modelos\" />
     <Folder Include="Controllers\Rethus\" />
-    <Folder Include="Files\Firmas\" />
     <Folder Include="Models\Rethus\" />
+    <Folder Include="Files\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

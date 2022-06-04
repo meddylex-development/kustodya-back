@@ -12,14 +12,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Kustodya.ApplicationCore.Interfaces;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -52,7 +51,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar tareas
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] int usuario, [FromQuery] int tipo, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
         {
             int cantidad = 10;
@@ -65,7 +64,6 @@ namespace Kustodya.WebApi.Controllers
             var total = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, null, null);
             var listaSalida = _mapper2.Map<List<PacienteOutputModel>>(listaPacientes);
 
-
             PacientesOutputModel pacientesOutputModel = new PacientesOutputModel()
             {
                 listaPacientes = listaSalida,
@@ -74,12 +72,12 @@ namespace Kustodya.WebApi.Controllers
             return Ok(pacientesOutputModel);
         }
 
-        /*//Consultar tareas
+        //Consultar tareas
         [HttpGet]
-        //[AllowAnonymous]
-        public object ConsultarTareas2(int usuario, int CantidadReg, int Pagina)
+        [AllowAnonymous]
+        public object ConsultarTareas(int usuario, int estado, int itemsPorPagina, int paginaActual, string busqueda)
         {
-            string SProcedure = @"Conceptos.SPTarea";
+            string SProcedure = @"Conceptos.SPtareas";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -90,18 +88,61 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@usuario", usuario);
-                    myCommand.Parameters.AddWithValue("@CantidadReg", CantidadReg);
-                    myCommand.Parameters.AddWithValue("@Pagina", Pagina);
+                    myCommand.Parameters.AddWithValue("@estado", estado);
+                    myCommand.Parameters.AddWithValue("@itemsPorPagina", itemsPorPagina);
+                    myCommand.Parameters.AddWithValue("@paginaActual", paginaActual);
+                    myCommand.Parameters.AddWithValue("@busqueda", (busqueda != null) ? busqueda : "");
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            object JSONString = null;
-            JSONString = JsonConvert.SerializeObject(table);
-            return JSONString;
-        }*/
+            var JSONString1 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPtareasPaginacion";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@usuario", usuario);
+                    myCommand.Parameters.AddWithValue("@estado", estado);
+                    myCommand.Parameters.AddWithValue("@itemsPorPagina", itemsPorPagina);
+                    myCommand.Parameters.AddWithValue("@paginaActual", paginaActual);
+                    myCommand.Parameters.AddWithValue("@busqueda", (busqueda != null) ? busqueda : "");
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString2 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPtareasRegistros";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@usuario", usuario);
+                    myCommand.Parameters.AddWithValue("@estado", estado);
+                    myCommand.Parameters.AddWithValue("@itemsPorPagina", itemsPorPagina);
+                    myCommand.Parameters.AddWithValue("@paginaActual", paginaActual);
+                    myCommand.Parameters.AddWithValue("@busqueda", (busqueda != null) ? busqueda : "");
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString3 = JsonConvert.SerializeObject(table);
+            return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
+        }
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
@@ -210,7 +251,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar Concepto
         [HttpGet("{pacienteporEmitirId:int}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)
         {
             var conceptoRehabilitacion = await _conceptoRehabilitacionService.DatosConcepto(pacienteporEmitirId);
@@ -329,7 +370,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Agregar diagnostico al Concepto de rehabilitacion
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public JsonResult AgregarDiagnosticoConcepto(AgregarDiagnostico c)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";

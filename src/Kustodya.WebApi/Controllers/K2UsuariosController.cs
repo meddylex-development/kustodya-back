@@ -14,6 +14,8 @@ using System.Collections;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Kustodya.BussinessLogic.Interfaces.General;
+using System.Net;
+using System.Text;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -44,7 +46,7 @@ namespace Kustodya.WebApi.Controllers
 
         // Consulta Usuarios por perfil
         [HttpGet("entidad/{entidadId:int}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> ConsultarUsuarios(int entidadId, int? perfil, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1, [FromQuery] int cantidad = 10)
         {
             int total = await _usuariosService.TotalUsuariosPerfil(entidadId, perfil, busqueda);
@@ -59,43 +61,90 @@ namespace Kustodya.WebApi.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public JsonResult SaveFile()
         {
+            /*//FTP Server URL.
+            string ftp = "win5135.site4now.net";
+
+            //FTP Folder name. Leave blank if you want to upload to root folder.
+            string ftpFolder = "db/archivoscalificacionorigen/";
+
+            byte[] fileBytes = null;
+
+            //Read the FileName and convert it to Byte array.
+            var httpRequest = Request.Form;
+            var postedFile = httpRequest.Files[0];
+            string filename = postedFile.FileName;
+            //using (StreamReader fileStream = new StreamReader(FileUpload1.PostedFile.InputStream))
+            //{
+            //    fileBytes = Encoding.UTF8.GetBytes(fileStream.ReadToEnd());
+            //    fileStream.Close();
+            //}
+
             try
             {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = _env.ContentRootPath + "/Files/Firmas/" + filename;
+                //Create FTP Request.   win5135.site4now.net/db/archivoscalificacionorigen
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftp + ftpFolder + filename);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
 
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                //Enter FTP Server credentials.
+                request.Credentials = new NetworkCredential("calificacionorigen", "Meddylex123");
+                request.ContentLength = fileBytes.Length;
+                request.UsePassive = true;
+                request.UseBinary = true;
+                request.ServicePoint.ConnectionLimit = fileBytes.Length;
+                request.EnableSsl = false;
+
+                using (Stream requestStream = request.GetRequestStream())
                 {
-                    postedFile.CopyTo(stream);
+                    requestStream.Write(fileBytes, 0, fileBytes.Length);
+                    requestStream.Close();
                 }
-                return new JsonResult(filename);
+
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                response.Close();
+                return new JsonResult(filename + " uploaded.<br />");
             }
-            catch (Exception)
+            catch (WebException ex)
             {
-
-                return new JsonResult("anonymous.png");
+                throw new Exception((ex.Response as FtpWebResponse).StatusDescription);
             }
-        }
-
-        /*[HttpGet("{usuarioId:int}/Firma")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Get(int usuarioId)
-        {
-            TblUsuarios usuario = await _repo.GetByIdAsync(usuarioId);
-            if (usuario == null)
-                return NotFound("Usuario no existe");
-            if (usuario.Firma == null)
-                return NotFound("El usuario no tiene firma");
-            var stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
-            if (stream == null) return NotFound("No se encontro la firma del usuario en el repositorio de firmas");
-            stream.Position = 0;
-            return File(stream, "image/png", "firma.png");
         }*/
+        try
+        {
+            var httpRequest = Request.Form;
+            var postedFile = httpRequest.Files[0];
+            string filename = postedFile.FileName;
+            var physicalPath = _env.ContentRootPath + "/Files/" + filename;
+
+            using (var stream = new FileStream(physicalPath, FileMode.Create))
+            {
+                postedFile.CopyTo(stream);
+            }
+            return new JsonResult(filename);
+        }
+        catch (Exception)
+        {
+
+            return new JsonResult("anonymous.png");
+        }
+    }
+
+    /*[HttpGet("{usuarioId:int}/Firma")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Get(int usuarioId)
+    {
+        TblUsuarios usuario = await _repo.GetByIdAsync(usuarioId);
+        if (usuario == null)
+            return NotFound("Usuario no existe");
+        if (usuario.Firma == null)
+            return NotFound("El usuario no tiene firma");
+        var stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
+        if (stream == null) return NotFound("No se encontro la firma del usuario en el repositorio de firmas");
+        stream.Position = 0;
+        return File(stream, "image/png", "firma.png");
+    }*/
 
     }
 }
