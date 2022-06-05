@@ -141,8 +141,28 @@ namespace Kustodya.WebApi.Controllers
                 }
             }
             var JSONString3 = JsonConvert.SerializeObject(table);
-            return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
+
+            var dataObjects = "{ listadoPacientes: " + JSONString1 + ", paginacion: " + JSONString2 + ", registrosEstados: " + JSONString3 + "}";
+            // return dataObjects;
+            //return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
+            return TryFormatJson(dataObjects);
         }
+
+        private static string TryFormatJson(string str)
+        {
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
+        }
+
+
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]

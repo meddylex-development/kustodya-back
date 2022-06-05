@@ -1,28 +1,62 @@
 ﻿<Properties StartupConfiguration="{F8289979-8027-49F2-8B15-3101C7D0ED91}|WebApi">
   <MonoDevelop.Ide.ItemProperties.src.Kustodya.WebApi PreferredExecutionTarget="/Applications/Google Chrome Dev.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/Kustodya.ApplicationCore/Specifications/Incapacidades/PacientesPorEmitirPorIdSpec.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TaskSchedule/Areas/HelpPage/SampleGeneration/HelpPageSampleGenerator.cs">
     <Files>
-      <File FileName="src/Kustodya.WebApi/Controllers/K2ConceptoRehabilitacionController.cs" Line="31" Column="34" />
-      <File FileName="src/Kustodya.ApplicationCore/Specifications/Incapacidades/PacientesPorEmitirPorIdSpec.cs" Line="1" Column="1" />
+      <File FileName="src/Kustodya.WebApi/Controllers/K2ConceptoRehabilitacionController.cs" Line="111" Column="22" />
+      <File FileName="src/Funciones/Kustodya.Medicos/Kustodya.Medicos/Controllers/MedicosController.cs" Line="248" Column="58" />
+      <File FileName="src/Kustodya.WebApi/Controllers/Incapacidades/Modelos/PacientesOutputModel.cs" Line="9" Column="18" />
+      <File FileName="src/Kustodya.ApplicationCore/DTOs/PaginacionModel.cs" />
+      <File FileName="src/Kustodya.ApplicationCore/Interfaces/Incapacidades/IPacienteService.cs" />
+      <File FileName="src/Kustodya.ApplicationCore/Entities/Concepto/PacientesPorEmitir.cs" Line="21" Column="71" />
+      <File FileName="TaskSchedule/Areas/HelpPage/SampleGeneration/HelpPageSampleGenerator.cs" Line="381" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Kustodya" expanded="True">
             <Node name="src" expanded="True">
-              <Node name="Kustodya.ApplicationCore" expanded="True">
-                <Node name="Specifications" expanded="True">
-                  <Node name="Incapacidades" expanded="True">
-                    <Node name="PacientesPorEmitirPorIdSpec.cs" selected="True" />
+              <Node name="Functions" expanded="True">
+                <Node name="Kustodya.Incapacidades" expanded="True">
+                  <Node name="Controllers" expanded="True" />
+                </Node>
+                <Node name="Kustodya.Medicos" expanded="True">
+                  <Node name="Controllers" expanded="True" />
+                  <Node name="Services" expanded="True">
+                    <Node name="AI" expanded="True" />
                   </Node>
+                </Node>
+              </Node>
+              <Node name="Kustodya.ApplicationCore" expanded="True">
+                <Node name="DTOs" expanded="True" />
+                <Node name="Entities" expanded="True">
+                  <Node name="Concepto" expanded="True" />
+                </Node>
+                <Node name="Interfaces" expanded="True">
+                  <Node name="Incapacidades" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Kustodya.Infrastructure" expanded="True">
+                <Node name="Services" expanded="True">
+                  <Node name="AI" expanded="True" />
                 </Node>
               </Node>
               <Node name="Kustodya.WebApi" expanded="True">
                 <Node name="Controllers" expanded="True">
-                  <Node name="Incapacidades" expanded="True" />
+                  <Node name="Incapacidades" expanded="True">
+                    <Node name="Modelos" expanded="True" />
+                  </Node>
+                  <Node name="Rehabilitaciones" expanded="True" />
                 </Node>
-                <Node name="Models" expanded="True">
-                  <Node name="K2Conceptos" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="TareasProgramadas" expanded="True">
+              <Node name="TaskSchedule" expanded="True">
+                <Node name="Areas" expanded="True">
+                  <Node name="HelpPage" expanded="True">
+                    <Node name="SampleGeneration" expanded="True">
+                      <Node name="HelpPageSampleGenerator.cs" selected="True" />
+                    </Node>
+                  </Node>
                 </Node>
               </Node>
             </Node>
