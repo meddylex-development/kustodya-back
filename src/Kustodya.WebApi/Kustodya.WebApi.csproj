@@ -25,6 +25,7 @@
     <None Remove="Controllers\K2PerfilesController.cs~RF1b4e2c.TMP" />
     <None Remove="Controllers\Rethus\" />
     <None Remove="Models\Rethus\" />
+    <None Remove="Tesseract" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +58,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="Tesseract" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
