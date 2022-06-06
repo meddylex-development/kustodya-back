@@ -16,7 +16,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades.Modelos
             .ForMember(dest => dest.idpacienteporemitir, source => source.MapFrom(src => src.Id))
             .ForMember(dest => dest.numeroIdentificacion, source => source.MapFrom(src => src.Paciente.TNumeroDocumento))
             .ForMember(dest => dest.nombre, source => source.MapFrom(src => src.Paciente.ObtenerNombre()))
-            .ForMember(dest => dest.fechaAsignacion, source => source.MapFrom(src => src.FechaAsignacion.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds))
+            .ForMember(dest => dest.fechaAsignacion, source => source.MapFrom(src => src.FechaCreacion.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds))
             .ForMember(dest => dest.estado, source => source.MapFrom(src => src.Estado.ToString().Replace("_", " ")))
             .ForMember(dest => dest.codigoCorto, source => source.MapFrom(src => src.concepto.CodigoCorto));
 
@@ -52,7 +52,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades.Modelos
 
             CreateMap<ConceptoRehabilitacion, HistorialConceptoOutputModel>()
                 .ForMember(dest => dest.Id, source => source.MapFrom(src => src.PacienteporEmitirId))
-                .ForMember(dest => dest.FechaEmision, source => source.MapFrom(src => src.FechaCreacion.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds))
+                //.ForMember(dest => dest.FechaEmision, source => source.MapFrom(src => src.FechaEmision.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds))
                 .ForMember(dest => dest.Diagnosticos, source => source.MapFrom(src => src.Diagnosticos))
                 .ForMember(dest => dest.Medico, source => source.MapFrom(src => src.UsuarioCreacion.ObtenerNombre()));
 

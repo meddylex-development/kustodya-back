@@ -22,8 +22,10 @@
     <EmbeddedResource Remove="temppdf\**" />
     <None Remove="Areas\**" />
     <None Remove="temppdf\**" />
+    <None Remove="Controllers\K2PerfilesController.cs~RF1b4e2c.TMP" />
     <None Remove="Controllers\Rethus\" />
     <None Remove="Models\Rethus\" />
+    <None Remove="Tesseract" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,12 +51,14 @@
     <PackageReference Include="Microsoft.PowerBI.Api" Version="3.10.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.10.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="Tesseract" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,6 +100,9 @@
     <Folder Include="Controllers\Administrativo\Clientes\Modelos\" />
     <Folder Include="Controllers\Rethus\" />
     <Folder Include="Models\Rethus\" />
+    <Folder Include="Files\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

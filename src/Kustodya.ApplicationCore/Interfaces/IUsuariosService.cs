@@ -9,7 +9,9 @@ namespace Kustodya.ApplicationCore.Interfaces
     public interface IUsuariosService
     {
         Task<IReadOnlyList<TblUsuarios>> ObtenerUsuariosporFiltro(int entidadId, string busqueda, int? skip = null, int? take = null);
+        Task<IReadOnlyList<TblUsuarios>> ObtenerUsuariosporFiltroperfil(int entidadId, int? Perfile,  string busqueda, int? skip = null, int? take = null);// filtra usuario por entidad y perfil
         Task<int> TotalUsuarios(int entidadId, string busqueda);
+        Task<int> TotalUsuariosPerfil(int entidadId, int? perfil, string busqueda);// filtra usuario por entidad y perfil
         Task<TblUsuarios> ObtenerUsuarioDetalle(int id);
         Task<TblUsuarios> ObtenerUsuarioDetallePorCorreo(string correo);
         Task EliminarUsuario(int id);

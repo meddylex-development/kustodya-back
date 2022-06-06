@@ -8,6 +8,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades.Modelos
 {
     public class ConceptoRehabilitacionOutputModel
     {
+        public long ConceptoRehabilitacionId { get; set; }// se muestra el Id del concepto de rehabilitacion
         public int diasAcumulados {get;set;}
         public int conceptosEmitidos { get; set; }
         public int PCLCalificados { get; set; }

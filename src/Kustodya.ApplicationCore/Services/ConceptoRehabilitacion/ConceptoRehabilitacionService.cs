@@ -54,11 +54,11 @@ namespace Kustodya.ApplicationCore.Services.ConceptoRehabilitacion
         public async Task<Entities.Concepto.ConceptoRehabilitacion> CrearConcepto(Entities.Concepto.ConceptoRehabilitacion concepto, int usuarioId)
         {
             concepto.UsuarioCreacionId = usuarioId;
-            concepto.FechaCreacion = DateTime.Now;
+            concepto.FechaEmision = DateTime.Now;
 
             var pacientePorEmitir = await _repoPacientesPorEmitir.GetByIdAsync(concepto.PacienteporEmitirId);
             pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Emitido;
-            pacientePorEmitir.FechaEmision = DateTime.Now;
+            //pacientePorEmitir.FechaEmision = DateTime.Now; cambio base de datos
 
             await _repoPacientesPorEmitir.UpdateAsync(pacientePorEmitir);
             await _repoConceptoRehabilitacion.AddAsync(concepto);

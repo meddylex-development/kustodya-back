@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="kustodyaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Carta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TextoTranscripcion" Type="nvarchar(max)" />
+          <Property Name="FormatoWebArl" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CorreoAdjuntos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CorreoId" Type="int" Nullable="false" />
+          <Property Name="NombreArchivo" Type="nvarchar" MaxLength="200" />
+          <Property Name="Contenido" Type="nvarchar(max)" />
+          <Property Name="TextoReconocido" Type="text" />
+          <Property Name="tEstado" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Correos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MessageId" Type="nvarchar(max)" />
+          <Property Name="Para" Type="nvarchar(max)" />
+          <Property Name="CC" Type="nvarchar(max)" />
+          <Property Name="Asunto" Type="nvarchar(max)" />
+          <Property Name="Cuerpo" Type="nvarchar(max)" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Estado" Type="int" />
+          <Property Name="FechaTranscripcion" Type="datetime" />
+          <Property Name="De" Type="nvarchar(max)" />
+          <Property Name="CartaTranscripcion" Type="nvarchar(max)" />
+          <Property Name="FormatoWebArl" Type="nvarchar(max)" />
+          <Property Name="FechaCovid" Type="nvarchar(max)" />
+          <Property Name="NombresYApellidos" Type="nvarchar(max)" />
+          <Property Name="NumeroDocumento" Type="nvarchar(max)" />
+          <Property Name="NumeroTelefonico" Type="nvarchar(max)" />
+          <Property Name="Edad" Type="nvarchar(max)" />
+          <Property Name="Ciudad" Type="nvarchar(max)" />
+          <Property Name="CodigoEL" Type="nvarchar(max)" />
+          <Property Name="CodigoCTO" Type="nvarchar(max)" />
+          <Property Name="EPS" Type="nvarchar(max)" />
+          <Property Name="Empresa" Type="nvarchar(max)" />
+          <Property Name="CorreoEmpresa" Type="nvarchar(max)" />
+          <Property Name="AFP" Type="nvarchar(max)" />
+          <Property Name="Cargo" Type="nvarchar(max)" />
+          <Property Name="CorreoPaciente" Type="nvarchar(max)" />
+          <Property Name="TipoPrueba" Type="nvarchar(max)" />
+          <Property Name="CargoNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="CargoGuid" Type="nvarchar(max)" />
+          <Property Name="EdadNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="EdadGuid" Type="nvarchar(max)" />
+          <Property Name="EmpresaNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="EmpresaGuid" Type="nvarchar(max)" />
+          <Property Name="CorreoEmpresaNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="CorreoEmpresaGuid" Type="nvarchar(max)" />
+          <Property Name="EPSNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="EPSGuid" Type="nvarchar(max)" />
+          <Property Name="NumeroDocumentoNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="NumeroDocumentoGuid" Type="nvarchar(max)" />
+          <Property Name="NombresYApellidosNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="NumeroTelefonicoNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="NombresYApellidosGuid" Type="nvarchar(max)" />
+          <Property Name="NumeroTelefonicoGuid" Type="nvarchar(max)" />
+          <Property Name="AFPNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="AFPGuid" Type="nvarchar(max)" />
+          <Property Name="FechaCovidNombreArchivo" Type="nvarchar(max)" />
+          <Property Name="FechaCovidGuid" Type="nvarchar(max)" />
+          <Property Name="FechaHistoriaClinica" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Empresas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Contrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TextoReconocidoCartas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreArchivo" Type="nvarchar(max)" />
+          <Property Name="Cedula" Type="nvarchar(max)" />
+          <Property Name="Nombre" Type="nvarchar(max)" />
+          <Property Name="Contrato" Type="nvarchar(max)" />
+          <Property Name="Empresa" Type="nvarchar(max)" />
+          <Property Name="EmpresaCorreo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityContainer Name="kustodyaModelStoreContainer">
+          <EntitySet Name="Carta" EntityType="Self.Carta" Schema="CalificacionOrigen" store:Type="Tables" />
+          <EntitySet Name="CorreoAdjuntos" EntityType="Self.CorreoAdjuntos" Schema="CalificacionOrigen" store:Type="Tables" />
+          <EntitySet Name="Correos" EntityType="Self.Correos" Schema="CalificacionOrigen" store:Type="Tables" />
+          <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="CalificacionOrigen" store:Type="Tables" />
+          <EntitySet Name="TextoReconocidoCartas" EntityType="Self.TextoReconocidoCartas" Schema="CalificacionOrigen" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kustodyaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Carta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextoTranscripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FormatoWebArl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CorreoAdjuntos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CorreoId" Type="Int32" Nullable="false" />
+          <Property Name="NombreArchivo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TextoReconocido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="tEstado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Correos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MessageId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Para" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CC" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Asunto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cuerpo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="Int32" />
+          <Property Name="FechaTranscripcion" Type="DateTime" Precision="3" />
+          <Property Name="De" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CartaTranscripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FormatoWebArl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCovid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NombresYApellidos" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroDocumento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroTelefonico" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Edad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ciudad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CodigoEL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CodigoCTO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EPS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Empresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoEmpresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AFP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cargo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoPaciente" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoPrueba" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CargoNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CargoGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EdadNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EdadGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpresaNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpresaGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoEmpresaNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoEmpresaGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EPSNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EPSGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroDocumentoNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroDocumentoGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NombresYApellidosNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroTelefonicoNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NombresYApellidosGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroTelefonicoGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AFPNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AFPGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCovidNombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCovidGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaHistoriaClinica" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Empresas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contrato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TextoReconocidoCartas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreArchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cedula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contrato" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Empresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpresaCorreo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="kustodyaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Carta" EntityType="Self.Carta" />
+          <EntitySet Name="CorreoAdjuntos" EntityType="Self.CorreoAdjuntos" />
+          <EntitySet Name="Correos" EntityType="Self.Correos" />
+          <EntitySet Name="Empresas" EntityType="Self.Empresas" />
+          <EntitySet Name="TextoReconocidoCartas" EntityType="Self.TextoReconocidoCartas" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kustodyaModelStoreContainer" CdmEntityContainer="kustodyaEntities">
+          <EntitySetMapping Name="Carta">
+            <EntityTypeMapping TypeName="kustodyaModel.Carta">
+              <MappingFragment StoreEntitySet="Carta">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TextoTranscripcion" ColumnName="TextoTranscripcion" />
+                <ScalarProperty Name="FormatoWebArl" ColumnName="FormatoWebArl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CorreoAdjuntos">
+            <EntityTypeMapping TypeName="kustodyaModel.CorreoAdjuntos">
+              <MappingFragment StoreEntitySet="CorreoAdjuntos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CorreoId" ColumnName="CorreoId" />
+                <ScalarProperty Name="NombreArchivo" ColumnName="NombreArchivo" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="TextoReconocido" ColumnName="TextoReconocido" />
+                <ScalarProperty Name="tEstado" ColumnName="tEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Correos">
+            <EntityTypeMapping TypeName="kustodyaModel.Correos">
+              <MappingFragment StoreEntitySet="Correos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="Para" ColumnName="Para" />
+                <ScalarProperty Name="CC" ColumnName="CC" />
+                <ScalarProperty Name="Asunto" ColumnName="Asunto" />
+                <ScalarProperty Name="Cuerpo" ColumnName="Cuerpo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaTranscripcion" ColumnName="FechaTranscripcion" />
+                <ScalarProperty Name="De" ColumnName="De" />
+                <ScalarProperty Name="CartaTranscripcion" ColumnName="CartaTranscripcion" />
+                <ScalarProperty Name="FormatoWebArl" ColumnName="FormatoWebArl" />
+                <ScalarProperty Name="FechaCovid" ColumnName="FechaCovid" />
+                <ScalarProperty Name="NombresYApellidos" ColumnName="NombresYApellidos" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="NumeroTelefonico" ColumnName="NumeroTelefonico" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="CodigoEL" ColumnName="CodigoEL" />
+                <ScalarProperty Name="CodigoCTO" ColumnName="CodigoCTO" />
+                <ScalarProperty Name="EPS" ColumnName="EPS" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="CorreoEmpresa" ColumnName="CorreoEmpresa" />
+                <ScalarProperty Name="AFP" ColumnName="AFP" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="CorreoPaciente" ColumnName="CorreoPaciente" />
+                <ScalarProperty Name="TipoPrueba" ColumnName="TipoPrueba" />
+                <ScalarProperty Name="CargoNombreArchivo" ColumnName="CargoNombreArchivo" />
+                <ScalarProperty Name="CargoGuid" ColumnName="CargoGuid" />
+                <ScalarProperty Name="EdadNombreArchivo" ColumnName="EdadNombreArchivo" />
+                <ScalarProperty Name="EdadGuid" ColumnName="EdadGuid" />
+                <ScalarProperty Name="EmpresaNombreArchivo" ColumnName="EmpresaNombreArchivo" />
+                <ScalarProperty Name="EmpresaGuid" ColumnName="EmpresaGuid" />
+                <ScalarProperty Name="CorreoEmpresaNombreArchivo" ColumnName="CorreoEmpresaNombreArchivo" />
+                <ScalarProperty Name="CorreoEmpresaGuid" ColumnName="CorreoEmpresaGuid" />
+                <ScalarProperty Name="EPSNombreArchivo" ColumnName="EPSNombreArchivo" />
+                <ScalarProperty Name="EPSGuid" ColumnName="EPSGuid" />
+                <ScalarProperty Name="NumeroDocumentoNombreArchivo" ColumnName="NumeroDocumentoNombreArchivo" />
+                <ScalarProperty Name="NumeroDocumentoGuid" ColumnName="NumeroDocumentoGuid" />
+                <ScalarProperty Name="NombresYApellidosNombreArchivo" ColumnName="NombresYApellidosNombreArchivo" />
+                <ScalarProperty Name="NumeroTelefonicoNombreArchivo" ColumnName="NumeroTelefonicoNombreArchivo" />
+                <ScalarProperty Name="NombresYApellidosGuid" ColumnName="NombresYApellidosGuid" />
+                <ScalarProperty Name="NumeroTelefonicoGuid" ColumnName="NumeroTelefonicoGuid" />
+                <ScalarProperty Name="AFPNombreArchivo" ColumnName="AFPNombreArchivo" />
+                <ScalarProperty Name="AFPGuid" ColumnName="AFPGuid" />
+                <ScalarProperty Name="FechaCovidNombreArchivo" ColumnName="FechaCovidNombreArchivo" />
+                <ScalarProperty Name="FechaCovidGuid" ColumnName="FechaCovidGuid" />
+                <ScalarProperty Name="FechaHistoriaClinica" ColumnName="FechaHistoriaClinica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresas">
+            <EntityTypeMapping TypeName="kustodyaModel.Empresas">
+              <MappingFragment StoreEntitySet="Empresas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Contrato" ColumnName="Contrato" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TextoReconocidoCartas">
+            <EntityTypeMapping TypeName="kustodyaModel.TextoReconocidoCartas">
+              <MappingFragment StoreEntitySet="TextoReconocidoCartas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreArchivo" ColumnName="NombreArchivo" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Contrato" ColumnName="Contrato" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="EmpresaCorreo" ColumnName="EmpresaCorreo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -8,24 +8,37 @@ namespace Kustodya.ApplicationCore.Entities.Concepto
     {
         public int Id { get; set; }
         public int PacienteId { get; set; }
-        public DateTime FechaAsignacion { get; set; }
+        public DateTime? FechaAsignacion { get; set; } //se cambia para que pueda ser valor null
         public EstadoConcepto Estado { get; set; }
-        public int UsuarioAsignadoId { get; set; }
+        public int? UsuarioAsignadoId { get; set; } //se cambia para que pueda ser valor null
         public DateTime? FechaEmision { get; set; }
         public string CausalAnulacion { get; set; }
         public DateTime? FechaAnulacion { get; set; }
+        public DateTime FechaCreacion { get; set; } //se agrega nuevo
+        public int Prioridad { get; set; } //se agrega nuevo
+        public DateTime? FechaModificacion { get; set; } //se agrega nuevo
+        public int Progreso { get; set; } //se agrega nuevo
+        public DateTime? FechaNotificacion { get; set; } //se agrega nuevo
+        public int? DiasIncapacidad { get; set; } //se agrega nuevo
+        public int? GrupoIncapacidad { get; set; } //se agrega nuevo
+
+
 
         public ConceptoRehabilitacion concepto { get; set; }
         public TblPacientes Paciente { get; set; }
+        
 
         public string CalcularCodigoCorto() {
             return Paciente.IIdepsNavigation.TCodigoExterno + "-" + GenerateRndString(4) + "-" + Paciente.TNumeroDocumento;
         }
-        public enum EstadoConcepto : int
+        public enum EstadoConcepto : int //se incorporan seis estados
         {
-            Por_Emitir = 1,
-            Emitido = 2,
-            Anulado = 3
+            Por_asignar = 1,
+            Asignado = 2,
+            En_proceso = 3,
+            Anulado = 4,
+            Emitido = 5,
+            Notificado = 6
         }
         private string GenerateRndString(int size)
         {

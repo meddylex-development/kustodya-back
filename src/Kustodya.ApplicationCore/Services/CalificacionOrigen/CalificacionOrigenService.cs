@@ -15,6 +15,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using MailKit.Net.Imap;
+using System.Threading;
+using MailKit;
+using MailKit.Search;
+using System.Net;
+using MimeKit;
+using Renci.SshNet;
 
 namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
 {
@@ -54,13 +61,11 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
             var adjunto = await _correoAdjunto.GetOneAsync(spec);
             return adjunto.NombreArchivo;
         }
-
         public async Task<Correo> ObtenerCorreo(int id)
         {
             var spec = new CalificacionCorreoDetalleporIdSpec(id);
             return await _correoRepo.GetOneAsync(spec);
         }
-
         public async Task<Carta> ObtenerModeloCarta()
         {
             return await _cartaAdjunto.GetByIdAsync(1);
@@ -78,12 +83,10 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
         {
             await _correoAdjunto.UpdateAsync(adjunto);
         }
-
         public async Task<IReadOnlyList<TblDivipola>> ObtenerDivipolas()
         {
             return await _divipolaRepo.ListAllAsync();
         }
-
         public async Task<byte[]> ObtenerDocumento(MemoryStream stream, Dictionary<string,string> variables, MemoryStream firmaStream)
         {
             firmaStream.Position = 0;
@@ -129,12 +132,85 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
             stream = AgregarTexto(stream, "<html><head><style>.textosimple{font-family: 'Gill Sans MT'; font-size: 14.5}</style></head><body>" + carta.TextoTranscripcion.Split("{{firma}}")[1], "myId2", false);
             return stream.ToArray();
         }
-
-
         public async Task ActualizarCorreo(Correo correo) {
             await _correoRepo.UpdateAsync(correo);
         }
+        public async Task ProcesarCorreosCalificacionOrigen() {
+            var client = new ImapClient();
+            var credentials = new NetworkCredential("calificacionorigen@hotmail.com", "v6dNV9gC2YVgqWHk");
+            //var uri = new Uri("imaps://imap.gmail.com");
+            var uri = new Uri("imaps://imap-mail.outlook.com");
+            var cancel = new CancellationTokenSource();
+            client.Connect(uri, cancel.Token);
+            client.ServerCertificateValidationCallback = (s, c, h, e1) => true;
+            client.Authenticate(credentials, cancel.Token);
+            var personal = client.GetFolder(client.PersonalNamespaces[0]);
+            var sent = client.GetFolder("inbox");
+            sent.Open(FolderAccess.ReadOnly, cancel.Token);
+            var query = SearchQuery.DeliveredAfter(DateTime.Now.Date.AddDays(-5));
+            List<LectorCorreosModel> correos = new List<LectorCorreosModel>();
+            foreach (var uid in sent.Search(query, cancel.Token)) {
+                var message = sent.GetMessage(uid, cancel.Token);
+                string mailUid = uid.ToString();
+                string mailFrom = message.From.ToString();
+                string mailTo = message.To.ToString();
+                string mailCc = message.Cc.ToString();
+                string mailSubject = message.Subject;
+                DateTime mailDate = message.Date.DateTime;
+                string mailMessageId = message.MessageId;
+                //string body = message.BodyParts.ToString(); 
+                var body = message.BodyParts.OfType<TextPart>().FirstOrDefault()?.Text;
+                LectorCorreosModel lectorCorreosModel = new LectorCorreosModel
+                {
+                    MensajeId = mailUid,
+                    De = mailFrom,
+                    Para = mailTo,
+                    CC = mailCc,
+                    Asunto = mailSubject,
+                    Cuerpo = body,
+                    Fecha = mailDate,
+                    Id = mailMessageId,
+                };
+                lectorCorreosModel.Adjuntos = new List<LectorCorreosAdjunto>();
+                foreach (var attachment in message.Attachments)
+                {
+                    using (var stream = File.Create("fileName"))
+                    {
+                        if (attachment is MessagePart)
+                        {
+                            var part = (MessagePart)attachment;
+                            part.Message.WriteTo(stream);
+                            var memoryStream = new MemoryStream();
+                            stream.Position = 0;
+                            stream.CopyTo(memoryStream);
+                            memoryStream.Position = 0;
+                            //var guid = await _blobService.UploadToBlobAsync(memoryStream, "calificacionorigencorreos");
+                            LectorCorreosAdjunto lectorCorreosAdjunto = new LectorCorreosAdjunto();
+                            lectorCorreosAdjunto.NombreArchivo = "Archivo";
+                            lectorCorreosAdjunto.Contenido = memoryStream;
+                            lectorCorreosModel.Adjuntos.Add(lectorCorreosAdjunto);
 
+                        }
+                        else
+                        {
+                            var part = (MimePart)attachment;
+                            part.Content.DecodeTo(stream);
+                            var memoryStream = new MemoryStream();
+                            stream.Position = 0;
+                            stream.CopyTo(memoryStream);
+                            memoryStream.Position = 0;
+                            //var guid = await _blobService.UploadToBlobAsync(memoryStream, "calificacionorigencorreos");
+                            LectorCorreosAdjunto lectorCorreosAdjunto = new LectorCorreosAdjunto();
+                            lectorCorreosAdjunto.NombreArchivo = part.FileName;
+                            lectorCorreosAdjunto.Contenido = memoryStream;
+                            lectorCorreosModel.Adjuntos.Add(lectorCorreosAdjunto);
+                        }
+                    }
+                }
+                correos.Add(lectorCorreosModel);
+            }
+            await GuardarCorreosConsoleApp(correos);
+        }
         public async Task<Dictionary<string, string>> ObtenerEmpresaDatos(string nombreEmpresa) {
             var spec = new CalificacionOrigenEmpresaPorNombre(nombreEmpresa);
             var empresa = await _empresaRepo.GetOneAsync(spec);
@@ -144,6 +220,57 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
                 datosEmpresa.Add("correo", empresa.Correo);
             }
             return datosEmpresa;
+        }
+        public async Task GuardarCorreosConsoleApp(List<LectorCorreosModel> correosModel)
+        {
+            PasswordConnectionInfo connectionInfo = new PasswordConnectionInfo("win5135.site4now.net", 21, "calificacionorigen", "Meddylex123");
+            var correosI = await _correoRepo.ListAllAsync();
+            var correos = correosI.Where(c => c.Fecha > DateTime.Now.AddDays(-10)).Select(c => c.MessageId).ToList();
+            foreach (LectorCorreosModel item in correosModel.ToList())
+            {
+                if (correos.Contains(item.MensajeId))
+                    correosModel.Remove(item);
+            }
+            foreach (LectorCorreosModel item in correosModel)
+            {
+                Correo correo = new Correo
+                {
+                    MessageId = item.MensajeId,
+                    De = item.De,
+                    Para = item.Para,
+                    CC = item.CC,
+                    Asunto = item.Asunto,
+                    Cuerpo = item.Cuerpo,
+                    Fecha = item.Fecha,
+                    Estado = Correo.EstadoCorreo.Por_Gestionar
+                };
+                List<Adjunto> adjuntos = new List<Adjunto>();
+                foreach (LectorCorreosAdjunto itemadjunto in item.Adjuntos)
+                {
+                    var blockName = Guid.NewGuid();
+                    SubirArchivo(itemadjunto.Contenido, blockName.ToString() + "_" + itemadjunto.NombreArchivo);
+                    try
+                    {
+                        //Uploadfiles(connectionInfo, itemadjunto.Contenido, blockName.ToString());
+                        /*CloudBlobContainer container = client.GetContainerReference("calificacionorigencorreos");
+                        container.CreateIfNotExistsAsync();
+                        CloudBlockBlob block = container.GetBlockBlobReference(blockName.ToString());
+                        block.UploadFromStreamAsync(itemadjunto.Contenido);*/
+                    }
+                    catch (Exception)
+                    {
+                        /*throw new ErrorUploadingStreamException();*/
+                    }
+                    Adjunto adjunto = new Adjunto
+                    {
+                        NombreArchivo = itemadjunto.NombreArchivo,
+                        Contenido = blockName.ToString() + "_" + itemadjunto.NombreArchivo
+                    };
+                    adjuntos.Add(adjunto);
+                }
+                correo.Adjuntos = adjuntos;
+                await _correoRepo.AddAsync(correo);
+            }
         }
         static MemoryStream AgregarTexto(MemoryStream stream, string texto, string altChunkId, bool primero) {
             stream.Position = 0;
@@ -162,7 +289,6 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
             }
             return stream;
         }
-
         static MemoryStream AgregarImagen(MemoryStream stream, MemoryStream firmaStream)
         {
             MemoryStream salida = new MemoryStream();
@@ -181,6 +307,81 @@ namespace Kustodya.ApplicationCore.Services.CalificacionOrigen
             picture.Height = 50;
             document.SaveToStream(salida, Spire.Doc.FileFormat.Docx);
             return salida;
+        }
+        private void Uploadfiles(PasswordConnectionInfo connectionInfo, MemoryStream ms, string fileName)
+        {
+            ms.Position = 0;
+            using (var sftp = new SftpClient(connectionInfo))
+            {
+                try
+                {
+                    sftp.OperationTimeout = TimeSpan.FromMinutes(2);
+                    sftp.Connect();
+                    var stream = ms;
+                    stream.Position = 0;
+                    fileName = fileName;
+                    sftp.UploadFile(stream, fileName);
+                }
+                catch (Exception ex) {
+                    var x = ex;
+                }
+                finally
+                {
+                    sftp.Disconnect();
+                }
+            }
+        }
+        private void ListarDirectorio() {
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://win5135.site4now.net");
+            try
+            {
+                request = (FtpWebRequest)WebRequest.Create("ftp://win5135.site4now.net");
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+
+                request.Credentials = new NetworkCredential("calificacionorigen", "Meddylex123");
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream);
+                string names = reader.ReadToEnd();
+
+                reader.Close();
+                response.Close();
+
+                //nombreArchivos = names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        private void SubirArchivo(MemoryStream ms, string nombreArchivo)
+        {
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://win5135.site4now.net/" + nombreArchivo);
+                request.Credentials = new NetworkCredential("calificacionorigen", "Meddylex123");
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+                using (Stream ftpStream = request.GetRequestStream())
+                {
+                    ms.Position = 0;
+                    ms.CopyTo(ftpStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public byte[] ObtenerContenidoArchivo(string nombreArchivo)
+        {
+            string ftphost = "ftp://win5135.site4now.net/";
+            string ftpfullpath = ftphost + nombreArchivo;
+
+            using (WebClient request = new WebClient())
+            {
+                request.Credentials = new NetworkCredential("calificacionorigen", "Meddylex123");
+                return request.DownloadData(ftpfullpath);
+            }
         }
     }
 }

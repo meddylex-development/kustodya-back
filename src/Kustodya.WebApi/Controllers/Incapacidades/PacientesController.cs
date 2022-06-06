@@ -151,7 +151,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             return Ok(result);
         }
 
-        [HttpGet] 
+        /*[HttpGet] 
         public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
         {
             int cantidad = 10;
@@ -165,7 +165,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                 paginacion = new PaginacionModel(total.Count(), pagina, cantidad)
             };
             return Ok(pacientesOutputModel);
-        }
+        }*/
 
         [HttpGet]
         [ProducesResponseType(typeof(List<TipoIdentificacionModel>), 200)]

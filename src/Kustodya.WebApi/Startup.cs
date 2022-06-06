@@ -70,6 +70,8 @@ using Kustodya.ApplicationCore.Services.ConceptoRehabilitacion;
 using Kustodya.ApplicationCore.Interfaces.CalificacionOrigen;
 using Kustodya.ApplicationCore.Services.CalificacionOrigen;
 using Kustodya.WebApi.Services.Rethus;
+using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
 
 namespace WebApi
 {
@@ -275,6 +277,14 @@ namespace WebApi
                 });
             });
 
+            /*//JSON Serializer
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+                .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                = new DefaultContractResolver());*/
+
             #region Incapacidades
             services.AddSingleton<IServiceBusPersisterConnection>(sp =>
                 {
@@ -330,11 +340,11 @@ namespace WebApi
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Audios")),
-            //    RequestPath = "/Audios"
-            //});
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+                RequestPath = "/Files"
+            });
         }
 
         private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()

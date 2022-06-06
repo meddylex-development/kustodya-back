@@ -56,7 +56,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                 tipoDocumento = pacientePorEmitir.Paciente.IIdtipoDocNavigation.TDescripcion,
                 numeroDocumento = pacientePorEmitir.Paciente.TNumeroDocumento,
                 fechaNacimiento = pacientePorEmitir.Paciente.DtFechaNacimiento?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
-                fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
+                //fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds, cambio base de datos
                 edad = pacientePorEmitir.Paciente.IEdad,
                 ARL = pacientePorEmitir.Paciente.IIdarlNavigation.TNombre,
                 AFP = pacientePorEmitir.Paciente.IIdafpNavigation.TNombre,
@@ -183,7 +183,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             if (pacientePorEmitir.Estado == PacientesPorEmitir.EstadoConcepto.Anulado)
                 return Conflict("El concepto ya se encuentra anulado");
             
-            if (pacientePorEmitir.Estado == PacientesPorEmitir.EstadoConcepto.Por_Emitir)
+            if (pacientePorEmitir.Estado != PacientesPorEmitir.EstadoConcepto.Emitido || pacientePorEmitir.Estado != PacientesPorEmitir.EstadoConcepto.Notificado)//se modifica creterio para anular
                 return Conflict("Aún no hay un concepto emitido");
 
             pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Anulado;
@@ -195,7 +195,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
 
             //Crear nuevo pendiente por emitir
             pacientePorEmitir.Id = 0;
-            pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Por_Emitir;
+            pacientePorEmitir.Estado = PacientesPorEmitir.EstadoConcepto.Por_asignar;//se modifica el estado
             pacientePorEmitir.CausalAnulacion = null;
             await _conceptoRehabilitacionService.CrearPendientePorEmitir(pacientePorEmitir);
 
@@ -239,7 +239,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             {
                 case "hoy":
                     var respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
@@ -269,12 +269,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                         .ToList();
 
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = "Semana " + ObtenerSemana(G.First().FechaAsignacion, weeks).ToString()
+                            Categoria = "Semana " + ObtenerSemana(G.First().FechaCreacion, weeks).ToString()
                         };
                     var agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G
@@ -298,12 +298,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 case "semana":
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.ToString("dddd", CultureInfo.CreateSpecificCulture("es")) //G.First().FechaAsignacion.DayOfWeek.ToString()
+                            Categoria = G.First().FechaCreacion.ToString("dddd", CultureInfo.CreateSpecificCulture("es")) //G.First().FechaAsignacion.DayOfWeek.ToString()
                         };
                     foreach (var item in respuesta)
                     {
@@ -319,12 +319,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 case "año":
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.ToString("MMMM", CultureInfo.CreateSpecificCulture("es"))
+                            Categoria = G.First().FechaCreacion.ToString("MMMM", CultureInfo.CreateSpecificCulture("es"))
                         };
                     agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G
@@ -348,12 +348,12 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
                     break;
                 default:
                     respuesta = from d in dashboard
-                        group d by new { d.FechaAsignacion.Date, d.Estado } into G
+                        group d by new { d.FechaCreacion.Date, d.Estado } into G
                         select new
                         {
                             Estado = (int)G.First().Estado,
                             Cantidad = G.Count(),
-                            Categoria = G.First().FechaAsignacion.Year.ToString()
+                            Categoria = G.First().FechaCreacion.Year.ToString()
                         };
                     agrupar = from r in respuesta
                         group r by new { r.Categoria, r.Estado } into G
@@ -424,7 +424,7 @@ namespace Kustodya.WebApi.Controllers.Incapacidades
             dashoard.dashBoardGlobales = new DashBoardGlobales
             {
                 Hoy = totales.Where(c=>c.FechaAsignacion >= hoy).Count(),
-                TotalPendientes = totales.Where(c => c.Estado == PacientesPorEmitir.EstadoConcepto.Por_Emitir).Count(),
+                TotalPendientes = totales.Where(c => c.Estado != PacientesPorEmitir.EstadoConcepto.Emitido || c.Estado != PacientesPorEmitir.EstadoConcepto.Notificado).Count(),// se modifica criterio
                 UltimaSemana = totales.Where(c => c.FechaAsignacion >= fechaLunes && c.Estado != PacientesPorEmitir.EstadoConcepto.Anulado).Count(),
                 UltimoMes = totales.Where(c => c.FechaAsignacion >= inicioMes && c.Estado != PacientesPorEmitir.EstadoConcepto.Anulado).Count()
             };

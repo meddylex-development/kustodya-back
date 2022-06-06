@@ -13,8 +13,9 @@ namespace Kustodya.ApplicationCore.Specifications.Concepto
             if (skip.HasValue && take.HasValue)
                 ApplyPaging(skip.Value, take.Value);
         }
-        public PacientesPorEmitirSpec(string busqueda, int? skip, int? take, PacientesPorEmitir.EstadoConcepto? estadoConcepto)
+        public PacientesPorEmitirSpec(int usuario, string busqueda, int? skip, int? take, PacientesPorEmitir.EstadoConcepto? estadoConcepto)// Se incluye filtro de usuario
                 : this(u => (estadoConcepto != null ? u.Estado == estadoConcepto : true) && 
+                (usuario != 0 ? u.UsuarioAsignadoId == usuario : true) &&
                 ((busqueda != "" ? u.concepto.CodigoCorto.ToLower() == busqueda.ToLower() : true) ||
                 (busqueda != "" ? (u.Paciente.TPrimerNombre.ToLower() +
                 (u.Paciente.TSegundoNombre == null ? " " : (u.Paciente.TSegundoNombre.Length == 0 ? " " : " " + u.Paciente.TSegundoNombre.ToLower() + " ")) +

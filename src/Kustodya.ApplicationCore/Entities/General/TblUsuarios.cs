@@ -1,4 +1,5 @@
 ﻿using Kustodya.ApplicationCore.Entities.Administracion;
+using Kustodya.ApplicationCore.Entities.Concepto;
 using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.ApplicationCore.Specifications;
 using System;
@@ -355,6 +356,7 @@ namespace Kustodya.ApplicationCore.Entities
         public virtual ICollection<TblUsuariosEmpresas> TblUsuariosEmpresas { get; set; }
         public virtual ICollection<TblUsuariosPerfiles> TblUsuariosPerfiles { get; set; }
         public virtual ICollection<TblVendedor> TblVendedor { get; set; }
+
         public void RecuperacionContrasena()
         {
             BCambioPassword = true;
