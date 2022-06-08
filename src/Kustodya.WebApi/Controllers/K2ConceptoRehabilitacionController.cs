@@ -144,7 +144,7 @@ namespace Kustodya.WebApi.Controllers
 
             var dataObjects = "{ listadoPacientes: " + JSONString1 + ", paginacion: " + JSONString2 + ", registrosEstados: " + JSONString3 + "}";
             // return dataObjects;
-            //return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
+            // return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
             return TryFormatJson(dataObjects);
         }
 

@@ -185,6 +185,58 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
             return Ok(usuarioDetalleOutputModel);
         }
 
+
+        [HttpGet("test/{usuarioId:int}")]
+        public async Task<IActionResult> ObtenerUsuarioInfoBasica(int usuarioId)
+        {
+            GetEntidadId(out int entidadId);
+            /*int userToken = Convert.ToInt32(User.Claims.Where(c => c.Type == "UserId").FirstOrDefault().Value);
+            if (userToken != usuarioId)
+                return Forbid();*/
+
+            TblUsuarios usuario = await _usuariosService.ObtenerUsuarioDetalle(usuarioId);
+            if (usuario == null)
+                return NotFound("Usuario no existe");
+            /*usuario.Entidades = usuario.Entidades.Where(c => c.EntidadId == entidadId).ToList();
+            
+            IReadOnlyList<Entidad> EntidadesTotal = await _repoEntidad.ListAllAsync();
+            foreach (UsuarioEntidad item in usuario.Entidades)
+            {
+                var Entidad = EntidadesTotal.Where(c => c.Id == item.EntidadId).First();
+                item.Entidad = new Entidad();
+                item.Entidad = Entidad;
+            }*/
+
+            if (usuario.Firma != null)
+            {
+                if (usuario.Firma.Length > 0)
+                {
+                    try
+                    {
+                        MemoryStream stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
+                        stream.Position = 0;
+                        StreamReader reader = new StreamReader(stream);
+                        usuario.Firma = reader.ReadToEnd();
+                    }
+                    catch (Exception) { }
+                }
+            }
+            UsuarioDetalleOutputModel usuarioDetalleOutputModel = _mapper.Map<UsuarioDetalleOutputModel>(usuario);
+            IReadOnlyList<UsuarioEntidad> usuarioEntidades = await _repoUsuarioEntidad.ListAllAsync();
+            var usuarioEntidad = usuarioEntidades
+                .Where(c => c.UsuarioId == usuarioId && c.EntidadId == entidadId).FirstOrDefault();
+            if (usuarioEntidad == null)
+                return Ok(usuarioDetalleOutputModel);
+
+            IReadOnlyList<UsuarioEntidadPerfil> usuarioEntidadPerfiles = await _repoUsuarioEntidadPerfil.ListAllAsync();
+            var usuarioEntidadPerfil = usuarioEntidadPerfiles.Where(c => c.UsuarioEntidadId == usuarioEntidad.Id).FirstOrDefault();
+            if (usuarioEntidadPerfil == null)
+                return Ok(usuarioDetalleOutputModel);
+            usuarioDetalleOutputModel.Perfil = usuarioEntidadPerfil.PerfilId;
+            return Ok(usuarioDetalleOutputModel);
+        }
+
+
         /// <summary>
         /// Solo SuperAdmin y Admin
         /// </summary>
@@ -290,7 +342,7 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
                 return Forbid("Este servicio solo puede ser usado por un usuario superadmin");
 
             var usuario = await _repo.GetByIdAsync(UsuarioId);
-
+            Console.WriteLine();
             if (usuario is null)
                 return NotFound("No se encontró el usuario con Id:" + UsuarioId.ToString());
 
@@ -450,8 +502,7 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
         /// </summary>
         /// <returns></returns>
         [HttpGet("Administradores")]
-        public async Task<IActionResult> ObtenerAdministradores([FromQuery] string busqueda = "", [FromQuery] int pagina = 1,
-            [FromQuery] int? entidadId = null)
+        public async Task<IActionResult> ObtenerAdministradores([FromQuery] string busqueda = "", [FromQuery] int pagina = 1, [FromQuery] int? entidadId = null)
         {
             bool EsSuperAdmin = Convert.ToBoolean(User.Claims.Where(c => c.Type == "EsSuperAdmin").FirstOrDefault().Value);
             bool Admin = (User.Claims.Where(c => c.Type == "AdminEntidades").FirstOrDefault().Value).ToString().Length > 0;
@@ -480,6 +531,7 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
             };
             return Ok(usuariosOutputModel);
         }
+
         [HttpGet("Contadores")]
         public async Task<IActionResult> ObtenerContadores()
         {
@@ -504,6 +556,7 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
             await _repo.UpdateAsync(usuario);
             return Ok();
         }
+
         [HttpGet("{usuarioId:int}/Firma")]
         public async Task<IActionResult> Get(int usuarioId)
         {
