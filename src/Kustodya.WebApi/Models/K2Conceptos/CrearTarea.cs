@@ -8,5 +8,6 @@ namespace Kustodya.WebApi.Models.K2Conceptos
     public class CrearTarea
     {
         public int PacienteId { get; set; }
+        public int Prioridad { get; set; }
     }
 }
