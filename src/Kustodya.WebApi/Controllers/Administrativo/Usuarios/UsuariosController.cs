@@ -156,20 +156,20 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
                 item.Entidad = Entidad;
             }*/
 
-            if (usuario.Firma != null)
-            {
-                if (usuario.Firma.Length > 0)
-                {
-                    try
-                    {
-                        MemoryStream stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
-                        stream.Position = 0;
-                        StreamReader reader = new StreamReader(stream);
-                        usuario.Firma = reader.ReadToEnd();
-                    }
-                    catch (Exception) { }
-                }
-            }
+            //if (usuario.Firma != null)
+            //{
+            //    if (usuario.Firma.Length > 0)
+            //    {
+            //        try
+            //        {
+            //            MemoryStream stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
+            //            stream.Position = 0;
+            //            StreamReader reader = new StreamReader(stream);
+            //            usuario.Firma = reader.ReadToEnd();
+            //        }
+            //        catch (Exception) { }
+            //    }
+            //}
             UsuarioDetalleOutputModel usuarioDetalleOutputModel = _mapper.Map<UsuarioDetalleOutputModel>(usuario);
             IReadOnlyList<UsuarioEntidad> usuarioEntidades = await _repoUsuarioEntidad.ListAllAsync();
             var usuarioEntidad = usuarioEntidades
@@ -187,6 +187,7 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
 
 
         [HttpGet("test/{usuarioId:int}")]
+        // [AllowAnonymous]
         public async Task<IActionResult> ObtenerUsuarioInfoBasica(int usuarioId)
         {
             GetEntidadId(out int entidadId);
@@ -207,32 +208,33 @@ namespace Kustodya.WebApi.Controllers.Administrativo.Usuarios
                 item.Entidad = Entidad;
             }*/
 
-            if (usuario.Firma != null)
-            {
-                if (usuario.Firma.Length > 0)
-                {
-                    try
-                    {
-                        MemoryStream stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
-                        stream.Position = 0;
-                        StreamReader reader = new StreamReader(stream);
-                        usuario.Firma = reader.ReadToEnd();
-                    }
-                    catch (Exception) { }
-                }
-            }
+            //if (usuario.Firma != null)
+            //{
+            //    if (usuario.Firma.Length > 0)
+            //    {
+            //        try
+            //        {
+            //            MemoryStream stream = await _blobService.GetBlobFileByGuidAsync(usuario.Firma, "firmas");
+            //            stream.Position = 0;
+            //            StreamReader reader = new StreamReader(stream);
+            //            usuario.Firma = reader.ReadToEnd();
+            //        }
+            //        catch (Exception) { }
+            //    }
+            //}
             UsuarioDetalleOutputModel usuarioDetalleOutputModel = _mapper.Map<UsuarioDetalleOutputModel>(usuario);
-            IReadOnlyList<UsuarioEntidad> usuarioEntidades = await _repoUsuarioEntidad.ListAllAsync();
-            var usuarioEntidad = usuarioEntidades
-                .Where(c => c.UsuarioId == usuarioId && c.EntidadId == entidadId).FirstOrDefault();
-            if (usuarioEntidad == null)
-                return Ok(usuarioDetalleOutputModel);
+            //IReadOnlyList<UsuarioEntidad> usuarioEntidades = await _repoUsuarioEntidad.ListAllAsync();
+            //var usuarioEntidad = usuarioEntidades
+            //    .Where(c => c.UsuarioId == usuarioId && c.EntidadId == entidadId).FirstOrDefault();
+            //if (usuarioEntidad == null)
+            //    return Ok(usuarioDetalleOutputModel);
 
-            IReadOnlyList<UsuarioEntidadPerfil> usuarioEntidadPerfiles = await _repoUsuarioEntidadPerfil.ListAllAsync();
-            var usuarioEntidadPerfil = usuarioEntidadPerfiles.Where(c => c.UsuarioEntidadId == usuarioEntidad.Id).FirstOrDefault();
-            if (usuarioEntidadPerfil == null)
-                return Ok(usuarioDetalleOutputModel);
-            usuarioDetalleOutputModel.Perfil = usuarioEntidadPerfil.PerfilId;
+            //IReadOnlyList<UsuarioEntidadPerfil> usuarioEntidadPerfiles = await _repoUsuarioEntidadPerfil.ListAllAsync();
+            //var usuarioEntidadPerfil = usuarioEntidadPerfiles.Where(c => c.UsuarioEntidadId == usuarioEntidad.Id).FirstOrDefault();
+            //if (usuarioEntidadPerfil == null)
+            //    return Ok(usuarioDetalleOutputModel);
+            //usuarioDetalleOutputModel.Perfil = usuarioEntidadPerfil.PerfilId;
+            //return Ok(usuarioDetalleOutputModel);
             return Ok(usuarioDetalleOutputModel);
         }
 
