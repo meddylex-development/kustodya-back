@@ -271,9 +271,9 @@ namespace Kustodya.WebApi.Controllers
         //Anular tarea Concepto de rehabilitacion
         [HttpPut]
         //[AllowAnonymous]
-        public JsonResult AnularTarea(AnularTarea t)
+        public JsonResult NoAlicaTarea(NoAplicaTarea t)
         {
-            string SProcedure = @"Conceptos.SPAnularTarea";
+            string SProcedure = @"Conceptos.SPNoAplicaTarea";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -284,14 +284,15 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@CausalAnulacion", t.CausalAnulacion);
+                    myCommand.Parameters.AddWithValue("@tCausalNoAplica", t.tCausalNoAplica);
+                    myCommand.Parameters.AddWithValue("@iIDCausalNoAplica", t.iIDCausalNoAplica);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            return new JsonResult("Anulacion de tarea exitosa");
+            return new JsonResult("Asignacion de tarea no aplica con exito");
         }
 
         //Consultar Concepto
