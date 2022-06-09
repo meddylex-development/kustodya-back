@@ -190,7 +190,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult CrearTarea(CrearTarea t)
         {
             string SProcedure = @"Conceptos.SPCrearTarea";
@@ -204,6 +204,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@PacienteId", t.PacienteId);
+                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
