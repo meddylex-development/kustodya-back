@@ -9,23 +9,23 @@ using System.Data.SqlClient;
 
 namespace Kustodya.WebApi.Controllers
 {
-    public class K2PacientesController : BaseController
+    public class K2MedicosController : BaseController
     {
         private readonly IConfiguration _configuration;
 
-        public K2PacientesController(
+        public K2MedicosController(
             IConfiguration configuration
             )
         {
             _configuration = configuration;
         }
 
-        //InformacionPaciente
+               //InformacionUsuarios
         [HttpGet]
-        //[AllowAnonymous]
-        public object ConsultarPaciente (int idPaciente, int numeroDocumento, int idTipoDoc)
+        [AllowAnonymous]
+        public object ConsultarUsuarios (int idUsuario, string numeroDocumento, int idTipoDoc, int esMedico)
         {
-            string SProcedure = @"Pacientes.SPinformacion";
+            string SProcedure = @"Medicos.SPinformacion";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -35,9 +35,10 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
                     myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
+                    myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -46,7 +47,7 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString1 = JsonConvert.SerializeObject(table);
 
-            SProcedure = @"Pacientes.SPempleador";
+            SProcedure = @"Medicos.SPDatosAcademicos";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -54,9 +55,10 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
                     myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
+                    myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -66,7 +68,7 @@ namespace Kustodya.WebApi.Controllers
             var JSONString2 = JsonConvert.SerializeObject(table);
 
 
-            SProcedure = @"Pacientes.SPdatosTotales";
+            SProcedure = @"Medicos.SPSso";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -74,9 +76,10 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
                     myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
+                    myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -85,9 +88,29 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString3 = JsonConvert.SerializeObject(table);
 
+            SProcedure = @"Medicos.SPSanciones";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
+                    myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString4 = JsonConvert.SerializeObject(table);
 
 
-            var dataObjects = "{ informacionPacientes: " + JSONString1 + ", empleador: " + JSONString2 + " , datosTotales: " + JSONString3 + "}";
+
+            var dataObjects = "{ informacionUsuarios: " + JSONString1 + ", datosAcademicos: " + JSONString2 + " , servicioSocialObligatorio: " + JSONString3 + ", Sanciones: " + JSONString4 + "}";
             return TryFormatJson(dataObjects);
         }
 
