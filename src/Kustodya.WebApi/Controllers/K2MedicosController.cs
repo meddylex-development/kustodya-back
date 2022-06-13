@@ -22,7 +22,7 @@ namespace Kustodya.WebApi.Controllers
 
                //InformacionUsuarios
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarUsuarios (int idUsuario, string numeroDocumento, int idTipoDoc, int esMedico)
         {
             string SProcedure = @"Medicos.SPinformacion";
@@ -36,7 +36,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
-                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : "");
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
                     myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
@@ -47,7 +47,7 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString1 = JsonConvert.SerializeObject(table);
 
-            SProcedure = @"Medicos.SPDatosAcademicos";
+        //    SProcedure = @"Medicos.SPDatosAcademicos";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -56,7 +56,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
-                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : "");
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
                     myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
@@ -77,7 +77,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
-                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : "");
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
                     myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
@@ -97,7 +97,7 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iidUsuario", (idUsuario != null) ? idUsuario : 0);
-                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (numeroDocumento != null) ? numeroDocumento : "");
                     myCommand.Parameters.AddWithValue("@TipoDoc", (idTipoDoc != null) ? idTipoDoc : 0);
                     myCommand.Parameters.AddWithValue("@EsMedico", (esMedico != null) ? esMedico : 0);
                     myReader = myCommand.ExecuteReader();
