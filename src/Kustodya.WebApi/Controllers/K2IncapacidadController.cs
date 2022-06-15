@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -65,6 +66,93 @@ namespace Kustodya.WebApi.Controllers
             }
             return new JsonResult("Creacion de incapacidad exitosa");
         }
+
+        //Consultar datos acumilados incapacidades
+        [HttpGet]
+        [AllowAnonymous]
+        public object ConsultarDatos(int NumeroDocumento, int TipoDoc, int idPaciente)
+        {
+            string SProcedure = @"Pacientes.SPdatosTotales";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (NumeroDocumento != null) ? NumeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0); myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            object JSONString = null;
+            JSONString = JsonConvert.SerializeObject(table);
+            return JSONString;
+        }
+
+        //Consultar datos de paciente
+        [HttpGet]
+        [AllowAnonymous]
+        public object ConsultarDatospaciente(int NumeroDocumento, int TipoDoc, int idPaciente)
+        {
+            string SProcedure = @"Pacientes.SPInformacion";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (NumeroDocumento != null) ? NumeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            object JSONString = null;
+            JSONString = JsonConvert.SerializeObject(table);
+            return JSONString;
+        }
+
+        //Consultar empleador
+        [HttpGet]
+        [AllowAnonymous]
+        public object ConsultarEmpleador(int NumeroDocumento, int TipoDoc, int idPaciente)
+        {
+            string SProcedure = @"Pacientes.SPempleador";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
+                    myCommand.Parameters.AddWithValue("@NumeroDocumento", (NumeroDocumento != null) ? NumeroDocumento : 0);
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            object JSONString = null;
+            JSONString = JsonConvert.SerializeObject(table);
+            return JSONString;
+        }
+
 
     }
 }
