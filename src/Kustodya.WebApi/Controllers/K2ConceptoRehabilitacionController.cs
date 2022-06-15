@@ -156,7 +156,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public JsonResult CrearTarea(CrearTarea t)
         {
             string SProcedure = @"Conceptos.SPCrearTarea";
