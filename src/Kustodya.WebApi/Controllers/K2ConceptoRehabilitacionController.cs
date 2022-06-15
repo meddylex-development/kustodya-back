@@ -237,7 +237,7 @@ namespace Kustodya.WebApi.Controllers
         //No Aplica Tarea
         [HttpPut]
         //[AllowAnonymous]
-        public JsonResult NoAlicaTarea(NoAplicaTarea t)
+        public JsonResult NoAplicaTarea(NoAplicaTarea t)
         {
             string SProcedure = @"Conceptos.SPNoAplicaTarea";
             DataTable table = new DataTable();

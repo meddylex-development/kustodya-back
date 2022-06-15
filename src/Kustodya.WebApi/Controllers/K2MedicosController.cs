@@ -47,7 +47,7 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString1 = JsonConvert.SerializeObject(table);
 
-        //    SProcedure = @"Medicos.SPDatosAcademicos";
+          SProcedure = @"Medicos.SPDatosAcademicos";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
