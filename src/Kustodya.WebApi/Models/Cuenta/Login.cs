@@ -18,7 +18,7 @@ namespace WebApi.ViewModels
         /// <summary>
         /// The user's Email
         /// </summary>
-        /// <example>adminfamisanar</example>
+        /// <example>juan.almonacid</example>
         [Required]
         //[EmailAddress]
         public string User { get; set; }
