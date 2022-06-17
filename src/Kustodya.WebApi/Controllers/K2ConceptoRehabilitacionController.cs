@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
-using Kustodya.ApplicationCore.Dtos;
 using Kustodya.ApplicationCore.Entities.Concepto;
 using Kustodya.ApplicationCore.Interfaces.Incapacidades;
 using Kustodya.ApplicationCore.Interfaces.Rehabilitacion;
-using Kustodya.Infrastructure;
 using Kustodya.WebApi.Controllers.Incapacidades.Modelos;
 using Kustodya.WebApi.Models.K2Conceptos;
-using Kustodya.WebApi.Models.K2Response;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,49 +22,20 @@ namespace Kustodya.WebApi.Controllers
         private readonly IConceptoRehabilitacionService _conceptoRehabilitacionService;
         private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
-        private readonly IPacienteService _pacienteService;
-        private readonly IMapper _mapper2;
-        private readonly MapperConfiguration _config = new MapperConfiguration(cfg => {
-            cfg.AddProfile<MappingProfiles>();
-            cfg.CreateMap<PacientesPorEmitir, PacienteOutputModel>();
-        });
+
+
 
         public K2ConceptoRehabilitacionController(
             IConceptoRehabilitacionService conceptoRehabilitacionService,
             IConfiguration configuration,
-            IPacienteService pacienteService,
-            IMapper mapper,
             ICie10Service cie10Service
             )
         {
             _conceptoRehabilitacionService = conceptoRehabilitacionService;
             _cie10Service = cie10Service;
             _configuration = configuration;
-            _pacienteService = pacienteService;
-            _mapper2 = _config.CreateMapper();
-        }
 
-        //Consultar tareas
-        [HttpGet]
-        //[AllowAnonymous]
-        public async Task<IActionResult> PendientesConceptoRehabilitacion([FromQuery] PacientesPorEmitir.EstadoConcepto? estado, [FromQuery] int usuario, [FromQuery] int tipo, [FromQuery] string busqueda = "", [FromQuery] int pagina = 1)
-        {
-            int cantidad = 10;
-            int user = 0;
-            if (tipo == 2)
-            {
-                user = usuario;
-            }
-            var listaPacientes = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, (pagina - 1) * cantidad, cantidad);
-            var total = await _pacienteService.PacientesPorEmitir(estado, user, busqueda, null, null);
-            var listaSalida = _mapper2.Map<List<PacienteOutputModel>>(listaPacientes);
 
-            PacientesOutputModel pacientesOutputModel = new PacientesOutputModel()
-            {
-                listaPacientes = listaSalida,
-                paginacion = new PaginacionModel(total.Count(), pagina, cantidad)
-            };
-            return Ok(pacientesOutputModel);
         }
 
         //Consultar tareas
@@ -190,7 +156,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public JsonResult CrearTarea(CrearTarea t)
         {
             string SProcedure = @"Conceptos.SPCrearTarea";
@@ -268,12 +234,12 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Reasignacion de tarea exitosa");
         }
 
-        //Anular tarea Concepto de rehabilitacion
+        //No Aplica Tarea
         [HttpPut]
         //[AllowAnonymous]
-        public JsonResult AnularTarea(AnularTarea t)
+        public JsonResult NoAplicaTarea(NoAplicaTarea t)
         {
-            string SProcedure = @"Conceptos.SPAnularTarea";
+            string SProcedure = @"Conceptos.SPNoAplicaTarea";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -284,14 +250,15 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@CausalAnulacion", t.CausalAnulacion);
+                    myCommand.Parameters.AddWithValue("@tCausalNoAplica", t.tCausalNoAplica);
+                    myCommand.Parameters.AddWithValue("@iIDCausalNoAplica", t.iIDCausalNoAplica);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            return new JsonResult("Anulacion de tarea exitosa");
+            return new JsonResult("Asignacion de tarea no aplica con exito");
         }
 
         //Consultar Concepto

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Kustodya.WebApi.Models.K2Conceptos
 {
-    public class AnularTarea
+    public class NoAplicaTarea
     {
         public int Id { get; set; }
-        public string CausalAnulacion { get; set; }
+        public string tCausalNoAplica { get; set; }
+        public int iIDCausalNoAplica { get; set; }
     }
 }
