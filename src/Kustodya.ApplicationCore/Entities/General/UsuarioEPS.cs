@@ -11,5 +11,6 @@ namespace Kustodya.ApplicationCore.Entities
         public bool Activo { get; set; }
         public TblEps Eps { get; set; }
         public TblUsuarios Usuario { get; set; }
+        public long TblIpsId { get; set; }
     }
 }

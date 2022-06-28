@@ -71,7 +71,8 @@ namespace Kustodya.WebApi.Controllers.Negocio
                 UsuarioEPSModel usueps = new UsuarioEPSModel
                 {
                     UsuarioId = item.TblUsuariosId,
-                    EpsId = item.TblEpsId
+                    EpsId = item.TblEpsId,
+                    IpsId = item.TblIpsId
                 };
                 listaUsuEps.Add(usueps);
             }
