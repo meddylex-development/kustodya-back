@@ -8,5 +8,6 @@ namespace Kustodya.ApplicationCore.DTOs.Negocio
     {
         public int UsuarioId { get; set; }
         public long EpsId { get; set; }
+        public long IpsId { get; set; }
     }
 }
