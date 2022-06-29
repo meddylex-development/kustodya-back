@@ -114,7 +114,7 @@ namespace Kustodya.WebApi.Controllers
             return TryFormatJson(dataObjects);
         }
 
-        private static string TryFormatJson(string str)
+          private static string TryFormatJson(string str)
         {
             try
             {
