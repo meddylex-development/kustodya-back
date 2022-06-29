@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApi.Controllers;
 using Kustodya.ApplicationCore.DTOs.Negocio;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Kustodya.WebApi.Controllers.Negocio
 {
@@ -20,13 +23,15 @@ namespace Kustodya.WebApi.Controllers.Negocio
         private readonly IIPSService _ipsService;
         private readonly ILoggerService<EPSController> _logger;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public EPSController(IEPSService epsService, IIPSService ipsService, IMapper mapper, ILoggerService<EPSController> logger)
+        public EPSController(IEPSService epsService, IIPSService ipsService, IMapper mapper, ILoggerService<EPSController> logger, IConfiguration configuration)
         {
             _epsService = epsService;
             _mapper = mapper;
             _logger = logger;
             _ipsService = ipsService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -122,5 +127,44 @@ namespace Kustodya.WebApi.Controllers.Negocio
             }
             return Ok();
         }
+        //InformacionUsuarios
+        //[HttpGet]
+        ////[AllowAnonymous]
+        //public object IdUsuarioEps(int idUsuario)
+        //{
+        //    string SProcedure = @"Usuarios.SPEpsUsuario";
+        //    DataTable table = new DataTable();
+        //    string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+        //    SqlDataReader myReader;
+        //    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+        //    {
+        //        myCon.Open();
+        //        using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+        //        {
+        //            myCommand.CommandType = CommandType.StoredProcedure;
+        //            myCommand.Parameters.AddWithValue("@IdUsuario", (idUsuario != null) ? idUsuario : 0);
+        //            myReader = myCommand.ExecuteReader();
+        //            table.Load(myReader);
+        //            myReader.Close();
+        //            myCon.Close();
+        //        }
+        //    }
+        //    var JSONString = JsonConvert.SerializeObject(table);
+
+        //    return TryFormatJson(JSONString);
+        //}
+        //private static string TryFormatJson(string str)
+        //{
+        //    try
+        //    {
+        //        object parsedJson = JsonConvert.DeserializeObject(str);
+        //        return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+        //    }
+        //    catch
+        //    {
+        //        // can't parse JSON, return the original string
+        //        return str;
+        //    }
+        //}
     }
 }
