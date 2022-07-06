@@ -46,7 +46,8 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@tPalabrasClave", i.tPalabrasClave);
                     myCommand.Parameters.AddWithValue("@tDescripcionAcontecimientos", i.tDescripcion);
                     myCommand.Parameters.AddWithValue("@iIDCiudad", i.iIDCiudad);
-                    myCommand.Parameters.AddWithValue("@tDireccion", i.tDireccion);
+                    // myCommand.Parameters.AddWithValue("@tDireccion", i.tDireccion);
+                    myCommand.Parameters.AddWithValue("@tDireccionGenerada", i.tDireccion);
                     myCommand.Parameters.AddWithValue("@tBarrio", i.tBarrio);
                     myCommand.Parameters.AddWithValue("@iIDCie10", i.iIDDiagnosticoCorrelacion);
                     myCommand.Parameters.AddWithValue("@iIDLateralidad", i.iIDLateralidad);
