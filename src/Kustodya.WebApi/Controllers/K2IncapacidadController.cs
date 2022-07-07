@@ -168,6 +168,60 @@ namespace Kustodya.WebApi.Controllers
             return JSONString;
         }
 
+        //Agregar diagnostico al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarSintomaIncapacidad(AgregarSintomaIncapacidad c)
+        {
+            string SProcedure = @"K2Incapacidad.SPAgregarSintoma";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
+                    myCommand.Parameters.AddWithValue("@iIDSintomas", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Sintoma agregado exitosamente");
+        }
+        //Agregar diagnostico al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarSignoIncapacidad(AgregarSignoIncapacidad c)
+        {
+            string SProcedure = @"K2Incapacidad.SPAgregarSigno";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
+                    myCommand.Parameters.AddWithValue("@iIDSignos", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Signo agregado exitosamente");
+        }
 
     }
 }
