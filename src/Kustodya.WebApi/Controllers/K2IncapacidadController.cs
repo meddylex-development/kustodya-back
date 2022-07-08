@@ -1,4 +1,4 @@
-﻿using Kustodya.WebApi.Models.K2Incapacidades;
+using Kustodya.WebApi.Models.K2Incapacidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +21,7 @@ namespace Kustodya.WebApi.Controllers
         //Crear Incapacidad
         [HttpPost]
         //[AllowAnonymous]
-        public JsonResult CrearIncapacidad(CrearIncapacidad i)
+        public object CrearIncapacidad(CrearIncapacidad i)
         {
             string SProcedure = @"Incapacidades.SPCrearIncapacidad";
             DataTable table = new DataTable();
@@ -46,7 +46,6 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@tPalabrasClave", i.tPalabrasClave);
                     myCommand.Parameters.AddWithValue("@tDescripcionAcontecimientos", i.tDescripcion);
                     myCommand.Parameters.AddWithValue("@iIDCiudad", i.iIDCiudad);
-                    // myCommand.Parameters.AddWithValue("@tDireccion", i.tDireccion);
                     myCommand.Parameters.AddWithValue("@tDireccionGenerada", i.tDireccion);
                     myCommand.Parameters.AddWithValue("@tBarrio", i.tBarrio);
                     myCommand.Parameters.AddWithValue("@iIDCie10", i.iIDDiagnosticoCorrelacion);
@@ -56,17 +55,31 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@iDiasIncapacidad", i.iDiasIncapacidad);
                     myCommand.Parameters.AddWithValue("@tJustificacion", i.tJustificacion);
                     myCommand.Parameters.AddWithValue("@iIDUsuarioCreador", i.iIDUsuarioCreador);
-                    myCommand.Parameters.AddWithValue("@bAuditoria", i.bAuditoria);
-                    myCommand.Parameters.AddWithValue("@iIDOrigenIncapacidad", i.iIDOrigenCalificadoIncapacidad);
                     myCommand.Parameters.AddWithValue("@bEsTranscripcion", i.bEsTranscripcion);
-                    myCommand.Parameters.AddWithValue("@tNumeroIncapacidadIPSTranscripcion", i.NumeroIncapacidadIPSTranscripcion);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            return new JsonResult("Creacion de incapacidad exitosa");
+            // return new JsonResult("Creacion de incapacidad exitosa");
+            //var JSONString = JsonConvert.SerializeObject(table);
+            //return JSONString; 
+            var dataObjects = JsonConvert.SerializeObject(table);
+            return TryFormatJson(dataObjects);
+        }
+        private static string TryFormatJson(string str)
+        {
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
         }
 
         //Consultar datos acumilados incapacidades
@@ -155,6 +168,60 @@ namespace Kustodya.WebApi.Controllers
             return JSONString;
         }
 
+        //Agregar diagnostico al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarSintomaIncapacidad(AgregarSintomaIncapacidad c)
+        {
+            string SProcedure = @"K2Incapacidad.SPAgregarSintoma";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
+                    myCommand.Parameters.AddWithValue("@iIDSintomas", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Sintoma agregado exitosamente");
+        }
+        //Agregar diagnostico al Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult AgregarSignoIncapacidad(AgregarSignoIncapacidad c)
+        {
+            string SProcedure = @"K2Incapacidad.SPAgregarSigno";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
+                    myCommand.Parameters.AddWithValue("@iIDSignos", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Signo agregado exitosamente");
+        }
 
     }
 }

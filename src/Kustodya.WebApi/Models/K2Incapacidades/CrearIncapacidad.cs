@@ -13,9 +13,9 @@ namespace Kustodya.WebApi.Models.K2Incapacidades
         public int? iIDTipoAtencion { get; set; }
         public int iIDTipoAfeccion { get; set; }
         public bool bSOAT { get; set; }
-        public bool tJustificacionDiasAdicionales { get; set; }
-        public bool iIDPais { get; set; }
-        public bool iIDDepartamento { get; set; }
+        public string tJustificacionDiasAdicionales { get; set; }
+        public int iIDPais { get; set; }
+        public int iIDDepartamento { get; set; }
         public int iIDPresuntoOrigenIncapacidad { get; set; }
         public string? tPalabrasClave { get; set; }
         public string? tDescripcion { get; set; }
@@ -33,6 +33,7 @@ namespace Kustodya.WebApi.Models.K2Incapacidades
         public int iIDOrigenCalificadoIncapacidad { get; set; }
         public bool bEsTranscripcion { get; set; }
         public string NumeroIncapacidadIPSTranscripcion { get; set; }
+
 
     }
 }

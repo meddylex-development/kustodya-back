@@ -73,5 +73,5 @@ namespace Kustodya.WebApi.Controllers.Negocio
                 return str;
             }
         }
-    }
+     }
 }
