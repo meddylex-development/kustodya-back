@@ -99,7 +99,8 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
                     myCommand.Parameters.AddWithValue("@NumeroDocumento", (NumeroDocumento != null) ? NumeroDocumento : 0);
-                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0); myReader = myCommand.ExecuteReader();
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0);
+                    myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
