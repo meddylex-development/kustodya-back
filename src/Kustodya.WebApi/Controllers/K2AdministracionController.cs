@@ -17,7 +17,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar paises
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarPais()
         {
             string SProcedure = @"Administracion.SPCiudades";
@@ -46,7 +46,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar Departamentos
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarDepartamentos(int IDPAIS)
         {
             string SProcedure = @"Administracion.SPCiudades";
@@ -75,7 +75,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar Municipios
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarMunicipios(int IDPAIS, int IDDEPTO)
         {
             string SProcedure = @"Administracion.SPCiudades";
@@ -104,7 +104,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar Poblacion
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarPoblacion(int IDPAIS, int IDDEPTO, int IDMUNICIPIO)
         {
             string SProcedure = @"Administracion.SPCiudades";
