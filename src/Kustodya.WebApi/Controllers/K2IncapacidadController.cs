@@ -1,4 +1,4 @@
-﻿using Kustodya.WebApi.Models.K2Incapacidades;
+using Kustodya.WebApi.Models.K2Incapacidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -39,52 +39,39 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@iIDTipoAtencion", i.iIDTipoAtencion);
                     myCommand.Parameters.AddWithValue("@iIDTipoAfeccion", i.iIDTipoAfeccion);
                     myCommand.Parameters.AddWithValue("@bSOAT", i.bSOAT);
-                    myCommand.Parameters.AddWithValue("@tJustificacionDiasAcumulados ", i.tJustificacionDiasAdicionales);
-                    myCommand.Parameters.AddWithValue("@iIDPais ", i.iIDPais);
-                    myCommand.Parameters.AddWithValue("@iIDDepartamento ", i.iIDDepartamento);
+                    myCommand.Parameters.AddWithValue("@tJustificacionDiasAdicionales", i.tJustificacionDiasAdicionales);
                     myCommand.Parameters.AddWithValue("@iIDPresuntoOrigenIncapacidad", i.iIDPresuntoOrigenIncapacidad);
                     myCommand.Parameters.AddWithValue("@tPalabrasClave", i.tPalabrasClave);
                     myCommand.Parameters.AddWithValue("@tDescripcionAcontecimientos", i.tDescripcion);
                     myCommand.Parameters.AddWithValue("@iIDCiudad", i.iIDCiudad);
                     myCommand.Parameters.AddWithValue("@tDireccionGenerada", i.tDireccion);
                     myCommand.Parameters.AddWithValue("@tBarrio", i.tBarrio);
-                    myCommand.Parameters.AddWithValue("@iIDCie10", i.iIDDiagnosticoCorrelacion);
+                    myCommand.Parameters.AddWithValue("@iIDCie10", i.iIDCIE10);
                     myCommand.Parameters.AddWithValue("@iIDLateralidad", i.iIDLateralidad);
                     myCommand.Parameters.AddWithValue("@tDescripcionSintomatologica", i.tDescripcionSintomatologica);
                     myCommand.Parameters.AddWithValue("@bProrroga", i.bProrroga);
                     myCommand.Parameters.AddWithValue("@iDiasIncapacidad", i.iDiasIncapacidad);
                     myCommand.Parameters.AddWithValue("@tJustificacion", i.tJustificacion);
                     myCommand.Parameters.AddWithValue("@iIDUsuarioCreador", i.iIDUsuarioCreador);
+                    myCommand.Parameters.AddWithValue("@iIDDiagnosticoCorrelacion", i.iIDDiagnosticoCorrelacion);
                     myCommand.Parameters.AddWithValue("@bEsTranscripcion", i.bEsTranscripcion);
+                    myCommand.Parameters.AddWithValue("@bQuestion1", i.bQuestion1);
+                    myCommand.Parameters.AddWithValue("@bQuestion2", i.bQuestion2);
+                    myCommand.Parameters.AddWithValue("@bQuestion3", i.bQuestion3);
+                    myCommand.Parameters.AddWithValue("@bQuestion4", i.bQuestion4);
+                    myCommand.Parameters.AddWithValue("@bQuestion5", i.bQuestion5);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            // return new JsonResult("Creacion de incapacidad exitosa");
-            //var JSONString = JsonConvert.SerializeObject(table);
-            //return JSONString; 
-            var dataObjects = JsonConvert.SerializeObject(table);
-            return TryFormatJson(dataObjects);
-        }
-        private static string TryFormatJson(string str)
-        {
-            try
-            {
-                object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            }
-            catch
-            {
-                // can't parse JSON, return the original string
-                return str;
-            }
+            return new JsonResult("Creacion de incapacidad exitosa");
         }
 
-        //Consultar datos acumilados incapacidades
+        //Consultar datos acumulados incapacidades
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarDatos(int NumeroDocumento, int TipoDoc, int idPaciente)
         {
             string SProcedure = @"Pacientes.SPdatosTotales";
@@ -99,7 +86,8 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@iIDPaciente", (idPaciente != null) ? idPaciente : 0);
                     myCommand.Parameters.AddWithValue("@NumeroDocumento", (NumeroDocumento != null) ? NumeroDocumento : 0);
-                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0); myReader = myCommand.ExecuteReader();
+                    myCommand.Parameters.AddWithValue("@TipoDoc", (TipoDoc != null) ? TipoDoc : 0);
+                    myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
@@ -112,7 +100,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar datos de paciente
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarDatospaciente(int NumeroDocumento, int TipoDoc, int idPaciente)
         {
             string SProcedure = @"Pacientes.SPInformacion";
@@ -141,7 +129,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Consultar empleador
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultarEmpleador(int NumeroDocumento, int TipoDoc, int idPaciente)
         {
             string SProcedure = @"Pacientes.SPempleador";
@@ -168,12 +156,12 @@ namespace Kustodya.WebApi.Controllers
             return JSONString;
         }
 
-        //Agregar diagnostico al Concepto de rehabilitacion
+        //Agregar Sintoma a la Incapacidad
         [HttpPost]
         //[AllowAnonymous]
-        public JsonResult AgregarSintomaIncapacidad(AgregarSintomaIncapacidad c)
+        public JsonResult AgregarSintomaIncapacidad(int iIDCIE10)
         {
-            string SProcedure = @"K2Incapacidad.SPAgregarSintoma";
+            string SProcedure = @"Incapacidades.SPCrearSintomas";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -183,10 +171,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", 1);
-                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
-                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
-                    myCommand.Parameters.AddWithValue("@iIDSintomas", 0);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", iIDCIE10);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -195,12 +180,13 @@ namespace Kustodya.WebApi.Controllers
             }
             return new JsonResult("Sintoma agregado exitosamente");
         }
-        //Agregar diagnostico al Concepto de rehabilitacion
+
+        //Agregar Signo a la Incapacidad
         [HttpPost]
         //[AllowAnonymous]
-        public JsonResult AgregarSignoIncapacidad(AgregarSignoIncapacidad c)
+        public JsonResult AgregarSignoIncapacidad(int iIDCIE10)
         {
-            string SProcedure = @"K2Incapacidad.SPAgregarSigno";
+            string SProcedure = @"Incapacidades.SPCrearSignos";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -210,10 +196,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", 1);
-                    myCommand.Parameters.AddWithValue("@IdIncapacidad", c.iIDDiagnosticoIncapacidad);
-                    myCommand.Parameters.AddWithValue("@Cie10Id", c.iIDCIE10);
-                    myCommand.Parameters.AddWithValue("@iIDSignos", 0);
+                    myCommand.Parameters.AddWithValue("@Cie10Id", iIDCIE10);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -222,6 +205,5 @@ namespace Kustodya.WebApi.Controllers
             }
             return new JsonResult("Signo agregado exitosamente");
         }
-
     }
 }
