@@ -371,6 +371,12 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
                     myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", (c.RemisionAdministradoraFondoPension != null) ? c.RemisionAdministradoraFondoPension : "");
                     myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
+                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                    myCommand.Parameters.AddWithValue("@tAsunto ", c.tAsunto);
+                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmailPaciente ", c.tEmailPaciente);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -560,6 +566,35 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Secuela eliminada exitosamente");
         }
 
+        //Editar informacion empleador en el Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EditarEmpleadorConcepto(EditarEmpleador c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarEmpleador";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@tDireccion", c.tDireccion);
+                    myCommand.Parameters.AddWithValue("@tTelefono", c.tTelefono);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmail", c.tEmail);
+                    myCommand.Parameters.AddWithValue("@iIDEmpresaPaciente", c.iIDEmpresaPaciente);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Empleador editado exitosamente");
+        }
+
         //Emitir Concepto de rehabilitacion
         [HttpPut]
         //[AllowAnonymous]
@@ -591,6 +626,13 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
                     myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", c.RemisionAdministradoraFondoPension);
                     myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
+                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                    myCommand.Parameters.AddWithValue("@tAsunto ", c.tAsunto);
+                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmailPaciente ", c.tEmailPaciente);
+
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
