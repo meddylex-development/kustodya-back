@@ -143,7 +143,7 @@ namespace Kustodya.WebApi.Controllers
 
         //Informacion Conseptos
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public object ConsultaConcepto(int idConcepto)
         {
             string SProcedure = @"Conceptos.SPConsultaConcepto";
