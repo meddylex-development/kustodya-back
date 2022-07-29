@@ -140,6 +140,52 @@ namespace Kustodya.WebApi.Controllers
             return TryFormatJson(dataObjects);
         }
 
+
+        //Informacion Conseptos
+        [HttpGet]
+        [AllowAnonymous]
+        public object ConsultaConcepto(int idConcepto)
+        {
+            string SProcedure = @"Conceptos.SPConsultaConcepto";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", idConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString1 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPConsultaEmpresa";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", idConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString2 = JsonConvert.SerializeObject(table);
+
+            var dataObjects = "{ InformacionConcepto: " + JSONString1 + ", InformacionEmpresa: " + JSONString2 + "}";
+            return TryFormatJson(dataObjects);
+        }
+
         private static string TryFormatJson(string str)
         {
             try
@@ -153,7 +199,6 @@ namespace Kustodya.WebApi.Controllers
                 return str;
             }
         }
-
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
         //[AllowAnonymous]
