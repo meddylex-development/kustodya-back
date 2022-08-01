@@ -242,10 +242,88 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Asignacion de tarea no aplica con exito");
         }
 
+        //Consultar selectores
+        [HttpGet]
+        //[AllowAnonymous]
+        public object ConsultarSelectores(int iIDSubtabla)
+        {
+            string SProcedure = @"Conceptos.SPSelectores";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 103);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString1 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPSelectores";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 104);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString2 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPSelectores";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 105);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString3 = JsonConvert.SerializeObject(table);
+            SProcedure = @"Conceptos.SPSelectores";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 106);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString4 = JsonConvert.SerializeObject(table);
+
+            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + "}";
+            return TryFormatJson(dataObjects);
+        }
+
         //Consultar concepto
         [HttpGet]
         //[AllowAnonymous]
-        public object ConsultarConcepto(int IdConcepto)
+        public object ConsultarConcepto(int IdTarea)
         {
             string SProcedure = @"Conceptos.SPConsultaConcepto";
             DataTable table = new DataTable();
@@ -257,7 +335,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myCommand.Parameters.AddWithValue("@IdTarea", IdTarea);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -274,7 +352,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myCommand.Parameters.AddWithValue("@IdTarea", IdTarea);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -291,7 +369,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myCommand.Parameters.AddWithValue("@IdTarea", IdTarea);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -308,7 +386,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myCommand.Parameters.AddWithValue("@IdTarea", IdTarea);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
