@@ -23,8 +23,6 @@ namespace Kustodya.WebApi.Controllers
         private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
 
-
-
         public K2ConceptoRehabilitacionController(
             IConceptoRehabilitacionService conceptoRehabilitacionService,
             IConfiguration configuration,
@@ -34,8 +32,6 @@ namespace Kustodya.WebApi.Controllers
             _conceptoRehabilitacionService = conceptoRehabilitacionService;
             _cie10Service = cie10Service;
             _configuration = configuration;
-
-
         }
 
         //Consultar tareas
@@ -108,8 +104,6 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString3 = JsonConvert.SerializeObject(table);
             var dataObjects = "{ listadoPacientes: " + JSONString1 + ", paginacion: " + JSONString2 + ", registrosEstados: " + JSONString3 + "}";
-            // return dataObjects;
-            // return "listadoPacientes" + JSONString1 + "paginacion" + JSONString2 + "registrosEstados" + JSONString3;
             return TryFormatJson(dataObjects);
         }
 
@@ -140,19 +134,6 @@ namespace Kustodya.WebApi.Controllers
             return TryFormatJson(dataObjects);
         }
 
-        private static string TryFormatJson(string str)
-        {
-            try
-            {
-                object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            }
-            catch
-            {
-                // can't parse JSON, return the original string
-                return str;
-            }
-        }
 
         //Crear tarea Concepto de rehabilitacion
         [HttpPost]
@@ -261,83 +242,83 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Asignacion de tarea no aplica con exito");
         }
 
-        //Consultar Concepto
-        [HttpGet("{pacienteporEmitirId:int}")]
+        //Consultar concepto
+        [HttpGet]
         //[AllowAnonymous]
-        public async Task<IActionResult> ConceptoRehabilitacion(int pacienteporEmitirId)
+        public object ConsultarConcepto(int IdConcepto)
         {
-            var conceptoRehabilitacion = await _conceptoRehabilitacionService.DatosConcepto(pacienteporEmitirId);
-            if (conceptoRehabilitacion == null)
-                return NotFound();
-            var pacientePorEmitir = await _conceptoRehabilitacionService.PacientePorEmitir(pacienteporEmitirId);
-            var diasAcumulados = await _conceptoRehabilitacionService.DiasAcumulados(pacientePorEmitir.PacienteId);
-            var conceptosEmitidos = await _conceptoRehabilitacionService.ConceptosEmitidos(pacientePorEmitir.PacienteId, "", null, null);
-            var diagnosticos = await _cie10Service.GetCie10();
-            ConceptoRehabilitacionOutputModel crom = new ConceptoRehabilitacionOutputModel
+            string SProcedure = @"Conceptos.SPConsultaConcepto";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                ConceptoRehabilitacionId = conceptoRehabilitacion.Id,// se muestra el Id del concepto de rehabilitacion
-                diasAcumulados = diasAcumulados == null ? 0 : (int)diasAcumulados,
-                conceptosEmitidos = conceptosEmitidos.Count(),
-                PCLCalificados = 0, //Calculado: pendiente por crear formulario
-                apellidos = pacientePorEmitir.Paciente.TPrimerApellido + (pacientePorEmitir.Paciente.TSegundoApellido == null ? "" : " " + pacientePorEmitir.Paciente.TSegundoApellido),
-                nombres = pacientePorEmitir.Paciente.TPrimerNombre + (pacientePorEmitir.Paciente.TSegundoNombre == null ? "" : " " + pacientePorEmitir.Paciente.TSegundoNombre),
-                tipoDocumento = pacientePorEmitir.Paciente.IIdtipoDocNavigation.TDescripcion,
-                numeroDocumento = pacientePorEmitir.Paciente.TNumeroDocumento,
-                fechaNacimiento = pacientePorEmitir.Paciente.DtFechaNacimiento?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds,
-                //fechaEmision = pacientePorEmitir.FechaEmision?.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds, cambio base de datos
-                edad = pacientePorEmitir.Paciente.IEdad,
-                ARL = pacientePorEmitir.Paciente.IIdarlNavigation.TNombre,
-                AFP = pacientePorEmitir.Paciente.IIdafpNavigation.TNombre,
-                EPS = pacientePorEmitir.Paciente.IIdepsNavigation.TNombre,
-                codigoCorto = conceptoRehabilitacion.CodigoCorto,
-                historiaClinica = conceptoRehabilitacion.ResumenHistoriaClinica,
-                finalidadTratmamiento = Convert.ToInt32(conceptoRehabilitacion.FinalidadTratamientos),
-                Farmacologico = conceptoRehabilitacion.EsFarmacologico,
-                terapiaOcupacional = conceptoRehabilitacion.EsTerapiaOcupacional,
-                fonoAudiologia = conceptoRehabilitacion.EsFonoaudiologia,
-                quirurgico = conceptoRehabilitacion.EsQuirurgico,
-                terapiaFisica = conceptoRehabilitacion.EsTerapiaFisica,
-                otrosTramites = conceptoRehabilitacion.EsOtrosTratamientos,
-                otrosTratamientos = conceptoRehabilitacion.DescripcionOtrosTratamientos,
-                cortoPlazo = Convert.ToInt32(conceptoRehabilitacion.PlazoCorto),
-                medianoPlazo = Convert.ToInt32(conceptoRehabilitacion.PlazoMediano),
-                concepto = Convert.ToInt32(conceptoRehabilitacion.Concepto),
-                RemisionAdministradoraFondoPension = conceptoRehabilitacion.RemisionAdministradoraFondoPension
-            };
-
-            List<DiagnosticosOutputModel> doms = new List<DiagnosticosOutputModel>();
-            foreach (var item in conceptoRehabilitacion.Diagnosticos)
-            {
-                var diagnostico = diagnosticos.Where(c => c.IIdcie10 == item.Cie10Id).FirstOrDefault();
-                DiagnosticosOutputModel dom = new DiagnosticosOutputModel
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
-                    id = item.Id,
-                    CIE10Id = diagnostico.IIdcie10,
-                    nombreDiagnostico = diagnostico?.TCie10 + "-" + diagnostico?.TDescripcion,
-                    Etiologia = Convert.ToInt32(item.Etiologia),
-                    nombreEtiologia = item.Etiologia.ToString(),
-                    FechaIncapacidad = item.FechaIncapacidad.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds
-                };
-                doms.Add(dom);
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-            crom.diagnosticos = doms;
+            var JSONString1 = JsonConvert.SerializeObject(table);
 
-            List<SecuelasOutputModel> soms = new List<SecuelasOutputModel>();
-            foreach (var item in conceptoRehabilitacion.Secuelas)
+            SProcedure = @"Conceptos.SPConsultaDiagnosticos";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                SecuelasOutputModel som = new SecuelasOutputModel
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
-                    id = item.Id,
-                    descripcion = item.Descripcion,
-                    pronostico = Convert.ToInt32(item.Pronostico),
-                    nombrePronostico = item.Pronostico.ToString(),
-                    tipoSecuela = Convert.ToInt32(item.Tipo),
-                    nombreTipoSecuela = item.Tipo.ToString()
-                };
-                soms.Add(som);
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-            crom.secuelas = soms;
-            return Ok(crom);
+            var JSONString2 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPConsultaSecuelas";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString3 = JsonConvert.SerializeObject(table);
+
+            SProcedure = @"Conceptos.SPConsultaEmpresa";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString4 = JsonConvert.SerializeObject(table);
+
+            var dataObjects = "{ Concepto: " + JSONString1 + ", DiagnosticosConcepto: " + JSONString2 + ", SecuelasConcepto: " + JSONString3 + ", EmpleadoresConcepto: " + JSONString4 +"}";
+            return TryFormatJson(dataObjects);
         }
 
         //Actualizar Concepto de rehabilitacion
@@ -667,5 +648,19 @@ namespace Kustodya.WebApi.Controllers
             }
             return new JsonResult("Notificacion de concepto exitoso");
         }
+        private static string TryFormatJson(string str)
+        {
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
+        }
+
     }
 }
