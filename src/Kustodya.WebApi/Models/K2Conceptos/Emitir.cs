@@ -20,13 +20,6 @@ namespace Kustodya.WebApi.Models.K2Conceptos
         public int PlazoCorto { get; set; }
         public int PlazoMediano { get; set; }
         public int Concepto { get; set; }
-        public string RemisionAdministradoraFondoPension { get; set; }
         public int Progreso { get; set; }
-        public int IdAfp { get; set; }
-        public string tAsunto { get; set; }
-        public string tDireccionPaciente { get; set; }
-        public string tTelefonoPaciente { get; set; }
-        public int iIDCiudad { get; set; }
-        public string tEmailPaciente { get; set; }
     }
 }

@@ -1,19 +1,17 @@
-﻿using AutoMapper;
-using Kustodya.ApplicationCore.Entities.Concepto;
-using Kustodya.ApplicationCore.Interfaces.Incapacidades;
+﻿using Kustodya.ApplicationCore.Interfaces.Incapacidades;
 using Kustodya.ApplicationCore.Interfaces.Rehabilitacion;
-using Kustodya.WebApi.Controllers.Incapacidades.Modelos;
 using Kustodya.WebApi.Models.K2Conceptos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
+using Kustodya.WebApi.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Mail;
+using System.Net;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -22,16 +20,19 @@ namespace Kustodya.WebApi.Controllers
         private readonly IConceptoRehabilitacionService _conceptoRehabilitacionService;
         private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
+        private readonly IMailService mailService;
 
         public K2ConceptoRehabilitacionController(
             IConceptoRehabilitacionService conceptoRehabilitacionService,
             IConfiguration configuration,
-            ICie10Service cie10Service
+            ICie10Service cie10Service,
+            IMailService mailService
             )
         {
             _conceptoRehabilitacionService = conceptoRehabilitacionService;
             _cie10Service = cie10Service;
             _configuration = configuration;
+            this.mailService = mailService;
         }
 
         //Consultar tareas
@@ -245,7 +246,7 @@ namespace Kustodya.WebApi.Controllers
         //Consultar selectores
         [HttpGet]
         //[AllowAnonymous]
-        public object ConsultarSelectores(int iIDSubtabla)
+        public object ConsultarSelectores()
         {
             string SProcedure = @"Conceptos.SPSelectores";
             DataTable table = new DataTable();
@@ -266,7 +267,6 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString1 = JsonConvert.SerializeObject(table);
 
-            SProcedure = @"Conceptos.SPSelectores";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -283,7 +283,6 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString2 = JsonConvert.SerializeObject(table);
 
-            SProcedure = @"Conceptos.SPSelectores";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -299,7 +298,7 @@ namespace Kustodya.WebApi.Controllers
                 }
             }
             var JSONString3 = JsonConvert.SerializeObject(table);
-            SProcedure = @"Conceptos.SPSelectores";
+
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -316,7 +315,23 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString4 = JsonConvert.SerializeObject(table);
 
-            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + "}";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 99);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString5 = JsonConvert.SerializeObject(table);
+
+            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + ", MediosNotificacion: " + JSONString5 + "}";
             return TryFormatJson(dataObjects);
         }
 
@@ -428,14 +443,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@PlazoCorto", c.PlazoCorto);
                     myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
-                    myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", (c.RemisionAdministradoraFondoPension != null) ? c.RemisionAdministradoraFondoPension : "");
                     myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
-                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
-                    myCommand.Parameters.AddWithValue("@tAsunto ", c.tAsunto);
-                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
-                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
-                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
-                    myCommand.Parameters.AddWithValue("@tEmailPaciente ", c.tEmailPaciente);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -463,8 +471,8 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@SP", 1);
                     myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", c.ConceptoRehabilitacionId);
                     myCommand.Parameters.AddWithValue("@Cie10Id", c.Cie10Id);
-                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : "");
-                    myCommand.Parameters.AddWithValue("@Etiologia", (c.Etiologia != null) ? c.Etiologia : "");
+                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : 1900-01-01);
+                    myCommand.Parameters.AddWithValue("@Etiologia", (c.Etiologia != null) ? c.Etiologia : 0);
                     myCommand.Parameters.AddWithValue("@Id", 0);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -493,7 +501,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@SP", 2);
                     myCommand.Parameters.AddWithValue("@ConceptoRehabilitacionId", 0);
                     myCommand.Parameters.AddWithValue("@Cie10Id", c.Cie10Id);
-                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : "");
+                    myCommand.Parameters.AddWithValue("@FechaIncapacidad", (c.FechaIncapacidad != null) ? c.FechaIncapacidad : 1900-01-01);
                     myCommand.Parameters.AddWithValue("@Etiologia", (c.Etiologia != null) ? c.Etiologia : "");
                     myCommand.Parameters.AddWithValue("@Id", c.Id);
                     myReader = myCommand.ExecuteReader();
@@ -506,9 +514,9 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Eliminar diagnostico del Concepto de rehabilitacion
-        [HttpDelete]
+        [HttpDelete("{Id:int}")]
         //[AllowAnonymous]
-        public JsonResult EliminarDiagnosticoConcepto(EliminarDiagnostico c)
+        public JsonResult EliminarDiagnosticoConcepto(int Id)
         {
             string SProcedure = @"Conceptos.SPGestionarDiagnostico";
             DataTable table = new DataTable();
@@ -525,7 +533,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@Cie10Id", 0);
                     myCommand.Parameters.AddWithValue("@FechaIncapacidad", 0);
                     myCommand.Parameters.AddWithValue("@Etiologia", 0);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myCommand.Parameters.AddWithValue("@Id", Id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -596,9 +604,9 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Eliminar secuela al Concepto de rehabilitacion
-        [HttpDelete]
+        [HttpDelete("{Id:int}")]
         //[AllowAnonymous]
-        public JsonResult EliminarSecuelaConcepto(EliminarSecuela c)
+        public JsonResult EliminarSecuelaConcepto(int Id)
         {
             string SProcedure = @"Conceptos.SPGestionarSecuela";
             DataTable table = new DataTable();
@@ -615,7 +623,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@Tipo", 0);
                     myCommand.Parameters.AddWithValue("@Descripcion", "");
                     myCommand.Parameters.AddWithValue("@Pronostico", 0);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myCommand.Parameters.AddWithValue("@Id", Id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -623,35 +631,6 @@ namespace Kustodya.WebApi.Controllers
                 }
             }
             return new JsonResult("Secuela eliminada exitosamente");
-        }
-
-        //Editar informacion empleador en el Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
-        public JsonResult EditarEmpleadorConcepto(EditarEmpleador c)
-        {
-            string SProcedure = @"Conceptos.SPGestionarEmpleador";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@tDireccion", c.tDireccion);
-                    myCommand.Parameters.AddWithValue("@tTelefono", c.tTelefono);
-                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
-                    myCommand.Parameters.AddWithValue("@tEmail", c.tEmail);
-                    myCommand.Parameters.AddWithValue("@iIDEmpresaPaciente", c.iIDEmpresaPaciente);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Empleador editado exitosamente");
         }
 
         //Emitir Concepto de rehabilitacion
@@ -683,15 +662,7 @@ namespace Kustodya.WebApi.Controllers
                     myCommand.Parameters.AddWithValue("@PlazoCorto", c.PlazoCorto);
                     myCommand.Parameters.AddWithValue("@PlazoMediano", c.PlazoMediano);
                     myCommand.Parameters.AddWithValue("@Concepto", c.Concepto);
-                    myCommand.Parameters.AddWithValue("@RemisionAdministradoraFondoPension", c.RemisionAdministradoraFondoPension);
                     myCommand.Parameters.AddWithValue("@Progreso", c.Progreso);
-                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
-                    myCommand.Parameters.AddWithValue("@tAsunto ", c.tAsunto);
-                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
-                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
-                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
-                    myCommand.Parameters.AddWithValue("@tEmailPaciente ", c.tEmailPaciente);
-
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -701,10 +672,10 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Concepto emitido exitosamente");
         }
 
-        //Notificar Concepto de rehabilitacion
+        //Editar Carta Concepto de rehabilitacion
         [HttpPut]
         //[AllowAnonymous]
-        public JsonResult NotificarConcepto(Notificar c)
+        public JsonResult EditarCarta(Carta c)
         {
             string SProcedure = @"Conceptos.SPNotificar";
             DataTable table = new DataTable();
@@ -716,7 +687,78 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 0);
                     myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                    myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
+                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
+                    myCommand.Parameters.AddWithValue("@FechaNotificacion", (c.FechaNotificacion != null) ? c.FechaNotificacion : 1900-01-01);
+                    myCommand.Parameters.AddWithValue("@MedioNotificacion", 0);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Edicion de la carta del concepto exitoso");
+        }
+
+        //Editar informacion empleador en el Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EditarEmpleadorConcepto(EditarEmpleador c)
+        {
+            string SProcedure = @"Conceptos.SPGestionarEmpleador";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@tDireccion", c.tDireccion);
+                    myCommand.Parameters.AddWithValue("@tTelefono", c.tTelefono);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmail", c.tEmail);
+                    myCommand.Parameters.AddWithValue("@iIDEmpresaPaciente", c.iIDEmpresaPaciente);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Empleador editado exitosamente");
+        }
+
+        //Notificar Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult NotificarConcepto(Carta c)
+        {
+            string SProcedure = @"Conceptos.SPNotificar";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@Id", c.Id);
+                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                    myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
+                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
+                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                    myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
+                    myCommand.Parameters.AddWithValue("@FechaNotificacion", c.FechaNotificacion);
                     myCommand.Parameters.AddWithValue("@MedioNotificacion", c.MedioNotificacion);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -726,6 +768,24 @@ namespace Kustodya.WebApi.Controllers
             }
             return new JsonResult("Notificacion de concepto exitoso");
         }
+
+        //Notificar Concepto de rehabilitacion --- solo funciona con hotmail
+        [HttpPost("Send")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Send([FromForm] MailRequest request)
+        {
+            try
+            {
+                await mailService.SendEmailAsync(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         private static string TryFormatJson(string str)
         {
             try
@@ -739,6 +799,5 @@ namespace Kustodya.WebApi.Controllers
                 return str;
             }
         }
-
     }
 }

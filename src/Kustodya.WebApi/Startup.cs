@@ -72,6 +72,7 @@ using Kustodya.ApplicationCore.Services.CalificacionOrigen;
 using Kustodya.WebApi.Services.Rethus;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
+using Kustodya.WebApi.Settings;
 
 namespace WebApi
 {
@@ -187,6 +188,9 @@ namespace WebApi
             services.AddScoped(typeof(IAsyncRepository<>), typeof(GeneralRepository<>));
             services.AddScoped(typeof(IAsyncContabilidadRepository<>), typeof(ContabilidadRepository<>));
             services.AddTransient(typeof(IAsyncRepository<Medico>), typeof(MedicosRepository));
+
+            services.AddTransient<IMailService, MailService>();//juank
+
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddSingleton<SmtpClient>();
             services.AddScoped<ITranscripcionesService, TranscripcionesService>();
@@ -260,7 +264,8 @@ namespace WebApi
             services.AddScoped(typeof(
             IDomainService<Movimiento, MovimientoInputModel>), typeof(MovimientoDomainService));
             services.Configure<ConfiguracionPowerBiModel>(Configuration.GetSection("EmbedSettings"));
-
+           
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));//juank
 
             services.AddSwaggerGenNewtonsoftSupport();
             services.AddSingleton(typeof(EmailService));
