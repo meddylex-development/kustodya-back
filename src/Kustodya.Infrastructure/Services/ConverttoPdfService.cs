@@ -22,7 +22,7 @@ namespace Kustodya.Infrastructure.Services
                 Orientation = Orientation.Landscape,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10, Bottom = 10, Left = 5, Right = 5 },
-                DocumentTitle = nombreArchivo
+                DocumentTitle = nombreArchivo,
                 //Out = string.Format(filePath, endfilename)
             };
             var objectSettings = new ObjectSettings

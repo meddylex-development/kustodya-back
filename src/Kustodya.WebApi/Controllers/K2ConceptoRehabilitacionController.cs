@@ -10,8 +10,6 @@ using System;
 using System.Threading.Tasks;
 using Kustodya.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
-using System.Net.Mail;
-using System.Net;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -20,7 +18,7 @@ namespace Kustodya.WebApi.Controllers
         private readonly IConceptoRehabilitacionService _conceptoRehabilitacionService;
         private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
-        private readonly IMailService mailService;
+        private readonly IMailService _mailService;
 
         public K2ConceptoRehabilitacionController(
             IConceptoRehabilitacionService conceptoRehabilitacionService,
@@ -32,7 +30,7 @@ namespace Kustodya.WebApi.Controllers
             _conceptoRehabilitacionService = conceptoRehabilitacionService;
             _cie10Service = cie10Service;
             _configuration = configuration;
-            this.mailService = mailService;
+            _mailService = mailService;
         }
 
         //Consultar tareas
@@ -331,7 +329,23 @@ namespace Kustodya.WebApi.Controllers
             }
             var JSONString5 = JsonConvert.SerializeObject(table);
 
-            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + ", MediosNotificacion: " + JSONString5 + "}";
+            SProcedure = @"administracion.SPAFP";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            var JSONString6 = JsonConvert.SerializeObject(table);
+ 
+            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + ", MediosNotificacion: " + JSONString5 + ", AFP: " + JSONString6 + "}";
             return TryFormatJson(dataObjects);
         }
 
@@ -769,19 +783,18 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Notificacion de concepto exitoso");
         }
 
-        //Notificar Concepto de rehabilitacion --- solo funciona con hotmail
-        [HttpPost("Send")]
+        //Notificar Concepto de rehabilitacion
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Send([FromForm] MailRequest request)
+        public async Task<IActionResult> SendEmailNotification([FromForm] MailRequest request)
         {
             try
             {
-                await mailService.SendEmailAsync(request);
+                await _mailService.SendEmailNotification(request);
                 return Ok();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

@@ -188,9 +188,7 @@ namespace WebApi
             services.AddScoped(typeof(IAsyncRepository<>), typeof(GeneralRepository<>));
             services.AddScoped(typeof(IAsyncContabilidadRepository<>), typeof(ContabilidadRepository<>));
             services.AddTransient(typeof(IAsyncRepository<Medico>), typeof(MedicosRepository));
-
-            services.AddTransient<IMailService, MailService>();//juank
-
+            services.AddTransient<IMailService, MailService>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddSingleton<SmtpClient>();
             services.AddScoped<ITranscripcionesService, TranscripcionesService>();
@@ -264,9 +262,7 @@ namespace WebApi
             services.AddScoped(typeof(
             IDomainService<Movimiento, MovimientoInputModel>), typeof(MovimientoDomainService));
             services.Configure<ConfiguracionPowerBiModel>(Configuration.GetSection("EmbedSettings"));
-           
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));//juank
-
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddSwaggerGenNewtonsoftSupport();
             services.AddSingleton(typeof(EmailService));
 
