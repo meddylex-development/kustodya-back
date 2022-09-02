@@ -20,7 +20,8 @@ namespace Kustodya.WebApi.Services
             _mailSettings = mailSettings.Value;
             _converttoPdfService = converttoPdfService;
         }
-    public async Task SendEmailNotification(MailRequest mailRequest)
+
+    public async Task SendEmail(MailRequest mailRequest)
         {
             var email = new MimeMessage();
             var builder = new BodyBuilder();
@@ -28,9 +29,10 @@ namespace Kustodya.WebApi.Services
             email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
             email.Subject = "Notificacion Concepto de Rehabilitacion nombre y cedula";
             builder.HtmlBody = CreateBody(mailRequest);
+            
             var ArchivoPDF = _converttoPdfService.ConvertHtmltoPDF(builder.HtmlBody, "Concepto.pdf");
+            
             builder.Attachments.Add("Notificacion1.pdf", ArchivoPDF);
-            builder.Attachments.Add("Notificacion2.pdf", ArchivoPDF);
 
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
@@ -43,18 +45,11 @@ namespace Kustodya.WebApi.Services
         private string CreateBody(MailRequest m)
         {
             string body = string.Empty;
-            using (StreamReader reader = new StreamReader("./assets/MailConcepto.html"))
-            {
-                body = reader.ReadToEnd();
-            }
-            body = body.Replace("{tNombreAFP}", m.tNombreAFP);
-            body = body.Replace("{tDireccionAFP}", m.tDireccionAFP);
-            body = body.Replace("{tNombreCiudadAFP}", m.tNombreCiudadAFP);
-            body = body.Replace("{tAsunto}", m.tAsunto);
-            body = body.Replace("{tNombrePaciente}", m.tNombrePaciente);
-            body = body.Replace("{tIdentificacionPaciente}", m.tIdentificacionPaciente);
-            body = body.Replace("{tnombreEPS}", m.tnombreEPS);
-            body = body.Replace("{tPronostico}", m.tPronostico);
+            //using (StreamReader reader = new StreamReader("./assets/MailConcepto.html"))
+            //{
+            //    body = reader.ReadToEnd();
+            //}
+            body = m.html;
             return body;
         }
     }

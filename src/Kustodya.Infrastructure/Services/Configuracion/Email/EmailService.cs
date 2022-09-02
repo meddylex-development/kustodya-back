@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Kustodya.ApplicationCore.Interfaces.Configuracion.Email;
 using System.Net;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Kustodya.BusinessLogic.Services.Configuracion.Email
 {
@@ -90,6 +91,18 @@ namespace Kustodya.BusinessLogic.Services.Configuracion.Email
             msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
 
             return msg;
+        }
+
+        //Envia correo concepto
+        public async Task SendEmailConcepto(string email, string subject, string htmlContent)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("meddylex.development@gmail.com", "Kustodya");
+            var to = new EmailAddress(email);
+            var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }

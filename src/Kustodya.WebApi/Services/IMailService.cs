@@ -5,6 +5,7 @@ namespace Kustodya.WebApi.Services
 {
     public interface IMailService
     {
-        Task SendEmailNotification(MailRequest mailRequest);
+        Task SendEmail(MailRequest mailRequest);
+
     }
 }

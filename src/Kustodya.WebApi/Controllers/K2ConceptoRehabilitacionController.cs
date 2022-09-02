@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System;
 using System.Threading.Tasks;
+using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,18 +20,21 @@ namespace Kustodya.WebApi.Controllers
         private readonly ICie10Service _cie10Service;
         private readonly IConfiguration _configuration;
         private readonly IMailService _mailService;
+        private readonly IConverttoPdfService _converttoPdfService;
 
         public K2ConceptoRehabilitacionController(
             IConceptoRehabilitacionService conceptoRehabilitacionService,
             IConfiguration configuration,
             ICie10Service cie10Service,
-            IMailService mailService
+            IMailService mailService,
+            IConverttoPdfService converttoPdfService
             )
         {
             _conceptoRehabilitacionService = conceptoRehabilitacionService;
             _cie10Service = cie10Service;
             _configuration = configuration;
             _mailService = mailService;
+            _converttoPdfService = converttoPdfService;
         }
 
         //Consultar tareas
@@ -133,114 +137,6 @@ namespace Kustodya.WebApi.Controllers
             return TryFormatJson(dataObjects);
         }
 
-
-        //Crear tarea Concepto de rehabilitacion
-        [HttpPost]
-        //[AllowAnonymous]
-        public JsonResult CrearTarea(CrearTarea t)
-        {
-            string SProcedure = @"Conceptos.SPCrearTarea";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@PacienteId", t.PacienteId);
-                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Creacion de tarea exitosa");
-        }
-
-        //Asignar tarea Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
-        public JsonResult AsignarTarea(AsignarTarea t)
-        {
-            string SProcedure = @"Conceptos.SPAsignarTarea";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@UsuarioAsignadoId ", t.UsuarioAsignadoId);
-                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Asignacion de tarea exitosa");
-        }
-
-        //Reasignar tarea Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
-        public JsonResult ReasignarTarea(AsignarTarea t)
-        {
-            string SProcedure = @"Conceptos.SPReasignarTarea";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@UsuarioAsignadoId ", t.UsuarioAsignadoId);
-                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Reasignacion de tarea exitosa");
-        }
-
-        //No Aplica Tarea
-        [HttpPut]
-        //[AllowAnonymous]
-        public JsonResult NoAplicaTarea(NoAplicaTarea t)
-        {
-            string SProcedure = @"Conceptos.SPNoAplicaTarea";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@Id", t.Id);
-                    myCommand.Parameters.AddWithValue("@tCausalNoAplica", t.tCausalNoAplica);
-                    myCommand.Parameters.AddWithValue("@iIDCausalNoAplica", t.iIDCausalNoAplica);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Asignacion de tarea no aplica con exito");
-        }
-
         //Consultar selectores
         [HttpGet]
         //[AllowAnonymous]
@@ -320,7 +216,7 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 99);
+                    myCommand.Parameters.AddWithValue("@iIDSubtabla", 102);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -344,9 +240,117 @@ namespace Kustodya.WebApi.Controllers
                 }
             }
             var JSONString6 = JsonConvert.SerializeObject(table);
- 
-            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + ", MediosNotificacion: " + JSONString5 + ", AFP: " + JSONString6 + "}";
+
+            var dataObjects = "{ TiposEtiologia: " + JSONString1 + ", TiposSecuela: " + JSONString2 + ", TiposPronostico: " + JSONString3 + ", TiposFinalidadTratamiento: " + JSONString4 + ", CausalNoAplica: " + JSONString5 + ", AFP: " + JSONString6 + "}";
             return TryFormatJson(dataObjects);
+        }
+
+        //Crear tarea Concepto de rehabilitacion
+        [HttpPost]
+        //[AllowAnonymous]
+        public JsonResult CrearTarea(CrearTarea t)
+        {
+            string SProcedure = @"Conceptos.SPCrearTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@PacienteId", t.PacienteId);
+                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Creacion de tarea exitosa");
+        }
+
+        //Asignar tarea Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult AsignarTarea(AsignarTarea t)
+        {
+            string SProcedure = @"Conceptos.SPAsignarTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@Id", t.Id);
+                    myCommand.Parameters.AddWithValue("@UsuarioAsignadoId ", t.UsuarioAsignadoId);
+                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
+                    myCommand.Parameters.AddWithValue("@iIdAFP", t.iIdAFP);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Asignacion de tarea exitosa");
+        }
+
+        //Reasignar tarea Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult ReasignarTarea(ReasignarTarea t)
+        {
+            string SProcedure = @"Conceptos.SPReasignarTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@Id", t.Id);
+                    myCommand.Parameters.AddWithValue("@UsuarioAsignadoId ", t.UsuarioAsignadoId);
+                    myCommand.Parameters.AddWithValue("@Prioridad", t.Prioridad);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Reasignacion de tarea exitosa");
+        }
+
+        //No Aplica Tarea
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult NoAplicaTarea(NoAplicaTarea t)
+        {
+            string SProcedure = @"Conceptos.SPNoAplicaTarea";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@Id", t.Id);
+                    myCommand.Parameters.AddWithValue("@tCausalNoAplica", t.tCausalNoAplica);
+                    myCommand.Parameters.AddWithValue("@iIDCausalNoAplica", t.iIDCausalNoAplica);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Asignacion de tarea no aplica con exito");
         }
 
         //Consultar concepto
@@ -691,7 +695,7 @@ namespace Kustodya.WebApi.Controllers
         //[AllowAnonymous]
         public JsonResult EditarCarta(Carta c)
         {
-            string SProcedure = @"Conceptos.SPNotificar";
+            string SProcedure = @"Conceptos.SPGestionarCarta";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
             SqlDataReader myReader;
@@ -701,16 +705,17 @@ namespace Kustodya.WebApi.Controllers
                 using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", 0);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
-                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                    myCommand.Parameters.AddWithValue("@IdConcepto", c.IdConcepto);
                     myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
                     myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                    myCommand.Parameters.AddWithValue("@iCodigoPostal", c.iCodigoPostal);
                     myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
                     myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
                     myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
-                    myCommand.Parameters.AddWithValue("@FechaNotificacion", (c.FechaNotificacion != null) ? c.FechaNotificacion : 1900-01-01);
-                    myCommand.Parameters.AddWithValue("@MedioNotificacion", 0);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyEmailAFP", c.bNotificacionbyEmailAFP);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyPmailAFP", c.bNotificacionbyPmailAFP);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyEmailPaciente", c.bNotificacionbyEmailPaciente);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyPmailPaciente", c.bNotificacionbyPmailPaciente);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -736,10 +741,13 @@ namespace Kustodya.WebApi.Controllers
                 {
                     myCommand.CommandType = CommandType.StoredProcedure;
                     myCommand.Parameters.AddWithValue("@tDireccion", c.tDireccion);
+                    myCommand.Parameters.AddWithValue("@iCodigoPostal", c.iCodigoPostal);
                     myCommand.Parameters.AddWithValue("@tTelefono", c.tTelefono);
                     myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
                     myCommand.Parameters.AddWithValue("@tEmail", c.tEmail);
                     myCommand.Parameters.AddWithValue("@iIDEmpresaPaciente", c.iIDEmpresaPaciente);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyEmail", c.bNotificacionbyEmail);
+                    myCommand.Parameters.AddWithValue("@bNotificacionbyPmail", c.bNotificacionbyPmail);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -750,47 +758,13 @@ namespace Kustodya.WebApi.Controllers
         }
 
         //Notificar Concepto de rehabilitacion
-        [HttpPut]
-        //[AllowAnonymous]
-        public JsonResult NotificarConcepto(Carta c)
-        {
-            string SProcedure = @"Conceptos.SPNotificar";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                {
-                    myCommand.CommandType = CommandType.StoredProcedure;
-                    myCommand.Parameters.AddWithValue("@SP", 1);
-                    myCommand.Parameters.AddWithValue("@Id", c.Id);
-                    myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
-                    myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
-                    myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
-                    myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
-                    myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
-                    myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
-                    myCommand.Parameters.AddWithValue("@FechaNotificacion", c.FechaNotificacion);
-                    myCommand.Parameters.AddWithValue("@MedioNotificacion", c.MedioNotificacion);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult("Notificacion de concepto exitoso");
-        }
-
-        //Notificar Concepto de rehabilitacion
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SendEmailNotification([FromForm] MailRequest request)
+        public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
         {
             try
             {
-                await _mailService.SendEmailNotification(request);
+                await _mailService.SendEmail(request);
                 return Ok();
             }
             catch (Exception ex)
@@ -799,6 +773,74 @@ namespace Kustodya.WebApi.Controllers
             }
         }
 
+        /*
+        //Notificar Concepto de rehabilitacion
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
+        {
+            try
+            {
+                await _mailService.SendEmail(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+                //Notificar Concepto de rehabilitacion
+                [HttpPut]
+                //[AllowAnonymous]
+                public JsonResult EnviarConcepto(Carta c)
+                {
+                    string SProcedure = @"Conceptos.SPEnviar";
+                    DataTable table = new DataTable();
+                    string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+                    SqlDataReader myReader;
+                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                    {
+                        myCon.Open();
+                        using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                        {
+                            myCommand.CommandType = CommandType.StoredProcedure;
+                            myCommand.Parameters.AddWithValue("@SP", 1);
+                            myCommand.Parameters.AddWithValue("@Id", c.Id);
+                            myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
+                            myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
+                            myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
+                            myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
+                            myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
+                            myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
+                            myCommand.Parameters.AddWithValue("@bNotificacionbyEmailAFP", c.bNotificacionbyEmailAFP);
+                            myCommand.Parameters.AddWithValue("@bNotificacionbyPmailAFP", c.bNotificacionbyPmailAFP);
+                            myCommand.Parameters.AddWithValue("@bNotificacionbyEmailPaciente", c.bNotificacionbyEmailPaciente);
+                            myCommand.Parameters.AddWithValue("@bNotificacionbyPmailPaciente", c.bNotificacionbyPmailPaciente);
+                            myReader = myCommand.ExecuteReader();
+                            table.Load(myReader);
+                            myReader.Close();
+                            myCon.Close();
+                        }
+                    }
+                    return new JsonResult("Notificacion de concepto exitoso");
+                }
+
+                        //Notificar Concepto de rehabilitacion
+                        [HttpPost]
+                        //[AllowAnonymous]
+                        public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
+                        {
+                            try
+                            {
+                                await _mailService.SendEmail(request);
+                                return Ok();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
+                        }
+                */
         private static string TryFormatJson(string str)
         {
             try
@@ -812,5 +854,100 @@ namespace Kustodya.WebApi.Controllers
                 return str;
             }
         }
+
+
+        /*
+        //envia correo concepto
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<IActionResult> EnviarConcepto(int IdConcepto)
+        {
+            string SProcedure = @"Conceptos.SPEnviar";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            int CantidadEmail = table.Rows.Count;
+            for (int i = 0; i < CantidadEmail; i++)
+            {
+                string email = table.Rows[i][0].ToString();
+                string body = string.Empty;
+                using (StreamReader reader = new StreamReader("./assets/EmailConcepto.html"))
+                {
+                    body = reader.ReadToEnd();
+                }
+                await IMailService.SendEmail(request);
+
+                //await _emailService.SendEmailConcepto(email, "Concepto de Rehabilitacion - Kustodya", body);
+            }
+
+
+
+            
+            //SendgridEmailWrapper sendGridWrapper = new SendgridEmailWrapper();
+            //sendGridWrapper.AddAttachment(@".\assets\CartaConcepto.html");
+
+
+            byte[] data = _converttoPdfService.ConvertHtmltoPDF("<h1> Hola mundo </h1>", "Carta.pdf");//"./assets/CartaConcepto.html", "Carta.pdf");
+            
+            if (data != null)
+            {
+                var file = new ObjectAttachmentWrapper()
+                {
+                    type = "application/pdf",
+                    filename = "cartaConcepto.pdf",
+                    content = System.Convert.ToBase64String(data),
+                    disposition = "attachment"
+                };
+                sendGridWrapper.AddAttachment(file);
+            }
+            
+
+            
+            int CantidadEmail = table.Rows.Count;
+            for (int i = 0; i < CantidadEmail; i++)
+            {
+                string email = table.Rows[i][0].ToString();
+                string body = string.Empty;
+                using (StreamReader reader = new StreamReader("./assets/EmailConcepto.html"))
+                {
+                    body = reader.ReadToEnd();
+                }
+                await _emailService.SendEmailConcepto(email, "Concepto de Rehabilitacion - Kustodya", body);
+            }
+            
+
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 2);
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+
+            return Ok();
+        }*/
     }
 }

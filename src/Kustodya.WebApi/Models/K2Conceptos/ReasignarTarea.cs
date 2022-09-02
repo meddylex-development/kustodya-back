@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace Kustodya.WebApi.Models.K2Conceptos
 {
-    public class AsignarTarea
+    public class ReasignarTarea
     {
         public int Id { get; set; }
         public int? UsuarioAsignadoId { get; set; }
         public int Prioridad { get; set; }
-        public int iIdAFP{ get; set; }
     }
 }

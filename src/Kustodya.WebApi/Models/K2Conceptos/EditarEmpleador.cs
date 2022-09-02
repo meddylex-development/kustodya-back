@@ -8,9 +8,12 @@ namespace Kustodya.WebApi.Models.K2Conceptos
     public class EditarEmpleador
     {
         public string tDireccion { get; set; }
+        public int iCodigoPostal { get; set; }
         public string tTelefono { get; set; }
         public int iIDCiudad { get; set; }
         public string tEmail { get; set; }
         public int iIDEmpresaPaciente { get; set; }
+        public Boolean bNotificacionbyEmail { get; set; }
+        public Boolean bNotificacionbyPmail { get; set; }
     }
 }
