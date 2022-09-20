@@ -238,11 +238,14 @@ namespace Kustodya.WebApi.Controllers
 
         private static string GetUrlMenu(int idUsuario, int idEntidad, int idPerfil, TblMenu mp, string urlBase)
         {
-            return string.IsNullOrWhiteSpace(mp.Url) ? 
-                string.Empty : 
-                    mp.Url.Replace("~", urlBase, false, CultureInfo.InvariantCulture) +
-                    (mp.Url.Contains('?', StringComparison.InvariantCulture) ? $"&" : $"?") + 
-                    $"UUX={idUsuario}&EUX={idEntidad}&PX1={idPerfil}";
+            //return string.IsNullOrWhiteSpace(mp.Url) ? 
+            //    string.Empty : 
+            //        mp.Url.Replace("~", urlBase, false, CultureInfo.InvariantCulture) +
+            //        (mp.Url.Contains('?', StringComparison.InvariantCulture) ? $"&" : $"?") + 
+            //        $"UUX={idUsuario}&EUX={idEntidad}&PX1={idPerfil}";
+            return string.IsNullOrWhiteSpace(mp.Url) ?
+                string.Empty :
+                    mp.Url.Replace("~", urlBase, false, CultureInfo.InvariantCulture);
         }
 
         [HttpPost]

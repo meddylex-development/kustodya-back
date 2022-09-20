@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Kustodya.ApplicationCore.Interfaces;
 using Kustodya.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace Kustodya.WebApi.Controllers
 {
@@ -757,7 +758,8 @@ namespace Kustodya.WebApi.Controllers
             return new JsonResult("Empleador editado exitosamente");
         }
 
-        //Notificar Concepto de rehabilitacion
+        /*
+        //Enviar Concepto de rehabilitacion
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
@@ -772,92 +774,9 @@ namespace Kustodya.WebApi.Controllers
                 throw ex;
             }
         }
+        */
 
-        /*
-        //Notificar Concepto de rehabilitacion
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
-        {
-            try
-            {
-                await _mailService.SendEmail(request);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-                //Notificar Concepto de rehabilitacion
-                [HttpPut]
-                //[AllowAnonymous]
-                public JsonResult EnviarConcepto(Carta c)
-                {
-                    string SProcedure = @"Conceptos.SPEnviar";
-                    DataTable table = new DataTable();
-                    string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
-                    SqlDataReader myReader;
-                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-                    {
-                        myCon.Open();
-                        using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
-                        {
-                            myCommand.CommandType = CommandType.StoredProcedure;
-                            myCommand.Parameters.AddWithValue("@SP", 1);
-                            myCommand.Parameters.AddWithValue("@Id", c.Id);
-                            myCommand.Parameters.AddWithValue("@IdAfp", c.IdAfp);
-                            myCommand.Parameters.AddWithValue("@tAsunto", c.tAsunto);
-                            myCommand.Parameters.AddWithValue("@tDireccionPaciente", c.tDireccionPaciente);
-                            myCommand.Parameters.AddWithValue("@tTelefonoPaciente", c.tTelefonoPaciente);
-                            myCommand.Parameters.AddWithValue("@iIDCiudad", c.iIDCiudad);
-                            myCommand.Parameters.AddWithValue("@tEmailPaciente", c.tEmailPaciente);
-                            myCommand.Parameters.AddWithValue("@bNotificacionbyEmailAFP", c.bNotificacionbyEmailAFP);
-                            myCommand.Parameters.AddWithValue("@bNotificacionbyPmailAFP", c.bNotificacionbyPmailAFP);
-                            myCommand.Parameters.AddWithValue("@bNotificacionbyEmailPaciente", c.bNotificacionbyEmailPaciente);
-                            myCommand.Parameters.AddWithValue("@bNotificacionbyPmailPaciente", c.bNotificacionbyPmailPaciente);
-                            myReader = myCommand.ExecuteReader();
-                            table.Load(myReader);
-                            myReader.Close();
-                            myCon.Close();
-                        }
-                    }
-                    return new JsonResult("Notificacion de concepto exitoso");
-                }
-
-                        //Notificar Concepto de rehabilitacion
-                        [HttpPost]
-                        //[AllowAnonymous]
-                        public async Task<IActionResult> SendEmailConcepto([FromForm] MailRequest request)
-                        {
-                            try
-                            {
-                                await _mailService.SendEmail(request);
-                                return Ok();
-                            }
-                            catch (Exception ex)
-                            {
-                                throw ex;
-                            }
-                        }
-                */
-        private static string TryFormatJson(string str)
-        {
-            try
-            {
-                object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            }
-            catch
-            {
-                // can't parse JSON, return the original string
-                return str;
-            }
-        }
-
-
-        /*
-        //envia correo concepto
+        //Enviar Concepto de rehabilitacion
         [HttpPut]
         [AllowAnonymous]
         public async Task<IActionResult> EnviarConcepto(int IdConcepto)
@@ -883,22 +802,40 @@ namespace Kustodya.WebApi.Controllers
             int CantidadEmail = table.Rows.Count;
             for (int i = 0; i < CantidadEmail; i++)
             {
-                string email = table.Rows[i][0].ToString();
-                string body = string.Empty;
-                using (StreamReader reader = new StreamReader("./assets/EmailConcepto.html"))
+                MailRequest mr = new MailRequest();
+                mr.email = table.Rows[i][0].ToString();
+                mr.nombrePaciente = table.Rows[i][1].ToString();
+                mr.codigo = table.Rows[i][2].ToString();
+                mr.tipoDocumento = table.Rows[i][3].ToString();
+                mr.numeroDocumento = table.Rows[i][4].ToString();
+                mr.nombreAFP = table.Rows[i][5].ToString();
+                mr.nombreEPS = table.Rows[i][6].ToString();
+                mr.pronostico = table.Rows[i][7].ToString();
+                mr.conIncapacidades = table.Rows[i][8].ToString();
+                try
                 {
-                    body = reader.ReadToEnd();
+                    await _mailService.SendEmailConcepto(mr);
+                    return Ok();
                 }
-                await IMailService.SendEmail(request);
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                //string body = string.Empty;
+                //using (StreamReader reader = new StreamReader("./assets/EmailConcepto.html"))
+                //{
+                //    body = reader.ReadToEnd();
+                //}
+                //await IMailService.SendEmail(request);
 
                 //await _emailService.SendEmailConcepto(email, "Concepto de Rehabilitacion - Kustodya", body);
             }
 
-
-
             
-            //SendgridEmailWrapper sendGridWrapper = new SendgridEmailWrapper();
-            //sendGridWrapper.AddAttachment(@".\assets\CartaConcepto.html");
+
+            /*
+            SendgridEmailWrapper sendGridWrapper = new SendgridEmailWrapper();
+            sendGridWrapper.AddAttachment(@".\assets\CartaConcepto.html");
 
 
             byte[] data = _converttoPdfService.ConvertHtmltoPDF("<h1> Hola mundo </h1>", "Carta.pdf");//"./assets/CartaConcepto.html", "Carta.pdf");
@@ -945,9 +882,55 @@ namespace Kustodya.WebApi.Controllers
                     myCon.Close();
                 }
             }
-
+            */
 
             return Ok();
-        }*/
+        }
+
+
+
+
+
+
+        /*
+        //Enviar Concepto de rehabilitacion
+        [HttpPut]
+        //[AllowAnonymous]
+        public JsonResult EnviarConcepto(int IdConcepto)
+        {
+            string SProcedure = @"Conceptos.SPEnviar";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("KustodyaDB");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(SProcedure, myCon))
+                {
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    myCommand.Parameters.AddWithValue("@SP", 1);
+                    myCommand.Parameters.AddWithValue("@IdConcepto", IdConcepto);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Concepto enviado exitosamente");
+        }
+        */
+        private static string TryFormatJson(string str)
+        {
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
+        }
     }
 }

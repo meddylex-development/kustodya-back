@@ -8,8 +8,14 @@ namespace Kustodya.WebApi.Models.K2Conceptos
 {
     public class MailRequest
     {
-        public string ToEmail { get; set; }
-        public string html { get; set; }
-        public List<IFormFile> Attachments { get; set; }
+        public string email { get; set; }
+        public string nombrePaciente { get; set; }
+        public string codigo { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public string nombreAFP { get; set; }
+        public string nombreEPS { get; set; }
+        public string pronostico { get; set; }
+        public string conIncapacidades { get; set; }
     }
 }

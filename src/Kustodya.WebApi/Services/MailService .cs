@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using MimeKit;
-using System.IO;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using Microsoft.Extensions.Options;
-using Kustodya.WebApi.Models.K2Conceptos;
+﻿using Microsoft.Extensions.Options;
 using Kustodya.WebApi.Settings;
 using Kustodya.ApplicationCore.Interfaces;
+using System.Net.Mail;
+using Kustodya.WebApi.Models.K2Conceptos;
+using System.Threading.Tasks;
+using MimeKit;
+using System.Net.Mime;
+using System.IO;
 
 namespace Kustodya.WebApi.Services
 {
@@ -21,35 +21,75 @@ namespace Kustodya.WebApi.Services
             _converttoPdfService = converttoPdfService;
         }
 
-    public async Task SendEmail(MailRequest mailRequest)
+        /*
+        public async Task SendEmail(MailRequest mailRequest)
         {
-            var email = new MimeMessage();
-            var builder = new BodyBuilder();
-            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-            email.Subject = "Notificacion Concepto de Rehabilitacion nombre y cedula";
-            builder.HtmlBody = CreateBody(mailRequest);
-            
-            var ArchivoPDF = _converttoPdfService.ConvertHtmltoPDF(builder.HtmlBody, "Concepto.pdf");
-            
-            builder.Attachments.Add("Notificacion1.pdf", ArchivoPDF);
 
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            MailMessage m = new MailMessage();
+            SmtpClient sc = new SmtpClient();
+            var builder = new BodyBuilder();
+            m.From = new MailAddress(_mailSettings.Mail);
+            m.To.Add(mailRequest.ToEmail);
+
+            m.Subject = "Notificacion Concepto de Rehabilitacion nombre y cedula";
+
+            builder.HtmlBody = CreateBody(mailRequest);
+            m.Body = builder.HtmlBody;
+
+            var ArchivoPDF = _converttoPdfService.ConvertHtmltoPDF(builder.HtmlBody, "Concepto.pdf");
+            Stream stream = new MemoryStream(ArchivoPDF);
+            Attachment data = new Attachment(stream, "Concepto.pdf", MediaTypeNames.Application.Pdf);
+            m.Attachments.Add(data);
+
+            sc.Host = _mailSettings.Host;
+            sc.Port = _mailSettings.Port;
+            sc.Credentials = new System.Net.NetworkCredential(_mailSettings.Mail, _mailSettings.Password);
+            sc.EnableSsl = false;
+            sc.Send(m);
+        }
+        */
+
+        public async Task SendEmailConcepto(MailRequest mr)
+        {
+
+            MailMessage m = new MailMessage();
+            SmtpClient sc = new SmtpClient();
+            var builder = new BodyBuilder();
+            m.From = new MailAddress(_mailSettings.Mail);
+            m.To.Add(mr.email);
+
+            m.Subject = "Notificacion Concepto de Rehabilitacion " + mr.nombrePaciente;
+
+            builder.HtmlBody = CreateBody(mr);
+            m.Body = builder.HtmlBody;
+
+            //var ArchivoPDF = _converttoPdfService.ConvertHtmltoPDF(builder.HtmlBody, "Concepto.pdf");
+            //Stream stream = new MemoryStream(ArchivoPDF);
+            //Attachment data = new Attachment(stream, "Concepto.pdf", MediaTypeNames.Application.Pdf);
+            //m.Attachments.Add(data);
+
+            sc.Host = _mailSettings.Host;
+            sc.Port = _mailSettings.Port;
+            sc.Credentials = new System.Net.NetworkCredential(_mailSettings.Mail, _mailSettings.Password);
+            sc.EnableSsl = false;
+            sc.Send(m);
         }
 
-        private string CreateBody(MailRequest m)
+        private string CreateBody(MailRequest mr)
         {
             string body = string.Empty;
-            //using (StreamReader reader = new StreamReader("./assets/MailConcepto.html"))
-            //{
-            //    body = reader.ReadToEnd();
-            //}
-            body = m.html;
+            using (StreamReader reader = new StreamReader("./assets/EmailConceptoAFP.html"))
+            {
+                body = reader.ReadToEnd();
+            }
+            body.Replace("{{##CODIGO##}}", mr.codigo);
+            body.Replace("{{##NOMBRE_PACIENTE##}}", mr.nombrePaciente);
+            body.Replace("{{##TIPO_DOCUMENTO##}}", mr.tipoDocumento);
+            body.Replace("{{##NUMERO_DOCUMENTO##}}", mr.numeroDocumento);
+            body.Replace("{{##NOMBRE_AFP##}}", mr.nombreAFP);
+            body.Replace("{{##NOMBRE_EPS##}}", mr.nombreEPS);
+            body.Replace("{{##PRONOSTICO##}}", mr.pronostico);
+            body.Replace("{{##CON_INCAPACIDADES##}}", mr.conIncapacidades);
             return body;
         }
     }
