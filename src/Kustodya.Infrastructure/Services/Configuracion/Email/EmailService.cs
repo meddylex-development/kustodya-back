@@ -92,17 +92,5 @@ namespace Kustodya.BusinessLogic.Services.Configuracion.Email
 
             return msg;
         }
-
-        //Envia correo concepto
-        public async Task SendEmailConcepto(string email, string subject, string htmlContent)
-        {
-            var apiKey = "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";
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("meddylex.development@gmail.com", "Kustodya");
-            var to = new EmailAddress(email);
-            var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
-        }
     }
 }
