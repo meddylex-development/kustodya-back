@@ -6,6 +6,7 @@ using System.IO;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Microsoft.Extensions.Configuration;
+using System.Linq.Expressions;
 
 namespace Kustodya.WebApi.Services
 {
@@ -33,13 +34,21 @@ namespace Kustodya.WebApi.Services
             builder.HtmlBody = CreateBody(mr);
             var htmlContent = builder.HtmlBody;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
-            byte[] data = _converttoPdfService.ConvertHtmltoPDF(builder.HtmlBody, "Concepto.pdf");
+
+            var templateDiagnosticoConcepto = buildFile(mr, 1);
+            var templateCartaConcepto = buildFile(mr, 2);
+            var templateTest = buildFile(mr, 3);
+
+
+            // byte[] data = _converttoPdfService.ConvertHtmltoPDF(templateDiagnosticoConcepto, "Diagnostico-concepto-rehabilitacion-" + mr.codigo + ".pdf");
+            // byte[] data = _converttoPdfService.ConvertHtmltoPDF(templateCartaConcepto, "Carta-concepto-rehabilitacion-" + mr.codigo + ".pdf");
+            byte[] data = _converttoPdfService.ConvertHtmltoPDF(templateTest, "Carta-concepto-rehabilitacion-" + mr.codigo + ".pdf");
             if (data != null)
             {
                 var file = new SendGrid.Helpers.Mail.Attachment()
                 {
                     Type = "application/pdf",
-                    Filename = "Concepto.pdf",
+                    Filename = "Carta-concepto-rehabilitacion-" + mr.codigo + ".pdf",
                     Content = System.Convert.ToBase64String(data),
                     Disposition = "attachment"
                 };
@@ -51,7 +60,8 @@ namespace Kustodya.WebApi.Services
         private string CreateBody(MailRequest mr)
         {
             string body = string.Empty;
-            using (StreamReader reader = new StreamReader("./assets/EmailConceptoAFP.html"))
+            // using (StreamReader reader = new StreamReader("./assets/EmailConceptoAFP.html"))
+            using (StreamReader reader = new StreamReader("./assets/concepto-rehabilitacion/correo-concepto-rehabilitacion.html"))
             {
                 body = reader.ReadToEnd();
             }
@@ -63,6 +73,43 @@ namespace Kustodya.WebApi.Services
             body = body.Replace("{NOMBRE_EPS}", mr.nombreEPS);
             body = body.Replace("{PRONOSTICO}", mr.pronostico);
             body = body.Replace("{CON_INCAPACIDADES}", mr.conIncapacidades);
+            return body;
+        }
+
+
+        private string buildFile(MailRequest mr, int typeTemplate)
+        {
+            string body = string.Empty;
+            var template = "";
+            switch (typeTemplate) {
+                case 1:
+                    // Template concepto de rehabilitacion
+                    template = "./assets/concepto-rehabilitacion/Concepto-rehabilitacion.html";
+                    break;
+                case 2:
+                    // Template carta concepto de rehabilitacion
+                    template = "./assets/concepto-rehabilitacion/carta-concepto-rehabilitacion-1.html";
+                    break;
+                case 3:
+                    // Template carta concepto de rehabilitacion
+                    template = "./assets/concepto-rehabilitacion/test.html";
+                    break;
+            }
+
+
+            // using (StreamReader reader = new StreamReader("./assets/EmailConceptoAFP.html"))
+            using (StreamReader reader = new StreamReader(template))
+            {
+                body = reader.ReadToEnd();
+            }
+            //body = body.Replace("{CODIGO}", mr.codigo);
+            //body = body.Replace("{NOMBRE_PACIENTE}", mr.nombrePaciente);
+            //body = body.Replace("{TIPO_DOCUMENTO}", mr.tipoDocumento);
+            //body = body.Replace("{NUMERO_DOCUMENTO}", mr.numeroDocumento);
+            //body = body.Replace("{NOMBRE_AFP}", mr.nombreAFP);
+            //body = body.Replace("{NOMBRE_EPS}", mr.nombreEPS);
+            //body = body.Replace("{PRONOSTICO}", mr.pronostico);
+            //body = body.Replace("{CON_INCAPACIDADES}", mr.conIncapacidades);
             return body;
         }
     }

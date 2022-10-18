@@ -19,7 +19,7 @@ namespace Kustodya.Infrastructure.Services
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
-                Orientation = Orientation.Landscape,
+                Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10, Bottom = 10, Left = 5, Right = 5 },
                 DocumentTitle = nombreArchivo,

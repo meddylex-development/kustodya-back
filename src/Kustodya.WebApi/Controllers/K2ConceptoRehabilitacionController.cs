@@ -772,7 +772,8 @@ namespace Kustodya.WebApi.Controllers
             for (int i = 0; i < CantidadEmail; i++)
             {
                 MailRequest mr = new MailRequest();
-                mr.email = table.Rows[i][0].ToString();
+                // mr.email = table.Rows[i][0].ToString();
+                mr.email = "meddylex.development@gmail.com";
                 mr.nombrePaciente = table.Rows[i][1].ToString();
                 mr.codigo = table.Rows[i][2].ToString();
                 mr.tipoDocumento = table.Rows[i][3].ToString();
