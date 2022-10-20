@@ -7,6 +7,11 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
+using QRCoder;
+using System.Drawing;
+using System;
+using System.Drawing.Imaging;
+using System.Net;
 
 namespace Kustodya.WebApi.Services
 {
@@ -61,21 +66,63 @@ namespace Kustodya.WebApi.Services
         {
             string body = string.Empty;
             // using (StreamReader reader = new StreamReader("./assets/EmailConceptoAFP.html"))
-            using (StreamReader reader = new StreamReader("./assets/concepto-rehabilitacion/correo-concepto-rehabilitacion.html"))
+            using (StreamReader reader = new StreamReader("./assets/concepto-rehabilitacion/plantilla-correo-01.html"))
             {
                 body = reader.ReadToEnd();
             }
-            body = body.Replace("{CODIGO}", mr.codigo);
-            body = body.Replace("{NOMBRE_PACIENTE}", mr.nombrePaciente);
-            body = body.Replace("{TIPO_DOCUMENTO}", mr.tipoDocumento);
-            body = body.Replace("{NUMERO_DOCUMENTO}", mr.numeroDocumento);
-            body = body.Replace("{NOMBRE_AFP}", mr.nombreAFP);
-            body = body.Replace("{NOMBRE_EPS}", mr.nombreEPS);
-            body = body.Replace("{PRONOSTICO}", mr.pronostico);
-            body = body.Replace("{CON_INCAPACIDADES}", mr.conIncapacidades);
-            return body;
+            //body = body.Replace("{CODIGO}", mr.codigo);
+            //body = body.Replace("{NOMBRE_PACIENTE}", mr.nombrePaciente);
+            //body = body.Replace("{TIPO_DOCUMENTO}", mr.tipoDocumento);
+            //body = body.Replace("{NUMERO_DOCUMENTO}", mr.numeroDocumento);
+            //body = body.Replace("{NOMBRE_AFP}", mr.nombreAFP);
+            //body = body.Replace("{NOMBRE_EPS}", mr.nombreEPS);
+            //body = body.Replace("{PRONOSTICO}", mr.pronostico);
+            //body = body.Replace("{CON_INCAPACIDADES}", mr.conIncapacidades);
+
+            var qrcode = generateQRCode("Test");
+            // body = body.Replace("{QR_CODE}", qrcode);
+
+            string bodyHtml = body.Trim();
+            bodyHtml = bodyHtml.Replace("{QR_CODE}", qrcode);
+
+            return bodyHtml;
         }
 
+        public string generateQRCode(string text)
+        {
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData _qrCodeData = qrGenerator.CreateQrCode("http://www.kustodya.com.co", QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(_qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+
+            MemoryStream memoryStream = new MemoryStream();
+            qrCodeImage.Save(memoryStream, ImageFormat.Png);
+
+            //// converting to base64
+            //memoryStream.Position = 0;
+            //byte[] byteBuffer = memoryStream.ToArray();
+
+            //memoryStream.Close();
+
+            //string base64String = Convert.ToBase64String(byteBuffer);
+            //byteBuffer = null;
+
+            // QRCode Base64 inicial
+            // QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("http://www.kustodya.com.co/#/validar-concepto/123456789", QRCodeGenerator.ECCLevel.Q);
+            //Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+            //string qrCodeImageAsBase64 = qrCode.GetGraphic(20);
+
+            //...
+            var imgType = Base64QRCode.ImageType.Jpeg;
+            Base64QRCode qrCodeBase64 = new Base64QRCode(qrCodeData);
+            string qrCodeImageAsBase64 = qrCodeBase64.GetGraphic(20, Color.Black, Color.White, true, imgType);
+            var contentImgTag = $"data:image/{imgType.ToString().ToLower()};base64,{qrCodeImageAsBase64}";
+            var htmlPictureTag = $"<img alt=\"Embedded QR Code\" src=\"data:image/{imgType.ToString().ToLower()};base64,{qrCodeImageAsBase64}\" width=\"150px\" />";
+            memoryStream.Close();
+            return htmlPictureTag;
+        }
 
         private string buildFile(MailRequest mr, int typeTemplate)
         {
@@ -110,7 +157,31 @@ namespace Kustodya.WebApi.Services
             //body = body.Replace("{NOMBRE_EPS}", mr.nombreEPS);
             //body = body.Replace("{PRONOSTICO}", mr.pronostico);
             //body = body.Replace("{CON_INCAPACIDADES}", mr.conIncapacidades);
+            var qrcode = generateQRCode("Test");
+            body = body.Replace("{QR_CODE}", qrcode);
             return body;
+        }
+
+        public async void UploadFileFtp(string file)
+        {
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("win5135.site4now.net/Kustodya/assets/img");
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+
+            // This example assumes the FTP site uses anonymous logon.
+            request.Credentials = new NetworkCredential("meddylex-001", "Meddylex123");
+
+            // Copy the contents of the file to the request stream.
+            using (FileStream fileStream = File.Open("testfile.txt", FileMode.Open, FileAccess.Read))
+            {
+                using (Stream requestStream = request.GetRequestStream())
+                {
+                    await fileStream.CopyToAsync(requestStream);
+                    using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                    {
+                        Console.WriteLine($"Upload File Complete, status {response.StatusDescription}");
+                    }
+                }
+            }
         }
     }
 }
